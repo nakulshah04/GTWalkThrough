@@ -1,5 +1,98 @@
+/* Dark Theme Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;  /* Modern font */
+    background-color: #121212;  /* Dark background */
+    color: #ffffff;  /* White text */
     text-align: center;
+    padding: 0 20px;  /* Add left and right padding for spacing */
+    margin: 0;
+    padding-top: 200px;  /* Add padding to the top */
+}
+
+.container {
+    max-width: 400px;
     padding: 20px;
+    background: #1e1e1e;  /* Slightly lighter dark */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;  /* Ensure it fits inside the container */
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center all form elements */
+    width: 100%; /* Ensure the form takes full width of its container */
+}
+
+/* Adjust form groups to align labels and inputs next to each other */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Space between fields */
+    width: 100%; /* Ensure the group takes full width */
+    justify-content: center; /* Center the elements in the group */
+}
+
+.form-group label {
+    width: 150px;  /* Adjust label width */
+    text-align: right;
+    margin-right: 10px;
+    font-size: 16px;
+    color: #ffffff; /* Ensure labels have white color */
+}
+
+.form-group input {
+    width: 250px;  /* Adjust input field width */
+    padding: 8px;
+    font-size: 16px;
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px;  /* Adjust the button size */
+    background: #ff9800;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 14px;
+    width: auto;
+    display: inline-block;
+    margin-top: 10px;
+    border: none; /* Remove any borders around buttons */
+}
+
+/* Button hover effect */
+button:hover {
+    background: #e68900;
+}
+
+/* To define button size on Login page */
+.btn {
+    padding: 10px 20px;  /* Adjust the padding to make the button smaller */
+    font-size: 14px;  /* Smaller font size */
+    width: auto;  /* Make the width fit content instead of taking the full width */
+    display: inline-block;  /* Align the button with the text */
+}
+
+/* Links */
+a {
+    color: #ff9800;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Fix the issue with the white border on the buttons */
+button:focus, input:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.5); /* Add custom box-shadow when focused */
 }

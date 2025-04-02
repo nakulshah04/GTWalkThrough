@@ -1,15 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Login - My Website{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="register-container mx-auto p-4 bg-dark text-light rounded">
+        <h2 class="text-center">Login</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3 text-start">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'password_reset' %}">Forgot your password?</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
