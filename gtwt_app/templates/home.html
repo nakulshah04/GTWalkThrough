@@ -1,18 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     {% load static %}
-    <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GT WalkThrough{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+ 
+        header {
+            background-color: #B3A369;
+            padding: 1rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            height: 60px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+        }
+
+        .user-greeting {
+            color: white;
+            font-size: 1.1rem;
+            margin-left: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-greeting a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+    </style>
 </head>
+
 <body>
-    {% if user.is_authenticated %}
-        <h2>Welcome, {{ user.username }}!</h2>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <h2>Welcome to GTWalkThrough</h2>
-        <a href="{% url 'login' %}">Login</a> |
-        <a href="{% url 'register' %}">Register</a>
-    {% endif %}
+    <header>
+        <nav>
+            <div class="navbar-brand">GT WalkThrough</div>
+            {% if user.is_authenticated %}
+            <div class="search-bar">
+                <input type="text" placeholder="Searchbar that does absolutely nothing">
+            </div>
+            {% endif %}
+            <div class="user-greeting">
+                {% if user.is_authenticated %}
+                Hi, {{ user.first_name }}!
+                <a href="{% url 'logout' %}" style="margin-left: 1rem;">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2025 My Website</p>
+    </footer>
 </body>
+
 </html>

@@ -1,0 +1,26 @@
+
+
+.container{
+    min-height: 70vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-container{
+    background-color: #B3A369;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5em;
+
+
+    width: 80%;
+}
+
+.title{
+    color: white;
+}
