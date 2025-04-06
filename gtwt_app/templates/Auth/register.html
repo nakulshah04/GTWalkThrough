@@ -3,42 +3,48 @@
 {% block title %}Register - My Website{% endblock %}
 
 {% block content %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
 <div class="container mt-5">
     <div class="register-container mx-auto p-4 bg-dark text-light rounded">
-        <h2 class="text-center">Register</h2>
+        <h2 class="text-center title">Register</h2>
 
-        <form method="post">
+        <form class="login-form" method="post">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="id_first_name">First Name:</label>
+            <div class="text-field-container">
+                <label class="form-label" for="id_first_name">First Name:</label>
                 {{ form.first_name }}
             </div>
         
-            <div class="form-group">
-                <label for="id_last_name">Last Name:</label>
+            <div class="text-field-container">
+                <label class="form-label" for="id_last_name">Last Name:</label>
                 {{ form.last_name }}
             </div>
         
-            <div class="form-group">
-                <label for="id_username">Username:</label>
+            <div class="text-field-container">
+                <label class="form-label" for="id_username">Username:</label>
                 {{ form.username }}
             </div>
         
-            <div class="form-group">
-                <label for="id_password1">Password:</label>
+            <div class="text-field-container">
+                <label class="form-label" for="id_password1">Password:</label>
                 {{ form.password1 }}
             </div>
         
-            <div class="form-group">
-                <label for="id_password2">Confirm Password:</label>
+            <div class="text-field-container">
+                <label class="form-label" for="id_password2">Confirm Password:</label>
                 {{ form.password2 }}
             </div>
         
-            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <button type="submit" class="submit-btn btn btn-primary w-100">Register</button>
+
+            <p class="account-exists text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+
         </form>
 
-        <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
 </div>
 {% endblock %}

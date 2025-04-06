@@ -1,98 +1,37 @@
-/* Dark Theme Styles */
-body {
-    font-family: 'Poppins', sans-serif;  /* Modern font */
-    background-color: #121212;  /* Dark background */
-    color: #ffffff;  /* White text */
-    text-align: center;
-    padding: 0 20px;  /* Add left and right padding for spacing */
-    margin: 0;
-    padding-top: 200px;  /* Add padding to the top */
-}
 
-.container {
-    max-width: 400px;
-    padding: 20px;
-    background: #1e1e1e;  /* Slightly lighter dark */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    width: 100%;  /* Ensure it fits inside the container */
-}
 
-/* Form styles */
-form {
+header {
+    background-color: #222;
+    padding: 1rem 0;
+
+}
+nav {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center all form elements */
-    width: 100%; /* Ensure the form takes full width of its container */
-}
-
-/* Adjust form groups to align labels and inputs next to each other */
-.form-group {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px; /* Space between fields */
-    width: 100%; /* Ensure the group takes full width */
-    justify-content: center; /* Center the elements in the group */
+    padding: 0 2rem;
 }
-
-.form-group label {
-    width: 150px;  /* Adjust label width */
-    text-align: right;
-    margin-right: 10px;
-    font-size: 16px;
-    color: #ffffff; /* Ensure labels have white color */
-}
-
-.form-group input {
-    width: 250px;  /* Adjust input field width */
-    padding: 8px;
-    font-size: 16px;
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 5px;
-}
-
-/* Button styles */
-button {
-    padding: 10px 20px;  /* Adjust the button size */
-    background: #ff9800;
-    color: black;
-    cursor: pointer;
+.navbar-brand {
+    font-size: 1.5rem;
     font-weight: bold;
-    border-radius: 5px;
-    font-size: 14px;
-    width: auto;
-    display: inline-block;
-    margin-top: 10px;
-    border: none; /* Remove any borders around buttons */
+    color: #ffa500;
 }
-
-/* Button hover effect */
-button:hover {
-    background: #e68900;
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
 }
-
-/* To define button size on Login page */
-.btn {
-    padding: 10px 20px;  /* Adjust the padding to make the button smaller */
-    font-size: 14px;  /* Smaller font size */
-    width: auto;  /* Make the width fit content instead of taking the full width */
-    display: inline-block;  /* Align the button with the text */
-}
-
-/* Links */
-a {
-    color: #ff9800;
+.nav-links a {
     text-decoration: none;
+    color: #ffa500;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
 }
-
-a:hover {
-    text-decoration: underline;
+.nav-links a:hover {
+    background-color: #333;
+    border-radius: 5px;
 }
-
-/* Fix the issue with the white border on the buttons */
-button:focus, input:focus {
-    outline: none; /* Remove focus outline */
-    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.5); /* Add custom box-shadow when focused */
+.content {
+    padding: 2rem;
 }
