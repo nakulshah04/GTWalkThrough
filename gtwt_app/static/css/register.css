@@ -53,7 +53,7 @@ body{
     gap: 1.5em;
     place-items: center;
 
-    width: 80%;
+    width: 100%;
 }
 
 .form-label{
@@ -101,7 +101,11 @@ body{
 }
 
 
-.forgot-password{
+.account-exists{
+    color: white;
+}
+
+.account-exists a{
     text-decoration: none;
     color: var(--clr-GT-gold);
 }
