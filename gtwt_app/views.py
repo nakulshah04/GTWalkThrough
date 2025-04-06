@@ -61,6 +61,9 @@ class CustomUserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+# About View
+def about(request):
+    return render(request, 'about.html')
 
 # Register View
 def register_view(request):
