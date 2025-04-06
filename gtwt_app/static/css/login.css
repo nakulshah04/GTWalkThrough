@@ -75,24 +75,29 @@ body{
     font-size: 35px;
 
     border-bottom: 7px solid var(--clr-GT-gold);
+
 }
 
 .submit-btn{
     width: 100%;
     padding: 5px;
 
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.342);
+    background-color: var(--clr-GT-gold);
+    border: 0px;
     color: white;
 
     cursor: pointer;
     font-size: 18px;
     padding: 10px;
+
+    border-radius: 3px;
+
 }
 
 
 .submit-btn:hover{
-    background-color: var(--clr-GT-gold);
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.384);
 }
 
 
