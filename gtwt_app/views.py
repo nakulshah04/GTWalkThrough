@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, Set
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib import messages
+from django.contrib.auth import views as auth_views
 
 # Home view
 def home(request):
@@ -90,33 +91,33 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-# Password Reset Views
-def password_reset_view(request):
-    if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            form.save(
-                request=request,
-                use_https=request.is_secure(),
-                from_email="gtmovies2340@gmail.com",  # Replace with your email or environment variable
-                subject_template_name='registration/password_reset_subject.txt',
-                email_template_name='registration/password_reset_email.html',
-            )
-            messages.success(request, 'Password reset link sent. Please check your email.')
-            return redirect('password_reset_done')
-    else:
-        form = PasswordResetForm()
-    return render(request, 'Auth/password_reset.html', {'form': form})
+# # Password Reset Views
+# def password_reset_view(request):
+#     if request.method == 'POST':
+#         form = PasswordResetForm(request.POST)
+#         if form.is_valid():
+#             form.save(
+#                 request=request,
+#                 use_https=request.is_secure(),
+#                 from_email="gtmovies2340@gmail.com",  # Replace with your email or environment variable
+#                 subject_template_name='registration/password_reset_subject.txt',
+#                 email_template_name='registration/password_reset_email.html',
+#             )
+#             messages.success(request, 'Password reset link sent. Please check your email.')
+#             return redirect('password_reset_done')
+#     else:
+#         form = PasswordResetForm()
+#     return render(request, 'Auth/password_reset.html', {'form': form})
 
-def password_reset_done_view(request):
-    return render(request, 'Auth/password_reset_done.html')
+# def password_reset_done_view(request):
+#     return render(request, 'Auth/password_reset_done.html')
 
-def password_reset_confirm_view(request, uidb64, token):
-    # Django handles password reset confirm view automatically
-    return auth_views.PasswordResetConfirmView.as_view(
-        template_name='Auth/password_reset_confirm.html',
-        post_reset_redirect='password_reset_complete'
-    )(request, uidb64=uidb64, token=token)
+# def password_reset_confirm_view(request, uidb64, token):
+#     # Django handles password reset confirm view automatically
+#     return auth_views.PasswordResetConfirmView.as_view(
+#         template_name='Auth/password_reset_confirm.html',
+#         post_reset_redirect='password_reset_complete'
+#     )(request, uidb64=uidb64, token=token)
 
-def password_reset_complete_view(request):
-    return render(request, 'Auth/password_reset_complete.html')
+# def password_reset_complete_view(request):
+#     return render(request, 'Auth/password_reset_complete.html')
