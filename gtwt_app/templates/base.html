@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -7,26 +8,34 @@
     <title>{% block title %}GT WalkThrough{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+
         header {
             background-color: #B3A369;
             padding: 1rem 0;
         }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
         }
+
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
         }
+
         .nav-links {
             list-style: none;
             display: flex;
             gap: 1rem;
         }
+
         .nav-links a {
             text-decoration: none;
             color: white;
@@ -34,20 +43,24 @@
             padding: 0.5rem 1rem;
             transition: background-color 0.3s ease;
         }
+
         .nav-links a:hover {
             background-color: #333;
             border-radius: 5px;
         }
+
         .user-greeting {
             color: black;
             font-size: 1.1rem;
             margin-right: 1rem;
         }
+
         .content {
             padding: 2rem;
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav>
@@ -55,11 +68,11 @@
             <ul class="nav-links">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if user.is_authenticated %}
-                    <li class="user-greeting">Hi, {{ user.username }}!</li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li class="user-greeting">Hi, {{ user.username }}!</li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -74,4 +87,5 @@
         <p>&copy; GT WalkThrough 2025</p>
     </footer>
 </body>
+
 </html>
