@@ -9,13 +9,37 @@ from django.contrib import messages
 def home(request):
     return render(request, 'home.html')
 
+from django import forms
+from django.contrib.auth.models import User
+
 # Custom user registration form
 class CustomUserCreationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, required=True, label="First Name")
-    last_name = forms.CharField(max_length=30, required=True, label="Last Name")
-    username = forms.CharField(max_length=150, required=True, label="Username")
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    first_name = forms.CharField(
+        max_length=30, 
+        required=True, 
+        label="First Name",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'})
+    )
+    last_name = forms.CharField(
+        max_length=30, 
+        required=True, 
+        label="Last Name",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'})
+    )
+    username = forms.CharField(
+        max_length=150, 
+        required=True, 
+        label="Username",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), 
+        label="Password"
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}), 
+        label="Confirm Password"
+    )
 
     class Meta:
         model = User
@@ -35,6 +59,7 @@ class CustomUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 # Register View
 def register_view(request):
