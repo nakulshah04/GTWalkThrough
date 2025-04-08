@@ -79,14 +79,10 @@
             padding: 2rem;
         }
 
-        footer{
+        footer {
             text-align: center;
         }
     </style>
-    <!-- Mapbox CSS -->
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
-    <!-- Mapbox JS -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
 </head>
 
 <body>
@@ -98,13 +94,13 @@
                     <a href="{% url 'about' %}">About</a>
                 </div>
             </div>
-        
+
             {% if user.is_authenticated %}
             <div class="search-bar">
                 <input type="text" placeholder="Searchbar that does absolutely nothing">
             </div>
             {% endif %}
-        
+
             <div class="user-greeting">
                 {% if user.is_authenticated %}
                 Hi, {{ user.first_name }}!
@@ -117,92 +113,121 @@
     </header>
 
     {% block content %}
-    <!-- Route Input UI -->
-    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-        <input id="start" type="text" placeholder="Start location" style="flex: 1; padding: 0.5rem;" />
-        <input id="end" type="text" placeholder="Destination" style="flex: 1; padding: 0.5rem;" />
-        <button onclick="getRoute()" style="padding: 0.5rem 1rem; background-color: #B3A369; color: white; border: none; border-radius: 5px;">Get Route</button>
+    <!-- Route UI on map -->
+    <div style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem;">
+        <!-- Floating Input Panel -->
+        <div style="
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 5;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 300px;
+        ">
+            <input id="start" type="text" placeholder="Start location"
+                style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" />
+            <input id="end" type="text" placeholder="Destination"
+                style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" />
+
+            <!-- Travel Mode Options -->
+            <div style="display: flex; justify-content: space-between;">
+                <label><input type="radio" name="mode" value="WALKING" checked> Walk</label>
+                <label><input type="radio" name="mode" value="DRIVING"> Drive</label>
+                <label><input type="radio" name="mode" value="BICYCLING"> Bike</label>
+            </div>
+
+            <button onclick="calculateRoute()"
+                style="padding: 0.5rem; background-color: #B3A369; color: white; border: none; border-radius: 4px; cursor: pointer;">Get
+                Route</button>
+
+            <!-- Distance & Duration Output -->
+            <div id="route-info" style="font-size: 0.9rem; margin-top: 0.5rem;"></div>
+        </div>
+
+        <!-- Google Map -->
+        <div id="map" style="width: 100%; height: 100%;"></div>
     </div>
-    
-    <!-- Map Container -->
-    <div id="map" style="width: 100%; height: 600px; margin-bottom: 2rem;"></div>
     {% endblock %}
 
-    <!-- <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoibmFrdWxzaGFoIiwiYSI6ImNtOThvb2d5cjA1Y3YybXEzZzdrbGhkdWoifQ.w3Y5J3ARR2Y21AJlzef9JQ'; // Replace with your actual token
-    
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: [-84.3963, 33.7756], // GT campus
-            zoom: 15
-        });
-    
-        // Example marker (you’ll later load this from backend)
-        new mapboxgl.Marker({ color: 'red' })
-            .setLngLat([-84.395, 33.774])
-            .setPopup(new mapboxgl.Popup().setText("Construction Zone at Skiles Walkway"))
-            .addTo(map);
-    </script> -->
-
-    <!-- Directions Plugin -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css' rel='stylesheet' />
-
+    <!-- Google Maps API -->
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoibmFrdWxzaGFoIiwiYSI6ImNtOThvb2d5cjA1Y3YybXEzZzdrbGhkdWoifQ.w3Y5J3ARR2Y21AJlzef9JQ';
+        let map, directionsService, directionsRenderer;
 
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: [-84.3963, 33.7756],
-            zoom: 15
-        });
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 33.7756, lng: -84.3963 },
+                zoom: 15,
+            });
 
-        const directions = new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: 'metric',
-            profile: 'walking',
-            interactive: false // we’ll manually feed origin/destination
-        });
-        map.addControl(directions, 'top-left');
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
-        async function getCoordinates(query) {
-            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
-                        new URLSearchParams({
-                            access_token: mapboxgl.accessToken,
-                            bbox: '-85.605,30.355,-80.751,35.000',  // Georgia-only
-                            limit: 1
-                        });
+            const georgiaBounds = {
+                north: 35.000,
+                south: 30.355,
+                west: -85.605,
+                east: -80.751
+            };
 
-            const res = await fetch(url);
-            const data = await res.json();
-            if (!data.features.length) {
-                alert("Location not found in Georgia. Please try a different address.");
-                return null;
+            const startInput = document.getElementById("start");
+            const endInput = document.getElementById("end");
+
+            const bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(georgiaBounds.south, georgiaBounds.west),
+                new google.maps.LatLng(georgiaBounds.north, georgiaBounds.east)
+            );
+
+            new google.maps.places.Autocomplete(startInput, {
+                bounds: bounds,
+                strictBounds: true,
+                componentRestrictions: { country: "us" }
+            });
+
+            new google.maps.places.Autocomplete(endInput, {
+                bounds: bounds,
+                strictBounds: true,
+                componentRestrictions: { country: "us" }
+            });
+        }
+
+        function calculateRoute() {
+            const start = document.getElementById("start").value;
+            const end = document.getElementById("end").value;
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+
+            if (!start || !end) {
+                alert("Please enter both start and destination.");
+                return;
             }
-            return data.features[0].center;
+
+            const request = {
+                origin: start,
+                destination: end,
+                travelMode: google.maps.TravelMode[mode]
+            };
+
+            directionsService.route(request, function (result, status) {
+                if (status === "OK") {
+                    directionsRenderer.setDirections(result);
+                    const route = result.routes[0].legs[0];
+                    const infoBox = document.getElementById("route-info");
+                    infoBox.innerHTML = `<strong>Distance:</strong> ${route.distance.text} <br><strong>Duration:</strong> ${route.duration.text}`;
+                } else {
+                    alert("Could not calculate route: " + status);
+                }
+            });
         }
-
-        async function getRoute() {
-            const startInput = document.getElementById('start').value;
-            const endInput = document.getElementById('end').value;
-            if (!startInput || !endInput) return;
-
-            const startCoords = await getCoordinates(startInput);
-            const endCoords = await getCoordinates(endInput);
-
-            directions.setOrigin(startCoords);
-            directions.setDestination(endCoords);
-        }
-
-        // Example static marker
-        new mapboxgl.Marker({ color: 'red' })
-            .setLngLat([-84.395, 33.774])
-            .setPopup(new mapboxgl.Popup().setText("Construction Zone at Skiles Walkway"))
-            .addTo(map);
     </script>
 
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places&callback=initMap">
+    </script>
 
     <footer>
         <p>&copy; GTWalkThrough 2025</p>
