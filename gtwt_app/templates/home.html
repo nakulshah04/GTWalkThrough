@@ -83,6 +83,10 @@
             text-align: center;
         }
     </style>
+    <!-- Mapbox CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- Mapbox JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
 </head>
 
 <body>
@@ -114,8 +118,26 @@
 
     <div class="content">
         {% block content %}
+        <div id="map" style="width: 100%; height: 600px; margin-bottom: 2rem;"></div>
         {% endblock %}
     </div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibmFrdWxzaGFoIiwiYSI6ImNtOThvb2d5cjA1Y3YybXEzZzdrbGhkdWoifQ.w3Y5J3ARR2Y21AJlzef9JQ'; // Replace with your actual token
+    
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [-84.3963, 33.7756], // GT campus
+            zoom: 15
+        });
+    
+        // Example marker (you’ll later load this from backend)
+        new mapboxgl.Marker({ color: 'red' })
+            .setLngLat([-84.395, 33.774])
+            .setPopup(new mapboxgl.Popup().setText("Construction Zone at Skiles Walkway"))
+            .addTo(map);
+    </script>
 
     <footer>
         <p>&copy; GTWalkThrough 2025</p>
