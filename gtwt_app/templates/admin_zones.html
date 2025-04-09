@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Review Construction Zones</h2>
+<table>
+  <tr>
+    <th>Description</th>
+    <th>User</th>
+    <th>Dates</th>
+    <th>Actions</th>
+  </tr>
+  {% for zone in zones %}
+  <tr>
+    <td>{{ zone.description }}</td>
+    <td>{{ zone.submitted_by }}</td>
+    <td>{{ zone.start_date }} → {{ zone.end_date }}</td>
+    <td>
+      {% if not zone.is_verified %}
+      <a href="{% url 'verify_zone' zone.id %}">✅ Verify</a>
+      {% endif %}
+      <a href="{% url 'delete_zone' zone.id %}">❌ Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

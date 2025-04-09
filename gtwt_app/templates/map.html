@@ -1,0 +1,87 @@
+{% extends 'home.html' %} {% block title %}Add Construction Zone{% endblock %}
+{% block content %}
+<div style="height: 600px" id="map"></div>
+
+<!-- Modal for metadata -->
+<div id="constructionForm" style="display: none">
+  <form id="submitForm">
+    <label>Description:</label><br />
+    <textarea name="description" required></textarea><br />
+    <label>Start Date:</label>
+    <input type="date" name="start_date" required /><br />
+    <label>End Date:</label>
+    <input type="date" name="end_date" required /><br />
+    <button type="submit">Submit Zone</button>
+  </form>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing,geometry"></script>
+<script>
+  let map, drawingManager, currentPolygon;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 33.7756, lng: -84.3963 }, // GT center
+      zoom: 16,
+    });
+
+    drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ["polygon"],
+      },
+      polygonOptions: {
+        fillColor: "#FF0000",
+        fillOpacity: 0.4,
+        strokeWeight: 2,
+        editable: true,
+        draggable: true,
+      },
+    });
+
+    drawingManager.setMap(map);
+
+    google.maps.event.addListener(
+      drawingManager,
+      "overlaycomplete",
+      function (event) {
+        currentPolygon = event.overlay;
+        drawingManager.setDrawingMode(null);
+        document.getElementById("constructionForm").style.display = "block";
+      }
+    );
+
+    document
+      .getElementById("submitForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const path = currentPolygon
+          .getPath()
+          .getArray()
+          .map((coord) => ({
+            lat: coord.lat(),
+            lng: coord.lng(),
+          }));
+        formData.append("coordinates", JSON.stringify(path));
+
+        fetch("{% url 'submit_zone' %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+          },
+          body: formData,
+        }).then((res) => {
+          if (res.ok) {
+            alert("Zone submitted for review!");
+            location.reload();
+          }
+        });
+      });
+  }
+
+  window.onload = initMap;
+</script>
+{% endblock %}

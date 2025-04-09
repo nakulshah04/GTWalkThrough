@@ -26,4 +26,13 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='auth/password_reset_complete.html'
     ), name='password_reset_complete'),
+
+    # Construction Mapping
+    path("map/", views.map_view, name="map_view"),
+    path("submit-zone/", views.submit_zone, name="submit_zone"),
+
+    # Admin Zone Review
+    path("admin/zones/", views.admin_zones, name="admin_zones"),
+    path("admin/zones/verify/<int:zone_id>/", views.verify_zone, name="verify_zone"),
+    path("admin/zones/delete/<int:zone_id>/", views.delete_zone, name="delete_zone"),
 ]
