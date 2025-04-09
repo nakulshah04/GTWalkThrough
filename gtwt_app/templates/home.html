@@ -1,237 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}GT WalkThrough{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <style>
-        body {
-            font-family: "Roboto", sans-serif;
-        }
+      body {
+        font-family: "Roboto", sans-serif;
+      }
 
-        header {
-            background-color: #B3A369;
-            padding: 1rem 0;
-        }
+      header {
+        background-color: #b3a369;
+        padding: 1rem 0;
+      }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-            height: 60px;
-        }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+        height: 60px;
+      }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+      }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            margin-right: 1rem;
-            transition: text-decoration 0.2s ease;
-        }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.1rem;
+        margin-right: 1rem;
+        transition: text-decoration 0.2s ease;
+      }
 
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
 
-        .search-bar {
-            flex: 1;
-            margin: 0 1rem;
-        }
+      .search-bar {
+        flex: 1;
+        margin: 0 1rem;
+      }
 
-        .search-bar input {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid white;
-            border-radius: 5px;
-            background-color: white;
-            color: black;
-        }
+      .search-bar input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid white;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+      }
 
-        .user-greeting {
-            color: white;
-            font-size: 1.1rem;
-            margin-left: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+      .user-greeting {
+        color: white;
+        font-size: 1.1rem;
+        margin-left: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-        .user-greeting a {
-            text-decoration: none;
-            color: white;
-            font-size: 1.1rem;
-            padding: 0.5rem 1rem;
-            transition: background-color 0.3s ease;
-        }
+      .user-greeting a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+      }
 
-        .content {
-            padding: 2rem;
-        }
+      .content {
+        padding: 2rem;
+      }
 
-        footer {
-            text-align: center;
-        }
+      footer {
+        text-align: center;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav>
-            <div style="display: flex; align-items: center; gap: 2rem;">
-                <a href="{% url 'home' %}" class="navbar-brand">GTWalkThrough</a>
-                <div class="nav-links">
-                    <a href="{% url 'about' %}">About</a>
-                </div>
-            </div>
+      <nav>
+        <div style="display: flex; align-items: center; gap: 2rem">
+          <a href="{% url 'home' %}" class="navbar-brand">GTWalkThrough</a>
+          <div class="nav-links">
+            <a href="{% url 'about' %}">About</a>
+          </div>
+        </div>
 
-            {% if user.is_authenticated %}
-            <div class="search-bar">
-                <input type="text" placeholder="Searchbar that does absolutely nothing">
-            </div>
-            {% endif %}
+        {% if user.is_authenticated %}
+        <div class="search-bar">
+          <input
+            type="text"
+            placeholder="Searchbar that does absolutely nothing"
+          />
+        </div>
+        {% endif %}
 
-            <div class="user-greeting">
-                {% if user.is_authenticated %}
-                Hi, {{ user.first_name }}!
-                <a href="{% url 'logout' %}" style="margin-left: 1rem;">Logout</a>
-                {% else %}
-                <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
-                {% endif %}
-            </div>
-        </nav>
+        <div class="user-greeting">
+          {% if user.is_authenticated %} Hi, {{ user.first_name }}!
+          <a href="{% url 'logout' %}" style="margin-left: 1rem">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a> |
+          <a href="{% url 'register' %}">Register</a>
+          {% endif %}
+        </div>
+      </nav>
     </header>
 
     {% block content %}
     <!-- Route UI on map -->
-    <div style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem;">
-        <!-- Floating Input Panel -->
-        <div style="
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 5;
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            width: 300px;
-        ">
-            <input id="start" type="text" placeholder="Start location"
-                style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" />
-            <input id="end" type="text" placeholder="Destination"
-                style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;" />
+    <div
+      style="
+        position: relative;
+        width: 100%;
+        height: 600px;
+        margin-bottom: 2rem;
+      "
+    >
+      <!-- Floating Input Panel -->
+      <div
+        style="
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          z-index: 5;
+          background: white;
+          border-radius: 8px;
+          padding: 10px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 300px;
+        "
+      >
+        <input
+          id="start"
+          type="text"
+          placeholder="Start location"
+          style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+        />
+        <input
+          id="end"
+          type="text"
+          placeholder="Destination"
+          style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+        />
 
-            <!-- Travel Mode Options -->
-            <div style="display: flex; justify-content: space-between;">
-                <label><input type="radio" name="mode" value="WALKING" checked> Walk</label>
-                <label><input type="radio" name="mode" value="DRIVING"> Drive</label>
-                <label><input type="radio" name="mode" value="BICYCLING"> Bike</label>
-            </div>
-
-            <button onclick="calculateRoute()"
-                style="padding: 0.5rem; background-color: #B3A369; color: white; border: none; border-radius: 4px; cursor: pointer;">Get
-                Route</button>
-
-            <!-- Distance & Duration Output -->
-            <div id="route-info" style="font-size: 0.9rem; margin-top: 0.5rem;"></div>
+        <!-- Travel Mode Options -->
+        <div style="display: flex; justify-content: space-between">
+          <label
+            ><input type="radio" name="mode" value="WALKING" checked />
+            Walk</label
+          >
+          <label
+            ><input type="radio" name="mode" value="DRIVING" /> Drive</label
+          >
+          <label
+            ><input type="radio" name="mode" value="BICYCLING" /> Bike</label
+          >
         </div>
 
-        <!-- Google Map -->
-        <div id="map" style="width: 100%; height: 100%;"></div>
+        <button
+          onclick="calculateRoute()"
+          style="
+            padding: 0.5rem;
+            background-color: #b3a369;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Get Route
+        </button>
+
+        <!-- Distance & Duration Output -->
+        <div
+          id="route-info"
+          style="font-size: 0.9rem; margin-top: 0.5rem"
+        ></div>
+      </div>
+
+      <!-- Google Map -->
+      <div id="map" style="width: 100%; height: 100%"></div>
     </div>
+
+    <!-- Turn-by-turn Steps (Collapsible) -->
+    <div style="margin-top: 1rem">
+      <button
+        onclick="toggleSteps()"
+        style="
+          background-color: #b3a369;
+          color: white;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+        "
+      >
+        Show Directions
+      </button>
+      <div
+        id="step-list"
+        style="
+          display: none;
+          background: #f8f8f8;
+          border-radius: 8px;
+          padding: 1rem;
+          margin-top: 1rem;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          font-size: 0.95rem;
+        "
+      ></div>
+    </div>
+
     {% endblock %}
 
     <!-- Google Maps API -->
     <script>
-        let map, directionsService, directionsRenderer;
+      let map, directionsService, directionsRenderer;
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 33.7756, lng: -84.3963 },
-                zoom: 15,
-            });
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 33.7756, lng: -84.3963 },
+          zoom: 15,
+        });
 
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
-            const georgiaBounds = {
-                north: 35.000,
-                south: 30.355,
-                west: -85.605,
-                east: -80.751
-            };
+        const georgiaBounds = {
+          north: 35.0,
+          south: 30.355,
+          west: -85.605,
+          east: -80.751,
+        };
 
-            const startInput = document.getElementById("start");
-            const endInput = document.getElementById("end");
+        const startInput = document.getElementById("start");
+        const endInput = document.getElementById("end");
 
-            const bounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(georgiaBounds.south, georgiaBounds.west),
-                new google.maps.LatLng(georgiaBounds.north, georgiaBounds.east)
-            );
+        const bounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(georgiaBounds.south, georgiaBounds.west),
+          new google.maps.LatLng(georgiaBounds.north, georgiaBounds.east)
+        );
 
-            new google.maps.places.Autocomplete(startInput, {
-                bounds: bounds,
-                strictBounds: true,
-                componentRestrictions: { country: "us" }
-            });
+        new google.maps.places.Autocomplete(startInput, {
+          bounds: bounds,
+          strictBounds: true,
+          componentRestrictions: { country: "us" },
+        });
 
-            new google.maps.places.Autocomplete(endInput, {
-                bounds: bounds,
-                strictBounds: true,
-                componentRestrictions: { country: "us" }
-            });
+        new google.maps.places.Autocomplete(endInput, {
+          bounds: bounds,
+          strictBounds: true,
+          componentRestrictions: { country: "us" },
+        });
+      }
+
+      function calculateRoute() {
+        const start = document.getElementById("start").value;
+        const end = document.getElementById("end").value;
+        const mode = document.querySelector('input[name="mode"]:checked').value;
+
+        if (!start || !end) {
+          alert("Please enter both start and destination.");
+          return;
         }
 
-        function calculateRoute() {
-            const start = document.getElementById("start").value;
-            const end = document.getElementById("end").value;
-            const mode = document.querySelector('input[name="mode"]:checked').value;
+        const request = {
+          origin: start,
+          destination: end,
+          travelMode: google.maps.TravelMode[mode],
+        };
 
-            if (!start || !end) {
-                alert("Please enter both start and destination.");
-                return;
-            }
+        directionsService.route(request, function (result, status) {
+          if (status === "OK") {
+            directionsRenderer.setDirections(result);
+            const leg = result.routes[0].legs[0];
 
-            const request = {
-                origin: start,
-                destination: end,
-                travelMode: google.maps.TravelMode[mode]
-            };
+            // Show summary
+            document.getElementById("route-info").innerHTML = `
+                        <strong>Distance:</strong> ${leg.distance.text} <br>
+                        <strong>Duration:</strong> ${leg.duration.text}
+                    `;
 
-            directionsService.route(request, function (result, status) {
-                if (status === "OK") {
-                    directionsRenderer.setDirections(result);
-                    const route = result.routes[0].legs[0];
-                    const infoBox = document.getElementById("route-info");
-                    infoBox.innerHTML = `<strong>Distance:</strong> ${route.distance.text} <br><strong>Duration:</strong> ${route.duration.text}`;
-                } else {
-                    alert("Could not calculate route: " + status);
-                }
+            // Show steps
+            const stepsContainer = document.getElementById("step-list");
+            stepsContainer.innerHTML = `<h3>Directions</h3><ol style="padding-left: 1.2rem;">`;
+
+            leg.steps.forEach((step) => {
+              const icon = getStepIcon(step.maneuver || "");
+              stepsContainer.innerHTML += `<li style="margin-bottom: 0.5rem;">
+        ${icon} ${step.instructions}
+    </li>`;
             });
+
+            stepsContainer.innerHTML += `</ol>`;
+          } else {
+            alert("Could not calculate route: " + status);
+          }
+        });
+      }
+
+      function toggleSteps() {
+        const list = document.getElementById("step-list");
+        const btn = event.target;
+        if (list.style.display === "none") {
+          list.style.display = "block";
+          btn.innerText = "Hide Directions";
+        } else {
+          list.style.display = "none";
+          btn.innerText = "Show Directions";
         }
+      }
+
+      function getStepIcon(maneuver) {
+        if (maneuver.includes("left")) return "⬅️";
+        if (maneuver.includes("right")) return "➡️";
+        if (maneuver.includes("straight") || maneuver.includes("continue"))
+          return "⬆️";
+        if (maneuver.includes("roundabout")) return "🔁";
+        return "🚶"; // default for walking or unknown
+      }
     </script>
 
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places&callback=initMap">
-    </script>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places&callback=initMap"
+    ></script>
 
     <footer>
-        <p>&copy; GTWalkThrough 2025</p>
+      <p>&copy; GTWalkThrough 2025</p>
     </footer>
-</body>
-
+  </body>
 </html>
