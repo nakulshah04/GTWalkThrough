@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}GT WalkThrough{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Adding Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <!-- Home Page Styling -->
     <style>
       body {
         font-family: "Roboto", sans-serif;
@@ -211,10 +217,12 @@
       <div
         id="step-list"
         style="
-          display: none;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.5s ease-out;
           background: #f8f8f8;
           border-radius: 8px;
-          padding: 1rem;
+          padding: 0 1rem;
           margin-top: 1rem;
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
           font-size: 0.95rem;
@@ -288,19 +296,20 @@
 
             // Show summary
             document.getElementById("route-info").innerHTML = `
-                        <strong>Distance:</strong> ${leg.distance.text} <br>
-                        <strong>Duration:</strong> ${leg.duration.text}
-                    `;
+                <strong>Distance:</strong> ${leg.distance.text} <br>
+                <strong>Duration:</strong> ${leg.duration.text}
+            `;
 
-            // Show steps
+            // Show steps with icons
             const stepsContainer = document.getElementById("step-list");
             stepsContainer.innerHTML = `<h3>Directions</h3><ol style="padding-left: 1.2rem;">`;
 
             leg.steps.forEach((step) => {
-              const icon = getStepIcon(step.maneuver || "");
-              stepsContainer.innerHTML += `<li style="margin-bottom: 0.5rem;">
-        ${icon} ${step.instructions}
-    </li>`;
+              const icon = getStepIcon(step.instructions || "");
+              stepsContainer.innerHTML += `
+                    <li style="margin-bottom: 0.5rem;">
+                        ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
+                    </li>`;
             });
 
             stepsContainer.innerHTML += `</ol>`;
@@ -313,22 +322,32 @@
       function toggleSteps() {
         const list = document.getElementById("step-list");
         const btn = event.target;
-        if (list.style.display === "none") {
-          list.style.display = "block";
+        if (list.style.maxHeight === "0px" || list.style.maxHeight === "") {
+          list.style.maxHeight = list.scrollHeight + "px";
           btn.innerText = "Hide Directions";
+          list.style.padding = "1rem";
         } else {
-          list.style.display = "none";
+          list.style.maxHeight = "0";
           btn.innerText = "Show Directions";
+          list.style.padding = "0 1rem";
         }
       }
 
-      function getStepIcon(maneuver) {
-        if (maneuver.includes("left")) return "⬅️";
-        if (maneuver.includes("right")) return "➡️";
-        if (maneuver.includes("straight") || maneuver.includes("continue"))
-          return "⬆️";
-        if (maneuver.includes("roundabout")) return "🔁";
-        return "🚶"; // default for walking or unknown
+      function getStepIcon(instruction) {
+        instruction = instruction.toLowerCase();
+        if (instruction.includes("left"))
+          return `<i class="fas fa-arrow-left"></i>`;
+        if (instruction.includes("right"))
+          return `<i class="fas fa-arrow-right"></i>`;
+        if (
+          instruction.includes("straight") ||
+          instruction.includes("continue")
+        )
+          return `<i class="fas fa-arrow-up"></i>`;
+        if (instruction.includes("roundabout"))
+          return `<i class="fas fa-circle-notch"></i>`;
+        if (instruction.includes("turn")) return `<i class="fas fa-share"></i>`;
+        return `<i class="fas fa-person-walking"></i>`; // default
       }
     </script>
 
