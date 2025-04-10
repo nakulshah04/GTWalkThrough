@@ -1,95 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}GT WalkThrough{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Roboto+Condensed:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: "Roboto", sans-serif;
-        }
+      body {
+        font-family: "Roboto", sans-serif;
+        font-weight: 300;
+      }
 
-        header {
-            background-color: #B3A369;
-            padding: 1rem 0;
-        }
+      header {
+        background-color: #b3a369;
+        padding: 1rem 0;
+      }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-        }
+      .navbar-brand {
+        font-family: "Roboto Condensed", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+      }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 1rem;
-        }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+      }
 
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            font-size: 1.1rem;
-            padding: 0.5rem 1rem;
-            transition: background-color 0.3s ease;
-        }
+      .nav-links a {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        text-decoration: none;
+        color: white;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+      }
 
-        .nav-links a:hover {
-            background-color: #333;
-            border-radius: 5px;
-        }
+      .nav-links a:hover {
+        background-color: #333;
+        border-radius: 5px;
+      }
 
-        .user-greeting {
-            color: black;
-            font-size: 1.1rem;
-            margin-right: 1rem;
-        }
+      .user-greeting {
+        color: black;
+        font-size: 1.1rem;
+        margin-right: 1rem;
+      }
 
-        .content {
-            padding: 2rem;
-        }
+      .content {
+        padding: 2rem;
+      }
 
-        footer{
-            text-align: center;
-        }
+      footer {
+        text-align: center;
+      }
+
+      /* Optional: apply condensed to section titles if class="title" is reused */
+      .title {
+        font-family: "Roboto Condensed", sans-serif;
+        font-weight: 700;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav>
-            <div class="navbar-brand">GT WalkThrough</div>
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                {% if user.is_authenticated %}
-                <li class="user-greeting">Hi, {{ user.username }}!</li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+      <nav>
+        <div class="navbar-brand">GT WalkThrough</div>
+        <ul class="nav-links">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          {% if user.is_authenticated %}
+          <li class="user-greeting">Hi, {{ user.username }}!</li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
 
-    <div class="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <div class="content">{% block content %} {% endblock %}</div>
 
     <footer>
-        <p>&copy; GTWalkThrough 2025</p>
+      <p>&copy; GTWalkThrough 2025</p>
     </footer>
-</body>
-
+  </body>
 </html>

@@ -9,6 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import ConstructionZone
+from django.contrib.auth.forms import UserCreationForm
 
 # Home view
 def home(request):
@@ -19,11 +20,12 @@ def about(request):
     return render(request, 'about.html')
 
 # Register View
-class CustomUserCreationForm(forms.ModelForm):
-    # ... your existing form definition here ...
-    # (left unchanged for brevity)
-    pass  # remove this line in actual code
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
 
+# Register View
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)

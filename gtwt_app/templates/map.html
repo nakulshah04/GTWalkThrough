@@ -1,5 +1,18 @@
 {% extends 'home.html' %} {% block title %}Add Construction Zone{% endblock %}
 {% block content %}
+
+<style>
+  #map {
+    height: 600px;
+    width: 100%;
+  }
+
+  .gmnoprint,
+  .gm-control-active {
+    display: block !important;
+  }
+</style>
+
 <div style="height: 600px" id="map"></div>
 
 <!-- Modal for metadata -->
@@ -15,7 +28,7 @@
   </form>
 </div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing,geometry"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=drawing,geometry"></script>
 <script>
   let map, drawingManager, currentPolygon;
 
