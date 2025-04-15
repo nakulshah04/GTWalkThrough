@@ -15,9 +15,9 @@ import json
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'home.html')  # map interface
+        return render(request, 'home.html') 
     else:
-        return render(request, 'about.html')  # public about page
+        return render(request, 'about.html')  
 
 
 # About View
