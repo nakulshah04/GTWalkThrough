@@ -13,9 +13,12 @@ from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 import json
 
-# Home view
 def home(request):
-    return render(request, 'home.html')
+    if request.user.is_authenticated:
+        return render(request, 'home.html')  # map interface
+    else:
+        return render(request, 'about.html')  # public about page
+
 
 # About View
 def about(request):
