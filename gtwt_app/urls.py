@@ -39,4 +39,7 @@ urlpatterns = [
     # Saving and fetching zones
     path('api/save_zone/', views.save_zone, name='save_zone'),
     path('api/get_zones/', views.get_zones, name='get_zones'),
+
+    path('my-reports/', views.my_reports, name='my_reports')
+
 ]

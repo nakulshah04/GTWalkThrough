@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h2 style="margin-bottom: 1rem">My Submitted Zones</h2>
+<div id="map" style="height: 600px; width: 100%; margin-bottom: 2rem"></div>
+
+<!-- Correct JSON-safe embedding -->
+<script id="zone-data" type="application/json">
+  {{ zones|safe }}
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 33.7756, lng: -84.3963 },
+      zoom: 14,
+    });
+
+    const zones = JSON.parse(document.getElementById("zone-data").textContent);
+
+    zones.forEach((zone) => {
+      const polygon = new google.maps.Polygon({
+        paths: zone.coordinates,
+        fillColor: "#B3A369",
+        fillOpacity: 0.4,
+        strokeWeight: 2,
+        map: map,
+      });
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<strong>${zone.description}</strong><br>
+                  Start: ${zone.start_date}<br>
+                  End: ${zone.end_date}`,
+      });
+
+      polygon.addListener("click", () => {
+        const center =
+          zone.coordinates[Math.floor(zone.coordinates.length / 2)];
+        infoWindow.setPosition(center);
+        infoWindow.open(map);
+      });
+    });
+  }
+</script>
+
+<script
+  async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&callback=initMap"
+></script>
+{% endblock %}

@@ -80,7 +80,13 @@
   <body>
     <header>
       <nav>
-        <div class="navbar-brand">GT WalkThrough</div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div class="navbar-brand">GT WalkThrough</div>
+          {% if user.is_authenticated %}
+          <a href="{% url 'my_reports' %}" class="nav-link">My Reports</a>
+          {% endif %}
+        </div>
+      
         <ul class="nav-links">
           <li><a href="{% url 'home' %}">Home</a></li>
           {% if user.is_authenticated %}
@@ -92,6 +98,7 @@
           {% endif %}
         </ul>
       </nav>
+      
     </header>
 
     <div class="content">{% block content %}{% endblock %}</div>

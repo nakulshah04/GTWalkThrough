@@ -12,6 +12,10 @@ from .models import ConstructionZone
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 import json
+from django.utils.safestring import mark_safe
+from django.core.serializers.json import DjangoJSONEncoder
+
+
 
 def home(request):
     if request.user.is_authenticated:
@@ -101,10 +105,12 @@ def delete_zone(request, zone_id):
     return redirect("admin_zones")
 
 @csrf_exempt
+@login_required
 def save_zone(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         ConstructionZone.objects.create(
+            submitted_by=request.user,
             description=data['description'],
             start_date=datetime.strptime(data['start_date'], '%Y-%m-%d'),
             end_date=datetime.strptime(data['end_date'], '%Y-%m-%d'),
@@ -113,6 +119,29 @@ def save_zone(request):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'error': 'POST required'}, status=400)
 
+
 def get_zones(request):
     zones = ConstructionZone.objects.all().values()
     return JsonResponse(list(zones), safe=False)
+
+
+
+
+
+@login_required
+def my_reports(request):
+    user_zones = ConstructionZone.objects.filter(submitted_by=request.user).order_by('-created_at')
+
+    zone_data = [
+        {
+            "description": zone.description,
+            "start_date": zone.start_date.strftime("%Y-%m-%d"),
+            "end_date": zone.end_date.strftime("%Y-%m-%d"),
+            "coordinates": zone.coordinates,
+        }
+        for zone in user_zones
+    ]
+
+    return render(request, 'my_reports.html', {
+        'zones': mark_safe(json.dumps(zone_data, cls=DjangoJSONEncoder))
+    })
