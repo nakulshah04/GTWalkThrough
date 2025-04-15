@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}GT WalkThrough{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <!-- Adding Font Awesome -->
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <!-- Home Page Styling -->
     <style>
       body {
         font-family: "Roboto", sans-serif;
@@ -121,7 +120,6 @@
     </header>
 
     {% block content %}
-    <!-- Route UI on map -->
     <div
       style="
         position: relative;
@@ -130,7 +128,7 @@
         margin-bottom: 2rem;
       "
     >
-      <!-- Floating Input Panel -->
+      <!-- Route Input UI -->
       <div
         style="
           position: absolute;
@@ -159,8 +157,6 @@
           placeholder="Destination"
           style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
         />
-
-        <!-- Travel Mode Options -->
         <div style="display: flex; justify-content: space-between">
           <label
             ><input type="radio" name="mode" value="WALKING" checked />
@@ -173,7 +169,6 @@
             ><input type="radio" name="mode" value="BICYCLING" /> Bike</label
           >
         </div>
-
         <button
           onclick="calculateRoute()"
           style="
@@ -187,19 +182,16 @@
         >
           Get Route
         </button>
-
-        <!-- Distance & Duration Output -->
         <div
           id="route-info"
           style="font-size: 0.9rem; margin-top: 0.5rem"
         ></div>
       </div>
 
-      <!-- Google Map -->
+      <!-- Map -->
       <div id="map" style="width: 100%; height: 100%"></div>
     </div>
 
-    <!-- Turn-by-turn Steps (Collapsible) -->
     <div style="margin-top: 1rem">
       <button
         onclick="toggleSteps()"
@@ -229,10 +221,9 @@
         "
       ></div>
     </div>
-
     {% endblock %}
 
-    <!-- Google Maps API -->
+    <!-- JavaScript -->
     <script>
       let map, directionsService, directionsRenderer;
 
@@ -245,32 +236,57 @@
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
-        const georgiaBounds = {
-          north: 35.0,
-          south: 30.355,
-          west: -85.605,
-          east: -80.751,
-        };
-
-        const startInput = document.getElementById("start");
-        const endInput = document.getElementById("end");
-
         const bounds = new google.maps.LatLngBounds(
-          new google.maps.LatLng(georgiaBounds.south, georgiaBounds.west),
-          new google.maps.LatLng(georgiaBounds.north, georgiaBounds.east)
+          new google.maps.LatLng(30.355, -85.605),
+          new google.maps.LatLng(35.0, -80.751)
         );
 
-        new google.maps.places.Autocomplete(startInput, {
+        new google.maps.places.Autocomplete(document.getElementById("start"), {
           bounds: bounds,
           strictBounds: true,
           componentRestrictions: { country: "us" },
         });
 
-        new google.maps.places.Autocomplete(endInput, {
+        new google.maps.places.Autocomplete(document.getElementById("end"), {
           bounds: bounds,
           strictBounds: true,
           componentRestrictions: { country: "us" },
         });
+
+        // Drawing Manager
+        const drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: ["marker", "polygon", "rectangle"],
+          },
+          markerOptions: {
+            draggable: true,
+          },
+          polygonOptions: {
+            fillColor: "#B3A369",
+            fillOpacity: 0.3,
+            strokeWeight: 2,
+            editable: true,
+          },
+          rectangleOptions: {
+            fillColor: "#162639",
+            fillOpacity: 0.2,
+            strokeWeight: 2,
+            editable: true,
+          },
+        });
+
+        drawingManager.setMap(map);
+
+        google.maps.event.addListener(
+          drawingManager,
+          "markercomplete",
+          function (marker) {
+            console.log("Marker placed at:", marker.getPosition().toString());
+          }
+        );
       }
 
       function calculateRoute() {
@@ -293,25 +309,19 @@
           if (status === "OK") {
             directionsRenderer.setDirections(result);
             const leg = result.routes[0].legs[0];
-
-            // Show summary
             document.getElementById("route-info").innerHTML = `
-                <strong>Distance:</strong> ${leg.distance.text} <br>
-                <strong>Duration:</strong> ${leg.duration.text}
+              <strong>Distance:</strong> ${leg.distance.text}<br>
+              <strong>Duration:</strong> ${leg.duration.text}
             `;
-
-            // Show steps with icons
             const stepsContainer = document.getElementById("step-list");
             stepsContainer.innerHTML = `<h3>Directions</h3><ol style="padding-left: 1.2rem;">`;
-
             leg.steps.forEach((step) => {
               const icon = getStepIcon(step.instructions || "");
               stepsContainer.innerHTML += `
-                    <li style="margin-bottom: 0.5rem;">
-                        ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
-                    </li>`;
+                <li style="margin-bottom: 0.5rem;">
+                  ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
+                </li>`;
             });
-
             stepsContainer.innerHTML += `</ol>`;
           } else {
             alert("Could not calculate route: " + status);
@@ -347,13 +357,14 @@
         if (instruction.includes("roundabout"))
           return `<i class="fas fa-circle-notch"></i>`;
         if (instruction.includes("turn")) return `<i class="fas fa-share"></i>`;
-        return `<i class="fas fa-person-walking"></i>`; // default
+        return `<i class="fas fa-person-walking"></i>`;
       }
     </script>
 
+    <!-- Maps API with drawing library -->
     <script
       async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
     ></script>
 
     <footer>
