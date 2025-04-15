@@ -35,4 +35,8 @@ urlpatterns = [
     path("admin/zones/", views.admin_zones, name="admin_zones"),
     path("admin/zones/verify/<int:zone_id>/", views.verify_zone, name="verify_zone"),
     path("admin/zones/delete/<int:zone_id>/", views.delete_zone, name="delete_zone"),
+
+    # Saving and fetching zones
+    path('api/save_zone/', views.save_zone, name='save_zone'),
+    path('api/get_zones/', views.get_zones, name='get_zones'),
 ]

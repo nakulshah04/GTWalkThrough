@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import ConstructionZone
 from django.contrib.auth.forms import UserCreationForm
+from datetime import datetime
+import json
 
 # Home view
 def home(request):
@@ -94,3 +96,20 @@ def delete_zone(request, zone_id):
     zone = get_object_or_404(ConstructionZone, id=zone_id)
     zone.delete()
     return redirect("admin_zones")
+
+@csrf_exempt
+def save_zone(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        ConstructionZone.objects.create(
+            description=data['description'],
+            start_date=datetime.strptime(data['start_date'], '%Y-%m-%d'),
+            end_date=datetime.strptime(data['end_date'], '%Y-%m-%d'),
+            coordinates=data['coordinates'],
+        )
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'error': 'POST required'}, status=400)
+
+def get_zones(request):
+    zones = ConstructionZone.objects.all().values()
+    return JsonResponse(list(zones), safe=False)

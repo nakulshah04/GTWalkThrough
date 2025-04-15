@@ -70,7 +70,6 @@
         text-align: center;
       }
 
-      /* Optional: apply condensed to section titles if class="title" is reused */
       .title {
         font-family: "Roboto Condensed", sans-serif;
         font-weight: 700;
@@ -95,7 +94,9 @@
       </nav>
     </header>
 
-    <div class="content">{% block content %} {% endblock %}</div>
+    <div class="content">{% block content %}{% endblock %}</div>
+
+    {% block extra_scripts %}{% endblock %}
 
     <footer>
       <p>&copy; GTWalkThrough 2025</p>
