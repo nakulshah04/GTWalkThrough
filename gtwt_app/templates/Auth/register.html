@@ -1,6 +1,110 @@
 {% extends "base.html" %} {% load static %} {% block title %}Register - GT
 WalkThrough{% endblock %} {% block content %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Roboto+Condensed:wght@700&display=swap');
+
+  body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+  }
+
+  :root {
+    --clr-GT-blue: #162639;
+    --clr-GT-gold: #B3A369;
+  }
+
+  .container {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .register-container {
+    background-color: var(--clr-GT-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 70%;
+  }
+
+  
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    width: 100%;
+  }
+
+  .text-field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+  }
+
+  .form-label {
+    color: white;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+  }
+
+  input,
+  select,
+  textarea {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.253);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+
+  .title {
+    color: white;
+    font-size: 35px;
+    border-bottom: 7px solid var(--clr-GT-gold);
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--clr-GT-gold);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  .submit-btn:hover {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.384);
+  }
+
+  .account-exists {
+    color: white;
+  }
+
+  .account-exists a {
+    text-decoration: none;
+    color: var(--clr-GT-gold);
+  }
+</style>
+
 
 <div class="container mt-5">
   <div class="register-container mx-auto p-4 bg-dark text-light rounded">
