@@ -14,6 +14,7 @@ from datetime import datetime
 import json
 from django.utils.safestring import mark_safe
 from django.core.serializers.json import DjangoJSONEncoder
+from django.views.decorators.http import require_POST
 
 
 
@@ -134,6 +135,7 @@ def my_reports(request):
 
     zone_data = [
         {
+            "id": zone.id,  
             "description": zone.description,
             "start_date": zone.start_date.strftime("%Y-%m-%d"),
             "end_date": zone.end_date.strftime("%Y-%m-%d"),
@@ -145,3 +147,16 @@ def my_reports(request):
     return render(request, 'my_reports.html', {
         'zones': mark_safe(json.dumps(zone_data, cls=DjangoJSONEncoder))
     })
+
+@csrf_exempt
+@require_POST
+@login_required
+def delete_zone(request):
+    try:
+        data = json.loads(request.body)
+        zone_id = data.get("id")
+        zone = ConstructionZone.objects.get(id=zone_id, submitted_by=request.user)
+        zone.delete()
+        return JsonResponse({"success": True})
+    except ConstructionZone.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Zone not found"}, status=404)
