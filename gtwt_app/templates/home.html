@@ -1,10 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<div
-  style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem"
->
+<div style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem">
   <!-- Route Input Panel -->
-  <div
-    style="
+  <div style="
       position: absolute;
       top: 10px;
       left: 10px;
@@ -17,38 +14,24 @@
       flex-direction: column;
       gap: 0.5rem;
       width: 300px;
-    "
-  >
-    <input
-      id="start"
-      type="text"
-      placeholder="Start location"
-      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
-    />
-    <input
-      id="end"
-      type="text"
-      placeholder="Destination"
-      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
-    />
+    ">
+    <input id="start" type="text" placeholder="Start location"
+      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc" />
+    <input id="end" type="text" placeholder="Destination"
+      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc" />
     <div style="display: flex; justify-content: space-between">
-      <label
-        ><input type="radio" name="mode" value="WALKING" checked /> Walk</label
-      >
+      <label><input type="radio" name="mode" value="WALKING" checked /> Walk</label>
       <label><input type="radio" name="mode" value="DRIVING" /> Drive</label>
       <label><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
     </div>
-    <button
-      onclick="calculateRoute()"
-      style="
+    <button onclick="calculateRoute()" style="
         padding: 0.5rem;
         background-color: #b3a369;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-      "
-    >
+      ">
       Get Route
     </button>
     <div id="route-info" style="font-size: 0.9rem; margin-top: 0.5rem"></div>
@@ -58,50 +41,101 @@
   <div id="map" style="width: 100%; height: 100%"></div>
 
   <!-- Construction Form -->
-  <div
-    id="constructionForm"
-    style="
-      display: none;
-      position: absolute;
-      top: 100px;
-      left: 50px;
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      z-index: 10;
-    "
-  >
-    <form id="submitForm">
-      <label>Description:</label><br />
-      <textarea name="description" required></textarea><br />
-      <label>Start Date:</label>
-      <input type="date" name="start_date" required /><br />
-      <label>End Date:</label>
-      <input type="date" name="end_date" required /><br />
-      <button type="submit">Submit Zone</button>
+  <div id="constructionForm" style="
+    display: none;
+    position: absolute;
+    top: 120px;
+    left: 60px;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    width: 320px;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #b3a369;
+  ">
+     <form id="submitForm">
+      <label style="font-weight: 600; color: #162639">Description:</label><br />
+      <textarea
+        name="description"
+        required
+        placeholder="Enter zone details"
+        style="
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          resize: vertical;
+          font-family: inherit;
+          font-size: 0.95rem;
+        "
+      ></textarea>
+  
+      <label style="font-weight: 600; color: #162639">Start Date:</label><br />
+      <input
+        type="date"
+        name="start_date"
+        required
+        style="
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-family: inherit;
+        "
+      /><br />
+  
+      <label style="font-weight: 600; color: #162639">End Date:</label><br />
+      <input
+        type="date"
+        name="end_date"
+        required
+        style="
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1.5rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-family: inherit;
+        "
+      /><br />
+  
+      <button
+        type="submit"
+        style="
+          width: 100%;
+          padding: 0.6rem;
+          background-color: #b3a369;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+          font-size: 1rem;
+        "
+      >
+        Submit Zone
+      </button>
     </form>
   </div>
 </div>
 
 <!-- Step-by-step directions -->
 <div style="margin-top: 1rem">
-  <button
-    onclick="toggleSteps()"
-    style="
+  <button onclick="toggleSteps()" style="
       background-color: #b3a369;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       cursor: pointer;
-    "
-  >
+    ">
     Show Directions
   </button>
-  <div
-    id="step-list"
-    style="
+  <div id="step-list" style="
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s ease-out;
@@ -111,8 +145,7 @@
       margin-top: 1rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       font-size: 0.95rem;
-    "
-  ></div>
+    "></div>
 </div>
 {% endblock %} {% block extra_scripts %}
 <script>
@@ -322,8 +355,6 @@
 </script>
 
 <!-- Google Maps with Drawing & Places libraries -->
-<script
-  async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
-></script>
+<script async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"></script>
 {% endblock %}
