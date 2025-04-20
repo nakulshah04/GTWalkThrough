@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from .models import ConstructionZone
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
+from datetime import date
 import json
 from django.utils.safestring import mark_safe
 from django.core.serializers.json import DjangoJSONEncoder
@@ -20,7 +21,15 @@ from django.views.decorators.http import require_POST
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'home.html') 
+        today = date.today()
+        upcoming_zones = (
+            ConstructionZone.objects
+            .filter(start_date__gt=today)
+            .order_by('start_date')
+        )
+        return render(request, 'home.html', {
+          'upcoming_zones': upcoming_zones
+        })
     else:
         return render(request, 'about.html')  
 
