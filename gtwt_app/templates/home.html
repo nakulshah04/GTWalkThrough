@@ -1,4 +1,17 @@
 {% extends "base.html" %} {% load static %} {% block content %}
+{% if upcoming_zones %}
+  <section class="announcement-banner">
+    <h3>Upcoming Construction Alerts</h3>
+    <ul>
+      {% for zone in upcoming_zones %}
+        <li>
+          {{ zone.start_date|date:"M j, Y" }}:
+          {{ zone.description|truncatechars:60 }}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
 <div
   style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem"
 >
