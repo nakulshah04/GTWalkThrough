@@ -29,10 +29,18 @@
       }
 
       .navbar-brand {
-        font-family: "Roboto Condensed", sans-serif;
+        font-family: "Roboto", sans-serif;
         font-size: 1.5rem;
         font-weight: 700;
         color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+        border-radius: 5px;
+      }
+
+      .navbar-brand:hover {
+        background-color: #333;
       }
 
       .nav-links {
@@ -76,29 +84,24 @@
         font-weight: 700;
       }
 
-      .nav-link{
+      .nav-link {
         text-decoration: none;
-        color: #F9F6E5;
+        color: #f9f6e5;
         font-weight: 500;
       }
-
-      
     </style>
   </head>
 
   <body>
     <header>
       <nav>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <div class="navbar-brand">GT WalkThrough</div>
-          {% if user.is_authenticated %}
-          <a href="{% url 'my_reports' %}" class="nav-link">My Reports</a>
-          {% endif %}
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <a href="{% url 'home' %}" class="navbar-brand">GT WalkThrough</a>
         </div>
-      
+
         <ul class="nav-links">
-          <li><a href="{% url 'home' %}">Home</a></li>
           {% if user.is_authenticated %}
+          <li><a href="{% url 'my_reports' %}">My Reports</a></li>
           <li class="user-greeting">Hi, {{ user.username }}!</li>
           <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
@@ -107,7 +110,6 @@
           {% endif %}
         </ul>
       </nav>
-      
     </header>
 
     <div class="content">{% block content %}{% endblock %}</div>
