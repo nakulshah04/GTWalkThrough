@@ -203,3 +203,22 @@ def rename_route(request):
         except SavedRoute.DoesNotExist:
             return JsonResponse({"success": False, "error": "Not found"}, status=404)
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+
+@csrf_exempt
+def delete_route(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            route_id = data.get("id")
+
+            route = SavedRoute.objects.get(id=route_id, user=request.user)
+            route.delete()
+            return JsonResponse({"success": True})
+
+        except SavedRoute.DoesNotExist:
+            return JsonResponse({"error": "Route not found."}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request."}, status=400)

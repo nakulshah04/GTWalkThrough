@@ -1,6 +1,4 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 <h2 style="margin-bottom: 1rem">My Submitted Zones</h2>
 <div id="map" style="height: 600px; width: 100%; margin-bottom: 2rem"></div>
 
@@ -8,16 +6,14 @@
 <script id="zone-data" type="application/json">
   {{ zones|safe }}
 </script>
-{% endblock %}
-
-{% block extra_scripts %}
+{% endblock %} {% block extra_scripts %}
 <script>
   let map;
 
   function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 33.7756, lng: -84.3963 },
-      zoom: 14,
+      zoom: 15,
     });
 
     const zones = JSON.parse(document.getElementById("zone-data").textContent);
@@ -44,7 +40,8 @@
       });
 
       polygon.addListener("click", () => {
-        const center = zone.coordinates[Math.floor(zone.coordinates.length / 2)];
+        const center =
+          zone.coordinates[Math.floor(zone.coordinates.length / 2)];
         infoWindow.setPosition(center);
         infoWindow.open(map);
       });
