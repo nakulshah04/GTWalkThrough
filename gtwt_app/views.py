@@ -17,9 +17,7 @@ import json
 from django.utils.safestring import mark_safe
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.http import require_POST
-
-
-
+from .models import SavedRoute
 
 def home(request):
     if request.user.is_authenticated:
@@ -34,7 +32,6 @@ def home(request):
         })
     else:
         return render(request, 'about.html')  
-
 
 # About View
 def about(request):
@@ -137,9 +134,6 @@ def get_zones(request):
     return JsonResponse(list(zones), safe=False)
 
 
-
-
-
 @login_required
 def my_reports(request):
     user_zones = ConstructionZone.objects.filter(submitted_by=request.user).order_by('-created_at')
@@ -193,3 +187,19 @@ def save_route(request):
 def my_routes(request):
     routes = SavedRoute.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'my_routes.html', {'routes': routes})
+
+# Rename a saved route
+@csrf_exempt
+def rename_route(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        route_id = data.get("id")
+        new_name = data.get("name")
+        try:
+            route = SavedRoute.objects.get(id=route_id, user=request.user)
+            route.name = new_name
+            route.save()
+            return JsonResponse({"success": True})
+        except SavedRoute.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Not found"}, status=404)
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)

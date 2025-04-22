@@ -19,8 +19,16 @@
   </thead>
   <tbody>
     {% for r in routes %}
-    <tr>
-      <td>{{ r.name }}</td>
+    <tr data-route-id="{{ r.id }}">
+      <td>
+        <span class="route-name">{{ r.name }}</span>
+        <input
+          class="edit-name-input"
+          type="text"
+          value="{{ r.name }}"
+          style="display: none; width: 100%"
+        />
+      </td>
       <td>{{ r.origin }}</td>
       <td>{{ r.destination }}</td>
       <td>{{ r.distance_text }}</td>
@@ -29,6 +37,8 @@
         <button class="load-route-btn" data-steps="{{ r.steps|escapejs }}">
           Load
         </button>
+        <button class="rename-btn">Rename</button>
+        <button class="save-name-btn" style="display: none">Save</button>
       </td>
     </tr>
     {% endfor %}
@@ -62,5 +72,60 @@
       );
     });
   });
+  document.querySelectorAll(".rename-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tr = btn.closest("tr");
+      tr.querySelector(".route-name").style.display = "none";
+      tr.querySelector(".edit-name-input").style.display = "inline";
+      btn.style.display = "none";
+      tr.querySelector(".save-name-btn").style.display = "inline";
+    });
+  });
+
+  document.querySelectorAll(".save-name-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tr = btn.closest("tr");
+      const newName = tr.querySelector(".edit-name-input").value;
+      const routeId = tr.getAttribute("data-route-id");
+
+      // Optimistically update UI
+      tr.querySelector(".route-name").innerText = newName;
+      tr.querySelector(".route-name").style.display = "inline";
+      tr.querySelector(".edit-name-input").style.display = "none";
+      btn.style.display = "none";
+      tr.querySelector(".rename-btn").style.display = "inline";
+
+      // Send update to backend
+      fetch("/api/rename_route/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify({
+          id: routeId,
+          name: newName,
+        }),
+      }).then((res) => {
+        if (!res.ok) alert("Failed to rename route.");
+      });
+    });
+  });
+
+  // CSRF helper
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
 </script>
 {% endblock %}
