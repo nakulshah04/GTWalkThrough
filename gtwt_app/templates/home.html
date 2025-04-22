@@ -239,7 +239,8 @@
     });
 
     const drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingMode: null, // Disables auto-draw on load (i.e., sets it to "hand mode")
+      // drawingMode: google.maps.drawing.OverlayType.POLYGON,
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
