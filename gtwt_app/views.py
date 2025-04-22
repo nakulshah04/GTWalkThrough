@@ -25,7 +25,7 @@ def home(request):
         upcoming_zones = (
             ConstructionZone.objects
             .filter(start_date__gt=today)
-            .order_by('start_date')
+            .order_by('start_date')[:3]
         )
         return render(request, 'home.html', {
           'upcoming_zones': upcoming_zones

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!-- prettier-ignore -->
 {% extends "base.html" %}
 {% load static %}
@@ -12,6 +13,25 @@
     {% endfor %}
   </ul>
 </section>
+=======
+{% extends "base.html" %} {% load static %} {% block content %}
+{% if upcoming_zones %}
+  <section class="announcement-banner">
+    <h3>Upcoming Construction Alerts</h3>
+    <ul class="alert-list">
+      {% for zone in upcoming_zones %}
+        <li>
+          <span class="alert-desc">
+            {{ zone.description|truncatechars:60 }} - 
+          </span>
+          <span class="alert-date">
+            Starts: {{ zone.start_date|date:"M j, Y" }}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+>>>>>>> Stashed changes
 {% endif %}
 <div
   style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem"
