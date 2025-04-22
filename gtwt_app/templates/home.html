@@ -90,8 +90,7 @@
   <div id="map" style="width: 100%; height: 100%"></div>
 
   <!-- Construction Form -->
-  <div
-    id="constructionForm"
+  <div id="constructionForm"
     style="
       display: none;
       position: absolute;
@@ -107,6 +106,23 @@
       border: 1px solid #b3a369;
     "
   >
+  
+    <button
+    type="button"
+    onclick="closeConstructionForm()"
+    style="
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    "
+  >
+    &times;
+  </button>
+
     <form id="submitForm">
       <label style="font-weight: 600; color: #162639">Description:</label><br />
       <textarea
@@ -453,9 +469,16 @@
     });
 </script>
 
+<script>
+  function closeConstructionForm() {
+    document.getElementById("constructionForm").style.display = "none";
+  }
+</script>
+
 <!-- Google Maps with Drawing & Places libraries -->
 <script
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
-></script>
+>
+</script>
 {% endblock %}
