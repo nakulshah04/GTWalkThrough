@@ -10,15 +10,19 @@ class ConstructionZone(models.Model):
     coordinates = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.description[:30]} ({self.start_date} to {self.end_date})"
 
 @admin.register(ConstructionZone)
 class ConstructionZoneAdmin(admin.ModelAdmin):
-    list_display = ("description", "start_date", "end_date", "created_at")
-    search_fields = ("description",)
-    list_filter = ("start_date", "end_date")
+    list_display = ("description", "start_date", "end_date", "created_at", "is_verified", "submitted_by")
+    list_filter = ("start_date", "end_date", "is_verified")
+    search_fields = ("description", "submitted_by__username")
+    list_editable = ("is_verified",)
+    readonly_fields = ("created_at", "submitted_by")
+    save_on_top = True
 
 class SavedRoute(models.Model):
     user          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_routes')
