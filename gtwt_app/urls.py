@@ -47,4 +47,5 @@ urlpatterns = [
     path('api/save_route/', views.save_route, name='save_route'),
     path('my-routes/', views.my_routes, name='my_routes'),
     path("api/rename_route/", views.rename_route, name="rename_route"),
+    path("api/delete_route/", views.delete_route, name="delete_route"),
 ]
