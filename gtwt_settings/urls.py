@@ -21,4 +21,5 @@ from gtwt_app import views  # Import views from your app
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('gtwt_app.urls')),  
+    
 ]

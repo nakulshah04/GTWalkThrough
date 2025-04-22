@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}My Saved Routes{% endblock %}
+
+{% block content %}
+  <h2>My Saved Routes</h2>
+
+  {% if routes %}
+    <table class="route-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Distance</th>
+          <th>Duration</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in routes %}
+          <tr data-steps='{{ r.steps|safe }}'>
+            <td>{{ r.name }}</td>
+            <td>{{ r.origin }}</td>
+            <td>{{ r.destination }}</td>
+            <td>{{ r.distance_text }}</td>
+            <td>{{ r.duration_text }}</td>
+            <td><button class="load-route-btn">Load</button></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You haven’t saved any routes yet.</p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  document.querySelectorAll('.load-route-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tr = btn.closest('tr');
+      const steps = JSON.parse(tr.getAttribute('data-steps'));
+      const origin      = tr.children[1].innerText;
+      const destination = tr.children[2].innerText;
+      const mode        = steps[0].mode || 'WALKING'; // fallback
+
+      directionsService.route({
+        origin,
+        destination,
+        travelMode: google.maps.TravelMode[mode]
+      }, (result, status) => {
+        if (status === 'OK') {
+          directionsRenderer.setDirections(result);
+        } else {
+          alert('Error loading route: ' + status);
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

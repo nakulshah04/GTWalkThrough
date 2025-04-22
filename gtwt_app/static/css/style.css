@@ -83,3 +83,29 @@ nav {
     margin-bottom: 0.4rem;
     font-size: 0.95rem;
   }
+
+  .route-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  .route-table th,
+  .route-table td {
+    border: 1px solid #ddd;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+  }
+  .route-table th {
+    background-color: #f4f4f4;
+  }
+  .load-route-btn {
+    background-color: #b3a369;
+    border: none;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .load-route-btn:hover {
+    opacity: 0.9;
+  }

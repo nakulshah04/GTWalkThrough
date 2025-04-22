@@ -69,6 +69,12 @@
       Get Route
     </button>
     <div id="route-info" style="font-size: 0.9rem; margin-top: 0.5rem"></div>
+    <button id="save-route-btn"
+            style="margin-top:0.5rem; padding:0.4rem 0.8rem;
+                   background:#b3a369; color:white; border:none;
+                   border-radius:4px; cursor:pointer;">
+      Save Route
+    </button>
   </div>
 
   <!-- Map Display -->
@@ -397,6 +403,42 @@
     }
     return cookieValue;
   }
+  document
+      .getElementById('save-route-btn')
+      .addEventListener('click', async () => {
+        // build payload & POST to {% url 'save_route' %}
+      });
+
+  document.getElementById('save-route-btn').addEventListener('click', async () => {
+  const leg = directionsRenderer.getDirections().routes[0].legs[0];
+  const payload = {
+      origin:   document.getElementById('start').value,
+      destination: document.getElementById('end').value,
+      mode:   document.querySelector('input[name="mode"]:checked').value,
+      distance: leg.distance.text,
+      duration: leg.duration.text,
+      steps:    leg.steps.map(s => ({
+      instruction: s.instructions,
+      distance:    s.distance.text,
+      duration:    s.duration.text,
+      path:        s.path.map(p => ({lat:p.lat(),lng:p.lng()}))
+    }))
+  };
+
+  const res = await fetch("{% url 'save_route' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+    body: JSON.stringify(payload),
+  });
+  if (res.ok) {
+    alert("Route saved!");
+  } else {
+    alert("Failed to save route.");
+  }
+  });
 </script>
 
 <!-- Google Maps with Drawing & Places libraries -->

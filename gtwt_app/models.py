@@ -19,3 +19,17 @@ class ConstructionZoneAdmin(admin.ModelAdmin):
     list_display = ("description", "start_date", "end_date", "created_at")
     search_fields = ("description",)
     list_filter = ("start_date", "end_date")
+
+class SavedRoute(models.Model):
+    user          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_routes')
+    name          = models.CharField(max_length=100)
+    origin        = models.CharField(max_length=255)
+    destination   = models.CharField(max_length=255)
+    travel_mode   = models.CharField(max_length=20)       # e.g. WALKING, DRIVING, BICYCLING
+    steps         = models.JSONField()                    # store the entire directions JSON if you want
+    distance_text = models.CharField(max_length=50)       # e.g. "2.3 mi"
+    duration_text = models.CharField(max_length=50)       # e.g. "12 mins"
+    created_at    = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.origin} → {self.destination})"

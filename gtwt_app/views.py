@@ -9,6 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import ConstructionZone
+from .models import SavedRoute
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 from datetime import date
@@ -16,6 +17,7 @@ import json
 from django.utils.safestring import mark_safe
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.http import require_POST
+
 
 
 
@@ -169,3 +171,25 @@ def delete_zone(request):
         return JsonResponse({"success": True})
     except ConstructionZone.DoesNotExist:
         return JsonResponse({"success": False, "error": "Zone not found"}, status=404)
+    
+
+@login_required
+@require_POST
+def save_route(request):
+    data = json.loads(request.body)
+    route = SavedRoute.objects.create(
+        user          = request.user,
+        name          = data.get('name') or f"{data['origin']} → {data['destination']}",
+        origin        = data['origin'],
+        destination   = data['destination'],
+        travel_mode   = data['mode'],
+        steps         = data['steps'],
+        distance_text = data['distance'],
+        duration_text = data['duration']
+    )
+    return JsonResponse({'success': True, 'id': route.id})
+
+@login_required
+def my_routes(request):
+    routes = SavedRoute.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'my_routes.html', {'routes': routes})
