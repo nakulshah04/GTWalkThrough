@@ -1,15 +1,19 @@
 <!-- prettier-ignore -->
+
 {% extends "base.html" %}
+{% load static %}
 {% block title %}My Saved Routes{% endblock %}
 
-{% block content %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/saved_routes.css' %}" />
+{% endblock %} {% block content %}
 <h2>My Saved Routes</h2>
 
 {% if routes %}
 <table class="route-table">
   <thead>
     <tr>
-      <th>Name</th>
+      <th style="width: 15%">Name</th>
       <th>From</th>
       <th>To</th>
       <th>Distance</th>
@@ -34,11 +38,18 @@
       <td>{{ r.distance_text }}</td>
       <td>{{ r.duration_text }}</td>
       <td>
-        <button class="load-route-btn" data-steps="{{ r.steps|escapejs }}">
-          Load
-        </button>
-        <button class="rename-btn">Rename</button>
-        <button class="save-name-btn" style="display: none">Save</button>
+        <div style="display: flex; flex-direction: column; gap: 5px">
+          <button
+            class="route-btn load-route-btn"
+            data-steps="{{ r.steps|escapejs }}"
+          >
+            Load
+          </button>
+          <button class="route-btn rename-btn">Rename</button>
+          <button class="route-btn save-name-btn" style="display: none">
+            Save
+          </button>
+        </div>
       </td>
     </tr>
     {% endfor %}
