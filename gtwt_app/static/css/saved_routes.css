@@ -1,24 +1,36 @@
-/* saved_routes.css */
-
 :root {
-    --clr-GT-gold: #B3A369;
-  }
-  
-  /* Unified button styling */
-  .route-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: var(--clr-GT-gold);
-    border: 0;
-    color: white;
-    font-size: 16px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-family: "Roboto", sans-serif;
-  }
-  
-  .route-btn:hover {
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.384);
-    color: white;
-  }  
+  --clr-GT-gold: #B3A369;
+  --clr-danger: #dc3545;
+}
+
+/* Unified base styling for route buttons */
+.route-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--clr-GT-gold);
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+.route-btn:hover {
+  background-color: transparent;
+  border: 1px solid var(--clr-GT-gold);
+  color: var(--clr-GT-gold);
+}
+
+/* Special styling for danger (delete) button */
+.route-btn.danger {
+  background-color: var(--clr-danger);
+  color: white;
+}
+
+.route-btn.danger:hover {
+  background-color: transparent;
+  color: var(--clr-danger);
+  border: 1px solid var(--clr-danger);
+}
