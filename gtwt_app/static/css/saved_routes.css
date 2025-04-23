@@ -1,19 +1,21 @@
 :root {
   --clr-GT-gold: #B3A369;
-  --clr-danger: #dc3545;
 }
 
-/* Unified base styling for route buttons */
+/* Unified button styling */
 .route-btn {
+  all: unset; /* wipe browser and Bootstrap defaults */
+  box-sizing: border-box;
+
   width: 100%;
   padding: 10px;
   background-color: var(--clr-GT-gold);
-  border: none;
   color: white;
   font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
   font-family: "Roboto", sans-serif;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
@@ -21,16 +23,4 @@
   background-color: transparent;
   border: 1px solid var(--clr-GT-gold);
   color: var(--clr-GT-gold);
-}
-
-/* Special styling for danger (delete) button */
-.route-btn.danger {
-  background-color: var(--clr-danger);
-  color: white;
-}
-
-.route-btn.danger:hover {
-  background-color: transparent;
-  color: var(--clr-danger);
-  border: 1px solid var(--clr-danger);
 }

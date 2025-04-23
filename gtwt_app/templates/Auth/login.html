@@ -1,33 +1,39 @@
+<!-- prettier-ignore -->
+
 {% extends "base.html" %}
 
 {% block title %}Login - My Website{% endblock %}
 
 {% block content %}
 <head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
 </head>
+
 <div class="container mt-5">
-    <div class="register-container mx-auto p-4 bg-dark text-light rounded">
-        <h2 class="text-center title">Login</h2>
+  <div class="register-container mx-auto p-4 bg-dark text-light rounded">
+    <h2 class="text-center title">Login</h2>
 
-        <form class="login-form"  method="POST">
-            {% csrf_token %}
-            <div class="mb-3  text-field-container text-start">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required>
-            </div>
-            <div class="mb-3 text-field-container text-start">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn submit-btn btn-primary w-100">Login</button>
+    <form class="login-form" method="POST">
+      {% csrf_token %}
+      <div class="mb-3 text-field-container text-start">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" required />
+      </div>
+      <div class="mb-3 text-field-container text-start">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required />
+      </div>
+      <div class="text-field-container">
+        <button type="submit" class="submit-btn">Login</button>
+      </div>
 
-            <div class="text-center mt-3">
-                <a class="forgot-password" href="{% url 'password_reset' %}">Forgot your password?</a>
-            </div>
-        </form>
-
-    </div>
+      <div class="text-center mt-3">
+        <a class="forgot-password" href="{% url 'password_reset' %}"
+          >Forgot your password?</a
+        >
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
