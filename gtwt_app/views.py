@@ -186,6 +186,11 @@ def save_route(request):
 @login_required
 def my_routes(request):
     routes = SavedRoute.objects.filter(user=request.user).order_by('-created_at')
+
+    # Convert steps to a JSON string for safe HTML embedding
+    for r in routes:
+        r.steps_json = json.dumps(r.steps, cls=DjangoJSONEncoder).replace('"', '&quot;')
+
     return render(request, 'my_routes.html', {'routes': routes})
 
 # Rename a saved route

@@ -105,7 +105,7 @@
             <a href="{% url 'my_reports' %}">My Reports</a>
             <a href="{% url 'my_routes'  %}" class="nav-link">My Routes</a>
           </li>
-          
+
           <li class="user-greeting">Hi, {{ user.username }}!</li>
           <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
@@ -118,10 +118,10 @@
 
     <div class="content">{% block content %}{% endblock %}</div>
 
-    {% block extra_scripts %}{% endblock %}
-
     <footer>
       <p>&copy; GTWalkThrough 2025</p>
     </footer>
+
+    {% block extra_scripts %}{% endblock %}
   </body>
 </html>

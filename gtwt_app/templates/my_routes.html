@@ -38,10 +38,18 @@
       <td>{{ r.distance_text }}</td>
       <td>{{ r.duration_text }}</td>
       <td>
-        <div style="display: flex; flex-direction: column; gap: 5px">
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            flex-wrap: wrap;
+            align-items: center;
+          "
+        >
           <button
             class="route-btn load-route-btn"
-            data-steps="{{ r.steps|escapejs }}"
+            data-steps="{{ r.steps_json|safe }}"
           >
             Load
           </button>
@@ -60,13 +68,37 @@
 <p>You haven’t saved any routes yet.</p>
 {% endif %} {% endblock %} {% block extra_scripts %}
 <script>
+  //alert("If you see this, the extra_scripts block is working!");
   document.querySelectorAll(".load-route-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    document.addEventListener("click", (event) => {
+      const btn = event.target.closest(".load-route-btn");
+      if (!btn) return;
+
       const tr = btn.closest("tr");
-      const steps = JSON.parse(tr.getAttribute("data-steps"));
+      const raw = tr.getAttribute("data-steps");
+      console.log("Raw data-steps:", raw);
+
+      let steps;
+      try {
+        steps = JSON.parse(raw.replace(/&quot;/g, '"'));
+      } catch (err) {
+        console.error("JSON parsing failed:", err);
+        return;
+      }
+
       const origin = tr.children[1].innerText;
       const destination = tr.children[2].innerText;
-      const mode = steps[0].mode || "WALKING"; // fallback
+      const mode = (steps[0] && steps[0].mode) || "WALKING";
+
+      console.log("Steps:", steps);
+      console.log("Origin:", origin);
+      console.log("Destination:", destination);
+      console.log("Mode:", mode);
+
+      if (!window.directionsService || !window.directionsRenderer) {
+        console.error("Google Maps not initialized");
+        return;
+      }
 
       directionsService.route(
         {
