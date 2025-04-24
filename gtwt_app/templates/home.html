@@ -1,6 +1,8 @@
 <!-- prettier-ignore -->
 {% extends "base.html" %} {% load static %} {% block content %}
 {% if upcoming_zones %}
+
+
 <section class="announcement-banner">
   <h3>Upcoming Construction Alerts</h3>
   <ul class="alert-list">
@@ -24,7 +26,7 @@
       top: 10px;
       left: 10px;
       z-index: 5;
-      background: white;
+      background: #f8f7ef;
       border-radius: 8px;
       padding: 10px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -34,13 +36,13 @@
       width: 300px;
     ">
     <input id="start" type="text" placeholder="Start location"
-      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc" />
+      style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgb(235, 235, 235)" />
     <input id="end" type="text" placeholder="Destination"
-      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc" />
+      style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgb(235, 235, 235)" />
     <div style="display: flex; justify-content: space-between">
-      <label><input type="radio" name="mode" value="WALKING" checked /> Walk</label>
-      <label><input type="radio" name="mode" value="DRIVING" /> Drive</label>
-      <label><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
+      <label class="mode-label"><input type="radio" name="mode" value="WALKING" checked /> Walk</label>
+      <label class="mode-label"><input type="radio" name="mode" value="DRIVING" /> Drive</label>
+      <label class="mode-label"><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
     </div>
     <button onclick="calculateRoute()" style="
         padding: 0.5rem;
