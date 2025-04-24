@@ -104,6 +104,12 @@ WalkThrough{% endblock %} {% block content %}
     text-decoration: none;
     color: var(--clr-GT-gold);
   }
+
+  small {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+  }
 </style>
 
 <div class="container mt-5">
@@ -131,6 +137,9 @@ WalkThrough{% endblock %} {% block content %}
       <div class="mb-3 text-field-container text-start">
         <label class="form-label">Password</label>
         {{ form.password1 }}
+        <small style="color: #ccc"
+          >Must be at least 8 characters and not entirely numeric.</small
+        >
       </div>
 
       <div class="mb-3 text-field-container text-start">
