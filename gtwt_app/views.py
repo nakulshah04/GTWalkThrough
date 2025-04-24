@@ -124,14 +124,25 @@ def save_zone(request):
             start_date=datetime.strptime(data['start_date'], '%Y-%m-%d'),
             end_date=datetime.strptime(data['end_date'], '%Y-%m-%d'),
             coordinates=data['coordinates'],
+            color = '#' + ''.join(random.choices('0123456789ABCDEF', k=6)),
         )
         return JsonResponse({'status': 'success'})
     return JsonResponse({'error': 'POST required'}, status=400)
 
 
 def get_zones(request):
-    zones = ConstructionZone.objects.all().values()
-    return JsonResponse(list(zones), safe=False)
+    zones = ConstructionZone.objects.all()
+    zone_data = [
+    {
+        "description": zone.description,
+        "start_date": zone.start_date.strftime('%Y-%m-%d'),
+        "end_date": zone.end_date.strftime('%Y-%m-%d'),
+        "coordinates": zone.coordinates,
+        "color": zone.color
+    }
+    for zone in zones
+    ]
+    return JsonResponse(zone_data, safe=False)
 
 
 @login_required

@@ -1,7 +1,10 @@
+import random
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 
+def generate_random_color():
+    return '#' + ''.join(random.choices('0123456789ABCDEF', k=6))
 
 class ConstructionZone(models.Model):
     description = models.TextField()
@@ -11,6 +14,7 @@ class ConstructionZone(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    color = models.CharField(max_length=7, default=generate_random_color)
 
     def __str__(self):
         return f"{self.description[:30]} ({self.start_date} to {self.end_date})"
@@ -29,10 +33,10 @@ class SavedRoute(models.Model):
     name          = models.CharField(max_length=100)
     origin        = models.CharField(max_length=255)
     destination   = models.CharField(max_length=255)
-    travel_mode   = models.CharField(max_length=20)       # e.g. WALKING, DRIVING, BICYCLING
-    steps         = models.JSONField()                    # store the entire directions JSON if you want
-    distance_text = models.CharField(max_length=50)       # e.g. "2.3 mi"
-    duration_text = models.CharField(max_length=50)       # e.g. "12 mins"
+    travel_mode   = models.CharField(max_length=20)
+    steps         = models.JSONField()
+    distance_text = models.CharField(max_length=50)
+    duration_text = models.CharField(max_length=50)
     created_at    = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -2,7 +2,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 {% if upcoming_zones %}
 
-<section class="announcement-banner" style="background-color: #ffebde;">
+<section class="announcement-banner" style="background-color: #ffebde">
   <h3>Upcoming Website Changes</h3>
   <ul class="alert-list">
     <li>Idk what goes here</li>
@@ -25,12 +25,13 @@
   </ul>
 </section>
 
-
-
 {% endif %}
-<div style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem">
+<div
+  style="position: relative; width: 100%; height: 600px; margin-bottom: 2rem"
+>
   <!-- Route Input Panel -->
-  <div style="
+  <div
+    style="
       position: absolute;
       top: 10px;
       left: 10px;
@@ -43,36 +44,53 @@
       flex-direction: column;
       gap: 0.5rem;
       width: 300px;
-    ">
-    <input id="start" type="text" placeholder="Start location"
-      style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgb(235, 235, 235)" />
-    <input id="end" type="text" placeholder="Destination"
-      style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgb(235, 235, 235)" />
+    "
+  >
+    <input
+      id="start"
+      type="text"
+      placeholder="Start location"
+      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+    />
+    <input
+      id="end"
+      type="text"
+      placeholder="Destination"
+      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+    />
     <div style="display: flex; justify-content: space-between">
-      <label class="mode-label"><input type="radio" name="mode" value="WALKING" checked /> Walk</label>
-      <label class="mode-label"><input type="radio" name="mode" value="DRIVING" /> Drive</label>
-      <label class="mode-label"><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
+      <label
+        ><input type="radio" name="mode" value="WALKING" checked /> Walk</label
+      >
+      <label><input type="radio" name="mode" value="DRIVING" /> Drive</label>
+      <label><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
     </div>
-    <button onclick="calculateRoute()" style="
+    <button
+      onclick="calculateRoute()"
+      style="
         padding: 0.5rem;
         background-color: #b3a369;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-      ">
+      "
+    >
       Get Route
     </button>
     <div id="route-info" style="font-size: 0.9rem; margin-top: 0rem"></div>
-    <button id="save-route-btn" style="
+    <button
+      id="save-route-btn"
+      style="
         margin-top: 0rem;
         padding: 0.4rem 0.8rem;
-        background:  #003057;
+        background: #003057;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-      ">
+      "
+    >
       Save Route
     </button>
   </div>
@@ -81,7 +99,9 @@
   <div id="map" style="width: 100%; height: 100%"></div>
 
   <!-- Construction Form -->
-  <div id="constructionForm" style="
+  <div
+    id="constructionForm"
+    style="
       display: none;
       position: absolute;
       top: 120px;
@@ -94,8 +114,12 @@
       width: 320px;
       font-family: 'Roboto', sans-serif;
       border: 1px solid #b3a369;
-    ">
-    <button type="button" onclick="closeConstructionForm()" style="
+    "
+  >
+    <button
+      type="button"
+      onclick="closeConstructionForm()"
+      style="
         position: absolute;
         top: 10px;
         right: 10px;
@@ -103,13 +127,18 @@
         border: none;
         font-size: 18px;
         cursor: pointer;
-      ">
+      "
+    >
       &times;
     </button>
 
     <form id="submitForm">
       <label style="font-weight: 600; color: #162639">Description:</label><br />
-      <textarea name="description" required placeholder="Enter construction details (if known)" style="
+      <textarea
+        name="description"
+        required
+        placeholder="Enter construction details (if known)"
+        style="
           width: 100%;
           padding: 0.5rem;
           margin-bottom: 1rem;
@@ -118,29 +147,44 @@
           resize: vertical;
           font-family: inherit;
           font-size: 0.95rem;
-        "></textarea>
+        "
+      ></textarea>
 
       <label style="font-weight: 600; color: #162639">Start Date:</label><br />
-      <input type="date" name="start_date" required style="
+      <input
+        type="date"
+        name="start_date"
+        required
+        style="
           width: 100%;
           padding: 0.5rem;
           margin-bottom: 1rem;
           border: 1px solid #ccc;
           border-radius: 6px;
           font-family: inherit;
-        " /><br />
+        "
+      /><br />
 
-      <label style="font-weight: 600; color: #162639">(Anticipated) End Date:</label><br />
-      <input type="date" name="end_date" required style="
+      <label style="font-weight: 600; color: #162639"
+        >(Anticipated) End Date:</label
+      ><br />
+      <input
+        type="date"
+        name="end_date"
+        required
+        style="
           width: 100%;
           padding: 0.5rem;
           margin-bottom: 1.5rem;
           border: 1px solid #ccc;
           border-radius: 6px;
           font-family: inherit;
-        " /><br />
+        "
+      /><br />
 
-      <button type="submit" style="
+      <button
+        type="submit"
+        style="
           width: 100%;
           padding: 0.6rem;
           background-color: #b3a369;
@@ -150,7 +194,8 @@
           font-weight: 600;
           cursor: pointer;
           font-size: 1rem;
-        ">
+        "
+      >
         Submit Zone
       </button>
     </form>
@@ -159,17 +204,22 @@
 
 <!-- Step-by-step directions -->
 <div style="margin-top: 1rem">
-  <button onclick="toggleSteps()" style="
+  <button
+    onclick="toggleSteps()"
+    style="
       background-color: #b3a369;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       cursor: pointer;
-    ">
+    "
+  >
     Show Directions
   </button>
-  <div id="step-list" style="
+  <div
+    id="step-list"
+    style="
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s ease-out;
@@ -179,7 +229,8 @@
       margin-top: 1rem;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       font-size: 0.95rem;
-    "></div>
+    "
+  ></div>
 </div>
 {% endblock %} {% block extra_scripts %}
 <script>
@@ -249,26 +300,25 @@
     const infoWindow = new google.maps.InfoWindow();
 
     function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
+      const letters = "0123456789ABCDEF";
+      let color = "#";
       for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
     }
 
-
     fetch("/api/get_zones/")
       .then((res) => res.json())
       .then((data) => {
         data.forEach((zone) => {
-          const randomColor = getRandomColor();
+          const color = zone.color || getRandomColor();
 
           const polygon = new google.maps.Polygon({
             paths: zone.coordinates,
-            fillColor: randomColor,
+            fillColor: zone.color,
             fillOpacity: 0.4,
-            strokeColor: randomColor,
+            strokeColor: zone.color,
             strokeOpacity: 0.8,
             strokeWeight: 2,
             map: map,
@@ -284,7 +334,6 @@
             infoWindow.open(map);
           });
         });
-
       });
   }
 
@@ -448,6 +497,8 @@
 </script>
 
 <!-- Google Maps with Drawing & Places libraries -->
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"></script>
+<script
+  async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
+></script>
 {% endblock %}
