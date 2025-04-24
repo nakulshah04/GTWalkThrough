@@ -90,7 +90,8 @@
   <div id="map" style="width: 100%; height: 100%"></div>
 
   <!-- Construction Form -->
-  <div id="constructionForm"
+  <div
+    id="constructionForm"
     style="
       display: none;
       position: absolute;
@@ -106,22 +107,21 @@
       border: 1px solid #b3a369;
     "
   >
-  
     <button
-    type="button"
-    onclick="closeConstructionForm()"
-    style="
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-    "
-  >
-    &times;
-  </button>
+      type="button"
+      onclick="closeConstructionForm()"
+      style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+      "
+    >
+      &times;
+    </button>
 
     <form id="submitForm">
       <label style="font-weight: 600; color: #162639">Description:</label><br />
@@ -287,6 +287,9 @@
       }
     );
 
+    // Create ONE shared InfoWindow outside the loop
+    const infoWindow = new google.maps.InfoWindow();
+
     // Load existing zones
     fetch("/api/get_zones/")
       .then((res) => res.json())
@@ -300,16 +303,15 @@
             map: map,
           });
 
-          const infoWindow = new google.maps.InfoWindow({
-            content: `<strong>${zone.description}</strong><br>
-                      Start: ${zone.start_date}<br>
-                      End: ${zone.end_date}`,
-          });
+          polygon.addListener("click", (event) => {
+            infoWindow.setContent(`
+          <strong>${zone.description}</strong><br>
+          Start: ${zone.start_date}<br>
+          End: ${zone.end_date}
+        `);
 
-          polygon.addListener("click", () => {
-            const center =
-              zone.coordinates[Math.floor(zone.coordinates.length / 2)];
-            infoWindow.setPosition(center);
+            // Use the click event's latLng instead of guessing the center
+            infoWindow.setPosition(event.latLng);
             infoWindow.open(map);
           });
         });
@@ -479,6 +481,5 @@
 <script
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
->
-</script>
+></script>
 {% endblock %}
