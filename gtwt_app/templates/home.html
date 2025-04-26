@@ -65,6 +65,16 @@
       <label><input type="radio" name="mode" value="DRIVING" /> Drive</label>
       <label><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
     </div>
+
+
+    <!-- Add route name input here -->
+    <input
+    id="route-name"
+    type="text"
+    placeholder="Route name"
+    style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+    />
+
     <button
       onclick="calculateRoute()"
       style="
@@ -461,6 +471,7 @@
     .addEventListener("click", async () => {
       const leg = directionsRenderer.getDirections().routes[0].legs[0];
       const payload = {
+        name: document.getElementById("route-name").value,
         origin: document.getElementById("start").value,
         destination: document.getElementById("end").value,
         mode: document.querySelector('input[name="mode"]:checked').value,
