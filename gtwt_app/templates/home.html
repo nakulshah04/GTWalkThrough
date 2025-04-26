@@ -371,32 +371,50 @@
         directionsRenderer.setDirections(result);
         const leg = result.routes[0].legs[0];
 
-        // Zone check
-        let intersectsZone = false;
+        const fullRoutePath = leg.steps.flatMap(step => step.path);
         const routePolyline = new google.maps.Polyline({
-          path: leg.steps.flatMap(step => step.path), 
+          path: fullRoutePath,
+          strokeColor: "#4285F4", // Blue
+          strokeOpacity: 0.8,
+          strokeWeight: 5,
+          map: map
         });
 
         fetch("/api/get_zones/")
           .then(res => res.json())
           .then(zones => {
+            let intersectsZone = false;
+
             zones.forEach(zone => {
               const polygon = new google.maps.Polygon({ paths: zone.coordinates });
               const path = routePolyline.getPath();
-              for (let i = 0; i < path.getLength(); i++) {
-                if (google.maps.geometry.poly.containsLocation(path.getAt(i), polygon)) {
+              for (let i = 0; i < path.getLength() - 1; i++) {
+                const start = path.getAt(i);
+                const end = path.getAt(i + 1);
+                const midpoint = new google.maps.LatLng(
+                  (start.lat() + end.lat()) / 2,
+                  (start.lng() + end.lng()) / 2
+                );
+
+                if (google.maps.geometry.poly.containsLocation(midpoint, polygon)) {
                   intersectsZone = true;
-                  break;
+
+                  // Draw red segment
+                  new google.maps.Polyline({
+                    path: [start, end],
+                    strokeColor: "#FF0000", // Red
+                    strokeOpacity: 0.9,
+                    strokeWeight: 5,
+                    map: map
+                  });
                 }
               }
-            });
-            const warningBanner = document.getElementById("zone-warning");
-            if (intersectsZone) {
-              warningBanner.style.display = "block";
-            } else {
-              warningBanner.style.display = "none";
-            }
           });
+
+          const warningBanner = document.getElementById("zone-warning");
+          warningBanner.style.display = intersectsZone ? "block" : "none";
+        });
+
 
         // Route info
         document.getElementById("route-info").innerHTML = `
