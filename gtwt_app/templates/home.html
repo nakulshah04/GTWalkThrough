@@ -89,6 +89,9 @@
       Get Route
     </button>
     <div id="route-info" style="font-size: 0.9rem; margin-top: 0rem"></div>
+    <div id="zone-warning" style="display: none; background: #ffebde; color: #8b0000; padding: 10px; border-radius: 5px; margin-top: 10px;">
+      Your route crosses a construction zone!
+    </div>
     <button
       id="save-route-btn"
       style="
@@ -347,7 +350,7 @@
       });
   }
 
-  function calculateRoute() {
+    function calculateRoute() {
     const start = document.getElementById("start").value;
     const end = document.getElementById("end").value;
     const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -367,6 +370,35 @@
       if (status === "OK") {
         directionsRenderer.setDirections(result);
         const leg = result.routes[0].legs[0];
+
+        // Zone check
+        let intersectsZone = false;
+        const routePolyline = new google.maps.Polyline({
+          path: leg.steps.flatMap(step => step.path), 
+        });
+
+        fetch("/api/get_zones/")
+          .then(res => res.json())
+          .then(zones => {
+            zones.forEach(zone => {
+              const polygon = new google.maps.Polygon({ paths: zone.coordinates });
+              const path = routePolyline.getPath();
+              for (let i = 0; i < path.getLength(); i++) {
+                if (google.maps.geometry.poly.containsLocation(path.getAt(i), polygon)) {
+                  intersectsZone = true;
+                  break;
+                }
+              }
+            });
+            const warningBanner = document.getElementById("zone-warning");
+            if (intersectsZone) {
+              warningBanner.style.display = "block";
+            } else {
+              warningBanner.style.display = "none";
+            }
+          });
+
+        // Route info
         document.getElementById("route-info").innerHTML = `
           <strong>Distance:</strong> ${leg.distance.text}<br>
           <strong>Duration:</strong> ${leg.duration.text}
@@ -510,9 +542,10 @@
   window.addEventListener("load", () => {
     const savedRoute = localStorage.getItem("savedRoute");
     if (savedRoute) {
-      const { origin, destination, mode } = JSON.parse(savedRoute);
+      const { origin, destination, mode, name } = JSON.parse(savedRoute);
       document.getElementById("start").value = origin;
       document.getElementById("end").value = destination;
+      document.getElementById("route-name").value = name || `${origin} → ${destination}`;
       const modeRadios = document.getElementsByName("mode");
       for (const radio of modeRadios) {
         if (radio.value === mode) {
@@ -529,6 +562,6 @@
 <!-- Google Maps with Drawing & Places libraries -->
 <script
   async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing,geometry&callback=initMap"
 ></script>
 {% endblock %}
