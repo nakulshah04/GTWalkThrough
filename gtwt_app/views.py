@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+
+from gtwt_settings import settings
 from .models import ConstructionZone
 from .models import SavedRoute
 from django.contrib.auth.forms import UserCreationForm
@@ -20,6 +22,7 @@ from django.views.decorators.http import require_POST
 from .models import SavedRoute
 import random
 
+
 def home(request):
     if request.user.is_authenticated:
         today = date.today()
@@ -29,7 +32,8 @@ def home(request):
             .order_by('start_date')[:3]
         )
         return render(request, 'home.html', {
-          'upcoming_zones': upcoming_zones
+          'upcoming_zones': upcoming_zones,
+          'ORS_API_KEY': settings.ORS_API_KEY
         })
     else:
         return render(request, 'about.html')  

@@ -167,3 +167,5 @@ EMAIL_HOST_PASSWORD = APP_PASSWORD
 # Password Reset settings
 LOGIN_REDIRECT_URL = 'home'  # Redirect after login
 LOGOUT_REDIRECT_URL = 'login'  # Redirect after logout
+
+ORS_API_KEY = "5b3ce3597851110001cf62481615ad7238414c95862b7e533ff5744c"
