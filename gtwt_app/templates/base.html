@@ -106,7 +106,7 @@
             <a href="{% url 'my_routes'  %}" class="nav-link">My Routes</a>
           </li>
 
-          <li class="user-greeting">Hi, {{ user.username }}!</li>
+          <li class="user-greeting">Hi, {{ user.first_name }}!</li>
           <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
           <li><a href="{% url 'login' %}">Login</a></li>
