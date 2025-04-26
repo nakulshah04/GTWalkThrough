@@ -17,10 +17,56 @@
     padding: 8px;
     border-radius: 3px;
   }
+
+  .search-sort-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  #searchInput, #sortSelect {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #B3A369;
+    color: white;
+    font-size: 1rem;
+  }
+
+  #searchInput {
+    flex: none;
+    min-width: 254px;
+  }
+
+  #sortSelect {
+    width: 163px;
+  }
+
+  #searchInput::placeholder {
+    color: white;
+    opacity: 0.8;
+  }
+
+  #searchInput:focus, #sortSelect:focus {
+    outline: none;
+    box-shadow: 0 0 5px #B3A369;
+  }
 </style>
 
 {% if routes %}
-<table class="route-table">
+
+<div class="search-sort-container">
+  <input type="text" id="searchInput" placeholder="Search routes..." />
+  <select id="sortSelect">
+    <option value="name">Sort by Name</option>
+    <option value="distance">Sort by Distance</option>
+    <option value="duration">Sort by Duration</option>
+  </select>
+</div>
+
+<table class="route-table" id="routesTable">
   <thead>
     <tr>
       <th style="width: 15%">Name</th>
@@ -45,8 +91,8 @@
       </td>
       <td>{{ r.origin }}</td>
       <td>{{ r.destination }}</td>
-      <td>{{ r.distance_text }}</td>
-      <td>{{ r.duration_text }}</td>
+      <td class="distance">{{ r.distance_text }}</td>
+      <td class="duration">{{ r.duration_text }}</td>
       <td>
         <div
           style="
@@ -221,5 +267,53 @@
     }
     return cookieValue;
   }
+</script>
+
+<script>
+  function refreshFavoriteButtons() {
+    document.querySelectorAll(".favorite-route-btn").forEach((btn) => {
+      const isFavorite = btn.getAttribute("data-favorite") === "true";
+      btn.innerText = isFavorite ? "★" : "☆";
+      btn.style.backgroundColor = isFavorite ? "#FFD700" : "#B3A369";
+    });
+  }
+</script>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const sortSelect = document.getElementById("sortSelect");
+  const tableRows = document.querySelectorAll("#routesTable tbody tr");
+
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.toLowerCase();
+    tableRows.forEach(row => {
+      const name = row.querySelector(".route-name").innerText.toLowerCase();
+      const from = row.children[1].innerText.toLowerCase();
+      const to = row.children[2].innerText.toLowerCase();
+      row.style.display = (name.includes(term) || from.includes(term) || to.includes(term)) ? "" : "none";
+    });
+  });
+
+  sortSelect.addEventListener("change", () => {
+    const rowsArray = Array.from(tableRows);
+    const sortBy = sortSelect.value;
+
+    rowsArray.sort((a, b) => {
+      const aVal = sortBy === "name" ? a.querySelector(".route-name").innerText :
+                  sortBy === "distance" ? a.querySelector(".distance").innerText :
+                  a.querySelector(".duration").innerText;
+
+      const bVal = sortBy === "name" ? b.querySelector(".route-name").innerText :
+                  sortBy === "distance" ? b.querySelector(".distance").innerText :
+                  b.querySelector(".duration").innerText;
+
+      return aVal.localeCompare(bVal, undefined, { numeric: true });
+    });
+
+    const tbody = document.querySelector("#routesTable tbody");
+    rowsArray.forEach(row => tbody.appendChild(row));
+    
+    refreshFavoriteButtons();
+  });
 </script>
 {% endblock %}
