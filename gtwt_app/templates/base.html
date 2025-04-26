@@ -94,25 +94,76 @@
 
   <body>
     <header>
-      <nav>
+      <nav
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 2rem;
+        "
+      >
         <div style="display: flex; align-items: center; gap: 1rem">
           <a href="{% url 'home' %}" class="navbar-brand">GT WalkThrough</a>
         </div>
 
-        <ul class="nav-links">
-          {% if user.is_authenticated %}
-          <li>
-            <a href="{% url 'my_reports' %}">My Reports</a>
-            <a href="{% url 'my_routes'  %}" class="nav-link">My Routes</a>
-          </li>
+        {% if user.is_authenticated %}
+        <div style="display: flex; align-items: center; gap: 2rem">
+          <ul
+            class="nav-links"
+            style="display: flex; gap: 1rem; list-style: none"
+          >
+            <li><a href="{% url 'my_reports' %}">My Reports</a></li>
+            <li><a href="{% url 'my_routes' %}">My Routes</a></li>
+          </ul>
 
-          <li class="user-greeting">Hi, {{ user.first_name }}!</li>
-          <li><a href="{% url 'logout' %}">Logout</a></li>
-          {% else %}
+          <div class="dropdown" style="position: relative">
+            <button
+              id="dropdownButton"
+              style="
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.1rem;
+                cursor: pointer;
+              "
+            >
+              Hi, {{ user.first_name|default:user.username }} &#9662;
+            </button>
+            <div
+              id="dropdownMenu"
+              style="
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: white;
+                min-width: 120px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                border-radius: 5px;
+              "
+            >
+              <a
+                href="{% url 'logout' %}"
+                style="
+                  color: black;
+                  padding: 12px 16px;
+                  display: block;
+                  text-decoration: none;
+                "
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <ul
+          class="nav-links"
+          style="display: flex; gap: 1rem; list-style: none"
+        >
           <li><a href="{% url 'login' %}">Login</a></li>
           <li><a href="{% url 'register' %}">Register</a></li>
-          {% endif %}
         </ul>
+        {% endif %}
       </nav>
     </header>
 
@@ -121,6 +172,27 @@
     <footer>
       <p>&copy; GTWalkThrough 2025</p>
     </footer>
+
+    <!-- JavaScript comes AFTER everything is rendered -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dropdownButton = document.getElementById("dropdownButton");
+        const dropdownMenu = document.getElementById("dropdownMenu");
+
+        if (dropdownButton && dropdownMenu) {
+          // <--- check if they exist
+          dropdownButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            dropdownMenu.style.display =
+              dropdownMenu.style.display === "block" ? "none" : "block";
+          });
+
+          window.addEventListener("click", function () {
+            dropdownMenu.style.display = "none";
+          });
+        }
+      });
+    </script>
 
     {% block extra_scripts %}{% endblock %}
   </body>
