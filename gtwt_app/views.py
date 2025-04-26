@@ -18,6 +18,7 @@ from django.utils.safestring import mark_safe
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.http import require_POST
 from .models import SavedRoute
+import random
 
 def home(request):
     if request.user.is_authenticated:
