@@ -494,6 +494,25 @@
   function closeConstructionForm() {
     document.getElementById("constructionForm").style.display = "none";
   }
+
+  // Load saved route from my_routes.html (IF EXISTS)
+  window.addEventListener("load", () => {
+    const savedRoute = localStorage.getItem("savedRoute");
+    if (savedRoute) {
+      const { origin, destination, mode } = JSON.parse(savedRoute);
+      document.getElementById("start").value = origin;
+      document.getElementById("end").value = destination;
+      const modeRadios = document.getElementsByName("mode");
+      for (const radio of modeRadios) {
+        if (radio.value === mode) {
+          radio.checked = true;
+          break;
+        }
+      }
+      calculateRoute();
+      localStorage.removeItem("savedRoute");
+    }
+  });
 </script>
 
 <!-- Google Maps with Drawing & Places libraries -->

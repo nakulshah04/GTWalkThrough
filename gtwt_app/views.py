@@ -214,7 +214,11 @@ def my_routes(request):
 
     # Convert steps to a JSON string for safe HTML embedding
     for r in routes:
-        r.steps_json = json.dumps(r.steps, cls=DjangoJSONEncoder).replace('"', '&quot;')
+        if r.steps:
+            r.steps_json = json.dumps(r.steps, cls=DjangoJSONEncoder).replace('"', '&quot;')
+        else:
+            r.steps_json = "[]" #fallback
+
 
     return render(request, 'my_routes.html', {'routes': routes})
 

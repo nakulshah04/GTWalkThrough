@@ -80,13 +80,15 @@
 <script>
   //alert("If you see this, the extra_scripts block is working!");
   document.querySelectorAll(".load-route-btn").forEach((btn) => {
-    document.addEventListener("click", (event) => {
-      const btn = event.target.closest(".load-route-btn");
-      if (!btn) return;
-
-      const tr = btn.closest("tr");
-      const raw = tr.getAttribute("data-steps");
-      console.log("Raw data-steps:", raw);
+    btn.addEventListener("click", (event) => {
+      const btnClicked = event.target.closest(".load-route-btn");
+      const tr = btnClicked.closest("tr");
+      const raw = btnClicked.getAttribute("data-steps");
+      
+      if (!raw) {
+        console.error("No data-steps attribute found for this route.");
+        return;
+      }
 
       let steps;
       try {
@@ -98,32 +100,18 @@
 
       const origin = tr.children[1].innerText;
       const destination = tr.children[2].innerText;
-      const mode = (steps[0] && steps[0].mode) || "WALKING";
+      const mode = (steps && steps.length > 0 && steps[0].mode) || "WALKING";
 
-      console.log("Steps:", steps);
-      console.log("Origin:", origin);
-      console.log("Destination:", destination);
-      console.log("Mode:", mode);
+      // Store route details in localStorage
+      const payload = {
+        origin: origin,
+        destination: destination,
+        mode: mode,
+      };
+      localStorage.setItem("savedRoute", JSON.stringify(payload));
 
-      if (!window.directionsService || !window.directionsRenderer) {
-        console.error("Google Maps not initialized");
-        return;
-      }
-
-      directionsService.route(
-        {
-          origin,
-          destination,
-          travelMode: google.maps.TravelMode[mode],
-        },
-        (result, status) => {
-          if (status === "OK") {
-            directionsRenderer.setDirections(result);
-          } else {
-            alert("Error loading route: " + status);
-          }
-        }
-      );
+      // Redirect to home.html
+      window.location.href = "/";
     });
   });
   document.querySelectorAll(".rename-btn").forEach((btn) => {
