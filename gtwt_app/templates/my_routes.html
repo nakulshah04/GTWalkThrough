@@ -199,6 +199,7 @@
         if (data.success) {
           btn.innerText = data.is_favorite ? "★" : "☆";
           btn.style.backgroundColor = data.is_favorite ? "#FFD700" : "#B3A369";
+          location.reload(); 
         } else {
           alert("Failed to update favorite status.");
         }
