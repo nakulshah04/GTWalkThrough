@@ -10,8 +10,8 @@
 <h2>My Saved Routes</h2>
 
 <style>
-  .route-btn{
-    background-color:  #B3A369;
+  .route-btn {
+    background-color: #b3a369;
     border: 0px solid;
     color: white;
     padding: 8px;
@@ -26,11 +26,12 @@
     justify-content: flex-start;
   }
 
-  #searchInput, #sortSelect {
+  #searchInput,
+  #sortSelect {
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
-    background-color: #B3A369;
+    background-color: #b3a369;
     color: white;
     font-size: 1rem;
   }
@@ -49,9 +50,10 @@
     opacity: 0.8;
   }
 
-  #searchInput:focus, #sortSelect:focus {
+  #searchInput:focus,
+  #sortSelect:focus {
     outline: none;
-    box-shadow: 0 0 5px #B3A369;
+    box-shadow: 0 0 5px #b3a369;
   }
 </style>
 
@@ -114,8 +116,8 @@
             Save
           </button>
           <button class="route-btn delete-route-btn">Delete</button>
-          <button 
-            class="route-btn favorite-route-btn" 
+          <button
+            class="route-btn favorite-route-btn"
             data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
             style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
           >
@@ -136,7 +138,7 @@
       const btnClicked = event.target.closest(".load-route-btn");
       const tr = btnClicked.closest("tr");
       const raw = btnClicked.getAttribute("data-steps");
-      
+
       if (!raw) {
         console.error("No data-steps attribute found for this route.");
         return;
@@ -158,7 +160,7 @@
         origin: origin,
         destination: destination,
         mode: mode,
-        name: tr.querySelector(".route-name").innerText
+        name: tr.querySelector(".route-name").innerText,
       };
       localStorage.setItem("savedRoute", JSON.stringify(payload));
 
@@ -241,16 +243,18 @@
         },
         body: JSON.stringify({ id: routeId }),
       })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          btn.innerText = data.is_favorite ? "★" : "☆";
-          btn.style.backgroundColor = data.is_favorite ? "#FFD700" : "#B3A369";
-          location.reload(); 
-        } else {
-          alert("Failed to update favorite status.");
-        }
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            btn.innerText = data.is_favorite ? "★" : "☆";
+            btn.style.backgroundColor = data.is_favorite
+              ? "#FFD700"
+              : "#B3A369";
+            location.reload();
+          } else {
+            alert("Failed to update favorite status.");
+          }
+        });
     });
   });
 
@@ -287,11 +291,14 @@
 
   searchInput.addEventListener("input", () => {
     const term = searchInput.value.toLowerCase();
-    tableRows.forEach(row => {
+    tableRows.forEach((row) => {
       const name = row.querySelector(".route-name").innerText.toLowerCase();
       const from = row.children[1].innerText.toLowerCase();
       const to = row.children[2].innerText.toLowerCase();
-      row.style.display = (name.includes(term) || from.includes(term) || to.includes(term)) ? "" : "none";
+      row.style.display =
+        name.includes(term) || from.includes(term) || to.includes(term)
+          ? ""
+          : "none";
     });
   });
 
@@ -300,20 +307,26 @@
     const sortBy = sortSelect.value;
 
     rowsArray.sort((a, b) => {
-      const aVal = sortBy === "name" ? a.querySelector(".route-name").innerText :
-                  sortBy === "distance" ? a.querySelector(".distance").innerText :
-                  a.querySelector(".duration").innerText;
+      const aVal =
+        sortBy === "name"
+          ? a.querySelector(".route-name").innerText
+          : sortBy === "distance"
+          ? a.querySelector(".distance").innerText
+          : a.querySelector(".duration").innerText;
 
-      const bVal = sortBy === "name" ? b.querySelector(".route-name").innerText :
-                  sortBy === "distance" ? b.querySelector(".distance").innerText :
-                  b.querySelector(".duration").innerText;
+      const bVal =
+        sortBy === "name"
+          ? b.querySelector(".route-name").innerText
+          : sortBy === "distance"
+          ? b.querySelector(".distance").innerText
+          : b.querySelector(".duration").innerText;
 
       return aVal.localeCompare(bVal, undefined, { numeric: true });
     });
 
     const tbody = document.querySelector("#routesTable tbody");
-    rowsArray.forEach(row => tbody.appendChild(row));
-    
+    rowsArray.forEach((row) => tbody.appendChild(row));
+
     refreshFavoriteButtons();
   });
 </script>
