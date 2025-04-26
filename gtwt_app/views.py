@@ -72,6 +72,20 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+# Profile View
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('profile')
+
+    return render(request, 'profile.html')
+
 # === Construction Zone Views ===
 
 @login_required
