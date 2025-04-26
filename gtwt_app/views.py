@@ -210,7 +210,7 @@ def save_route(request):
 
 @login_required
 def my_routes(request):
-    routes = SavedRoute.objects.filter(user=request.user).order_by('-created_at')
+    routes = SavedRoute.objects.filter(user=request.user).order_by('-is_favorite', '-created_at')
 
     # Convert steps to a JSON string for safe HTML embedding
     for r in routes:
@@ -256,3 +256,14 @@ def delete_route(request):
             return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Invalid request."}, status=400)
+
+def toggle_favorite(request, route_id):
+    if request.method == 'POST':
+        try:
+            route = SavedRoute.objects.get(id=route_id, user=request.user)
+            route.is_favorite = not route.is_favorite
+            route.save()
+            return JsonResponse({'success': True, 'is_favorite': route.is_favorite})
+        except SavedRoute.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Route not found.'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method.'})

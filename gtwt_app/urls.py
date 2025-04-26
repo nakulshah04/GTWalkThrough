@@ -49,4 +49,8 @@ urlpatterns = [
     path('my-routes/', views.my_routes, name='my_routes'),
     path("api/rename_route/", views.rename_route, name="rename_route"),
     path("api/delete_route/", views.delete_route, name="delete_route"),
+
+    # fav route
+    path('routes/<int:route_id>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+    
 ]

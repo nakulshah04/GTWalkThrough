@@ -38,6 +38,7 @@ class SavedRoute(models.Model):
     distance_text = models.CharField(max_length=50)
     duration_text = models.CharField(max_length=50)
     created_at    = models.DateTimeField(auto_now_add=True)
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} ({self.origin} → {self.destination})"
