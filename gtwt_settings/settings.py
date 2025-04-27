@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-$n&cjdo+1s%aj4ms024a*0+=zv#_iqz!=it9=#sev#5gi1$y=+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gtwalkthrough.pythonanywhere.com']
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'gtwt_app/static/'
