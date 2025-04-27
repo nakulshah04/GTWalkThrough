@@ -12,18 +12,27 @@
       transform: scale(0.8);
       animation: fadeZoomIn 1.2s ease forwards;
     }
+    .logo {
+        height: 80px; /* starting big */
+        transition: all 0.3s ease; /* smooth shrinking effect */
+        }
+
+        .small-logo {
+        height: 40px; /* shrinks to smaller version */
+        }
+
 </style>
 
 {% block content %}
 
 <!-- Centered Logo -->
 <div style="width: 100%; text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
-    <img src="{% static 'images/gtwt_Logo.jpg' %}" alt="GT WalkThrough Logo" style="max-width: 250px; height: auto; border-radius: 8px;">
+    <img src="{% static 'images/gtwt_Logo.jpg' %}" alt="GT WalkThrough Logo" class="logo" style="max-width: 550px;height: 140px; border-radius: 8px;">
 </div>
 
 <!-- About Text Container -->
 <div class="about-container">
-    <h1>About the app<span class="highlight"></span></h1>
+    <h1>About Us<span class="highlight"></span></h1>
     <p>
         <strong>GTWalkThrough</strong> is an app for the use of Georgia Tech students that will feature an interactive map displaying all current construction blocks. 
         This app will show exactly which entrances, sidewalks, and roads are closed to make commutes more predictable for users. 
@@ -35,6 +44,18 @@
         We will implement navigation and map APIs for the features of open-source mapping and route optimization.
     </p>
 </div>
+
+<script>
+    document.addEventListener('scroll', function() {
+      const logo = document.querySelector('.logo');
+      if (window.scrollY > 50) { // If user scrolls down 50px
+        logo.classList.add('small-logo');
+      } else {
+        logo.classList.remove('small-logo');
+      }
+    });
+  </script>
+  
 
 {% endblock %}
 
