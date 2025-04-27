@@ -66,13 +66,12 @@
       <label><input type="radio" name="mode" value="BICYCLING" /> Bike</label>
     </div>
 
-
     <!-- Add route name input here -->
     <input
-    id="route-name"
-    type="text"
-    placeholder="Route name"
-    style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
+      id="route-name"
+      type="text"
+      placeholder="Route name"
+      style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc"
     />
 
     <button
@@ -89,7 +88,17 @@
       Get Route
     </button>
     <div id="route-info" style="font-size: 0.9rem; margin-top: 0rem"></div>
-    <div id="zone-warning" style="display: none; background: #ffebde; color: #8b0000; padding: 10px; border-radius: 5px; margin-top: 10px;">
+    <div
+      id="zone-warning"
+      style="
+        display: none;
+        background: #ffebde;
+        color: #8b0000;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+      "
+    >
       Your route crosses a construction zone!
     </div>
     <button
@@ -111,23 +120,25 @@
   <!-- Map Display -->
   <div id="map" style="width: 100%; height: 100%"></div>
 
-  <button id="startDrawingBtn" style="
-    position: absolute;
-    bottom: 20px;
-    left: 10px;
-    z-index: 1000;
-    background-color: #b3a369;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 20px;
-    border-radius:4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  ">
+  <button
+    id="startDrawingBtn"
+    style="
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      z-index: 1000;
+      background-color: #b3a369;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    "
+  >
     ➕ New Construction Zone
   </button>
-
 
   <!-- Construction Form -->
   <div
@@ -314,10 +325,11 @@
 
     drawingManager.setMap(map);
 
-    document.getElementById("startDrawingBtn").addEventListener("click", function() {
-      drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-    });
-
+    document
+      .getElementById("startDrawingBtn")
+      .addEventListener("click", function () {
+        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+      });
 
     google.maps.event.addListener(
       drawingManager,
@@ -375,7 +387,7 @@
       });
   }
 
-    function calculateRoute() {
+  function calculateRoute() {
     const start = document.getElementById("start").value;
     const end = document.getElementById("end").value;
     const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -396,22 +408,34 @@
         directionsRenderer.setDirections(result);
         const leg = result.routes[0].legs[0];
 
-        const fullRoutePath = leg.steps.flatMap(step => step.path);
+        const fullRoutePath = leg.steps.flatMap((step) => step.path);
         const routePolyline = new google.maps.Polyline({
           path: fullRoutePath,
           strokeColor: "#4285F4", // Blue
           strokeOpacity: 0.8,
           strokeWeight: 5,
-          map: map
+          map: map,
         });
 
         fetch("/api/get_zones/")
-          .then(res => res.json())
-          .then(zones => {
+          .then((res) => res.json())
+          .then((zones) => {
             let intersectsZone = false;
 
-            zones.forEach(zone => {
-              const polygon = new google.maps.Polygon({ paths: zone.coordinates });
+            zones.forEach((zone) => {
+              // Create polygon
+              const polygon = new google.maps.Polygon({
+                paths: zone.coordinates,
+                fillColor: "#B3A369",
+                fillOpacity: 0.4,
+                strokeWeight: 2,
+                map: map,
+              });
+
+              // Attach polygon object to the zone for later use (deleting without reload)
+              zone.polygonObject = polygon;
+
+              // Now check intersection with route
               const path = routePolyline.getPath();
               for (let i = 0; i < path.getLength() - 1; i++) {
                 const start = path.getAt(i);
@@ -421,25 +445,26 @@
                   (start.lng() + end.lng()) / 2
                 );
 
-                if (google.maps.geometry.poly.containsLocation(midpoint, polygon)) {
+                if (
+                  google.maps.geometry.poly.containsLocation(midpoint, polygon)
+                ) {
                   intersectsZone = true;
 
-                  // Draw red segment
+                  // Draw red segment for the intersecting part
                   new google.maps.Polyline({
                     path: [start, end],
-                    strokeColor: "#FF0000", // Red
+                    strokeColor: "#FF0000",
                     strokeOpacity: 0.9,
                     strokeWeight: 5,
-                    map: map
+                    map: map,
                   });
                 }
               }
+            });
+
+            const warningBanner = document.getElementById("zone-warning");
+            warningBanner.style.display = intersectsZone ? "block" : "none";
           });
-
-          const warningBanner = document.getElementById("zone-warning");
-          warningBanner.style.display = intersectsZone ? "block" : "none";
-        });
-
 
         // Route info
         document.getElementById("route-info").innerHTML = `
@@ -588,7 +613,8 @@
       const { origin, destination, mode, name } = JSON.parse(savedRoute);
       document.getElementById("start").value = origin;
       document.getElementById("end").value = destination;
-      document.getElementById("route-name").value = name || `${origin} → ${destination}`;
+      document.getElementById("route-name").value =
+        name || `${origin} → ${destination}`;
       const modeRadios = document.getElementsByName("mode");
       for (const radio of modeRadios) {
         if (radio.value === mode) {
