@@ -51,7 +51,7 @@
   function deleteZone(zoneId) {
     if (!confirm("Are you sure you want to delete this zone?")) return;
 
-    fetch("/delete-zone/", {
+    fetch("/delete_zone/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
