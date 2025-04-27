@@ -272,3 +272,9 @@ def toggle_favorite(request, route_id):
         except SavedRoute.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Route not found.'})
     return JsonResponse({'success': False, 'error': 'Invalid request method.'})
+
+from .models import Announcement
+
+def announcements_list(request):
+    announcements = Announcement.objects.order_by('-created_at')
+    return render(request, 'announcements.html', {'announcements': announcements})

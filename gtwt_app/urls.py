@@ -52,5 +52,9 @@ urlpatterns = [
 
     # fav route
     path('routes/<int:route_id>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    path('announcements/', views.announcements_list, name='announcements'),
     
 ]
