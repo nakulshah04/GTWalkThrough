@@ -42,3 +42,22 @@ class SavedRoute(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.origin} → {self.destination})"
+    
+class Announcement(models.Model):
+    title = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    
+    from django.contrib import admin
+
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at')
+    search_fields = ('title',)
+    ordering = ('-created_at',)
+
+        
+
