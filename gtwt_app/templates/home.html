@@ -288,6 +288,8 @@
 <script>
   let map, directionsService, directionsRenderer;
   let currentPolygonCoords = [];
+  let tempPolygon = null;
+  let isDrawing = false;
 
   function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
@@ -332,16 +334,35 @@
 
     drawingManager.setMap(map);
 
-    document
-      .getElementById("startDrawingBtn")
-      .addEventListener("click", function () {
+    const startDrawingBtn = document.getElementById("startDrawingBtn");
+
+    startDrawingBtn.addEventListener("click", function () {
+      if (!isDrawing) {
+        // User clicked "New Construction Zone"
         drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-      });
+        startDrawingBtn.textContent = "❌ Cancel Drawing";
+        isDrawing = true;
+      } else {
+        // User clicked "Cancel Drawing"
+        drawingManager.setDrawingMode(null);
+        closeConstructionForm();
+        startDrawingBtn.textContent = "➕ New Construction Zone";
+
+        // 🛠️ Remove any unfinished drawn polygon
+        if (tempPolygon) {
+          tempPolygon.setMap(null); // remove from map
+          tempPolygon = null;
+        }
+
+        isDrawing = false;
+      }
+    });
 
     google.maps.event.addListener(
       drawingManager,
       "polygoncomplete",
       function (polygon) {
+        tempPolygon = polygon;
         currentPolygonCoords = polygon
           .getPath()
           .getArray()
@@ -350,6 +371,8 @@
             lng: latlng.lng(),
           }));
         document.getElementById("constructionForm").style.display = "block";
+        startDrawingBtn.textContent = "➕ New Construction Zone";
+        isDrawing = false;
       }
     );
 
