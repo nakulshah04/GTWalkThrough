@@ -35,6 +35,12 @@
         justify-content: space-between;
         align-items: center;
         padding: 0 2rem;
+        /* To wrap on smaller screens */
+        flex-wrap: wrap;
+      }
+
+      #hamburger {
+        display: none; /* hidden by default on big screens */
       }
 
       .navbar-brand {
@@ -100,39 +106,90 @@
         color: #f9f6e5;
         font-weight: 500;
       }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      /* Adding code for mobile UI */
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        #hamburger {
+          display: block;
+          margin-left: auto;
+          font-size: 2rem;
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+        }
+
+        .nav-links {
+          flex-direction: column;
+          width: 100%;
+          display: none;
+        }
+
+        .nav-links.show {
+          display: flex;
+        }
+
+        .user-greeting,
+        .dropdown {
+          width: 100%;
+          text-align: left;
+          margin-top: 1rem;
+        }
+
+        nav > div,
+        nav > ul {
+          width: 100%;
+        }
+      }
     </style>
   </head>
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-    }
-  
-    .content {
-      flex: 1;
-    }
-  </style>
-  
-
   <body>
     <header>
-      <nav
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 2rem;
-        "
-      >
+      <nav>
         <div style="display: flex; align-items: center; gap: 1rem">
-          <a href="{% url 'home' %}" class="navbar-brand" style="display: flex; align-items: center; gap: 0.5rem;">
-            <img src="{% static 'images/gtwt_Logo.jpg' %}" alt="GT WalkThrough Logo" style="height: 40px; border-radius: 8px;">
+          <a
+            href="{% url 'home' %}"
+            class="navbar-brand"
+            style="display: flex; align-items: center; gap: 0.5rem"
+          >
+            <img
+              src="{% static 'images/gtwt_Logo.jpg' %}"
+              alt="GT WalkThrough Logo"
+              style="height: 40px; border-radius: 8px"
+            />
           </a>
-          
         </div>
+
+        <button
+          id="hamburger"
+          style="
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            display: none;
+          "
+        >
+          &#9776;
+        </button>
 
         {% if user.is_authenticated %}
         <div style="display: flex; align-items: center; gap: 2rem">
@@ -140,10 +197,9 @@
             class="nav-links"
             style="display: flex; gap: 1rem; list-style: none"
           >
-            <li><a href = "{% url 'announcements' %}">Announcements</a></li>
+            <li><a href="{% url 'announcements' %}">Announcements</a></li>
             <li><a href="{% url 'my_reports' %}">My Reports</a></li>
             <li><a href="{% url 'my_routes' %}">My Routes</a></li>
-            
           </ul>
 
           <div class="dropdown" style="position: relative">
@@ -232,6 +288,14 @@
           });
         }
       });
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.querySelector(".nav-links");
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener("click", function () {
+          navLinks.classList.toggle("show");
+        });
+      }
     </script>
 
     {% block extra_scripts %}{% endblock %}
