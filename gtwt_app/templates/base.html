@@ -243,34 +243,81 @@
           </li>
 
           {% if user.is_authenticated %}
-          <li>
+          <li style="position: relative; list-style: none">
             <a
-              href="{% url 'profile' %}"
+              href="#"
+              id="dropdownButton"
               style="color: white; text-decoration: none"
-              >Profile</a
             >
-          </li>
-          <li>
-            <a
-              href="{% url 'logout' %}"
-              style="color: white; text-decoration: none"
-              >Logout</a
+              Hi, {{ user.first_name }}
+              <span style="font-size: 0.8rem">&#9662;</span>
+              <!-- small, clean arrow -->
+            </a>
+            <ul
+              id="dropdownMenu"
+              style="
+                display: none;
+                position: absolute;
+                background-color: white;
+                top: 2.5rem;
+                left: 0;
+                min-width: 150px;
+                border-radius: 6px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                z-index: 1000;
+                padding: 0;
+                margin: 0;
+              "
             >
+              <li style="list-style: none">
+                <a
+                  href="{% url 'profile' %}"
+                  style="
+                    color: black;
+                    text-decoration: none;
+                    display: block;
+                    padding: 10px;
+                  "
+                  onmouseover="this.style.backgroundColor='#b3a369'; this.style.color='white';"
+                  onmouseout="this.style.backgroundColor='white'; this.style.color='black';"
+                >
+                  Profile
+                </a>
+              </li>
+              <li style="list-style: none">
+                <a
+                  href="{% url 'logout' %}"
+                  style="
+                    color: black;
+                    text-decoration: none;
+                    display: block;
+                    padding: 10px;
+                  "
+                  onmouseover="this.style.backgroundColor='#b3a369'; this.style.color='white';"
+                  onmouseout="this.style.backgroundColor='white'; this.style.color='black';"
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
           </li>
           {% else %}
-          <li>
+          <li style="list-style: none">
             <a
               href="{% url 'login' %}"
               style="color: white; text-decoration: none"
-              >Login</a
             >
+              Login
+            </a>
           </li>
-          <li>
+          <li style="list-style: none">
             <a
               href="{% url 'register' %}"
               style="color: white; text-decoration: none"
-              >Register</a
             >
+              Register
+            </a>
           </li>
           {% endif %}
         </ul>
