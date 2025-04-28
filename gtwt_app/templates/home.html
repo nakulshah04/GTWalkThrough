@@ -90,6 +90,7 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 16px;
       "
     >
       Get Route
@@ -118,6 +119,7 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 16px;
       "
     >
       Save Route
@@ -138,7 +140,7 @@
       color: white;
       border: none;
       padding: 10px 20px;
-      font-size: 20px;
+      font-size: 16px;
       border-radius: 4px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       cursor: pointer;
@@ -252,38 +254,48 @@
 </div>
 
 <!-- Step-by-step directions -->
-<div style="margin-top: 1rem">
+<div style="margin-top: 2rem; text-align: left">
   <button
     onclick="toggleSteps()"
     style="
-      background: #003057;
+      background: var(--clr-GT-blue);
       color: white;
       border: none;
-      /* padding: 1rem 2rem; */
-      border-radius: 4px;
+      padding: 0.8rem 2rem;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      padding: 8px 16px;
-      font-size: 18px;
-      margin-left: 10px;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-left: 10px; /* slight indent */
     "
+    onmouseover="this.style.backgroundColor='#0e1c2a'; this.style.transform='scale(1.05)';"
+    onmouseout="this.style.backgroundColor='var(--clr-GT-blue)'; this.style.transform='scale(1)';"
   >
     Show Directions
   </button>
+
   <div
     id="step-list"
     style="
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s ease-out;
-      background: #f8f8f8;
-      border-radius: 8px;
-      padding: 0 1rem;
+      background: #ffffff;
+      border: 2px solid var(--clr-GT-gold);
+      border-radius: 12px;
+      padding: 1.5rem;
       margin-top: 1rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      font-size: 0.95rem;
+      margin-left: 10px; /* match the button indent */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      font-size: 1rem;
+      text-align: left;
+      max-width: 700px;
     "
-  ></div>
+  >
+    <!-- directions will populate here dynamically -->
+  </div>
 </div>
+
 {% endblock %} {% block extra_scripts %}
 <script>
   let map, directionsService, directionsRenderer;
@@ -502,12 +514,12 @@
           <strong>Duration:</strong> ${leg.duration.text}
         `;
         const stepsContainer = document.getElementById("step-list");
-        stepsContainer.innerHTML = `<h3>Directions</h3><ol style="padding-left: 1.2rem;">`;
+        stepsContainer.innerHTML = `<h3 style="color: var(--clr-GT-gold); margin-bottom: 1rem;">Directions</h3>
+        <ol style="list-style-position: inside; padding-left: 0; margin-top: 1rem;">`;
         leg.steps.forEach((step) => {
           const icon = getStepIcon(step.instructions || "");
-          stepsContainer.innerHTML += `
-            <li style="margin-bottom: 0.5rem;">
-              ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
+          stepsContainer.innerHTML += `<li style="margin-bottom: 0.8rem;">
+            ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
             </li>`;
         });
         stepsContainer.innerHTML += `</ol>`;
