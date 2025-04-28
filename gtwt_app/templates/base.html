@@ -228,6 +228,7 @@
           id="nav-links"
           style="list-style: none; margin: 0; align-items: center"
         >
+          {% if user.is_authenticated %}
           <!-- <li><a href="{% url 'announcements' %}" style="color: white; text-decoration: none;">Announcements</a></li> -->
           <li>
             <a
@@ -243,8 +244,6 @@
               >My Routes</a
             >
           </li>
-
-          {% if user.is_authenticated %}
           <li style="position: relative; list-style: none">
             <a
               href="#"
