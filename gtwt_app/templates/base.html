@@ -123,14 +123,14 @@
         color: white;
         border-radius: 5px;
       }
-      
+
       #nav-links {
-  display: flex;
-  flex-direction: row; /* <--- force it to be horizontal by default */
-  gap: 2rem;
-  margin: 0;
-  align-items: center;
-}
+        display: flex;
+        flex-direction: row; /* <--- force it to be horizontal by default */
+        gap: 2rem;
+        margin: 0;
+        align-items: center;
+      }
 
       /* Adding code for mobile UI */
       @media (max-width: 768px) {
@@ -150,71 +150,132 @@
         }
 
         #nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background-color: var(--clr-GT-blue);
-    padding: 1rem 0;
-  }
-
-  #nav-links.show {
-    display: flex;
-  }
-
-  #nav-links li {
-    width: 100%;
-    text-align: center;
-    padding: 0.5rem 0;
-    border-top: 1px solid white;
-  }
-
-  #nav-links li:first-child {
-    border-top: none;
-  }
-}
-
-        .user-greeting,
-        .dropdown {
+          display: none;
+          flex-direction: column;
           width: 100%;
-          text-align: left;
-          margin-top: 1rem;
+          background-color: var(--clr-GT-blue);
+          padding: 1rem 0;
         }
-      
 
+        #nav-links.show {
+          display: flex;
+        }
+
+        #nav-links li {
+          width: 100%;
+          text-align: center;
+          padding: 0.5rem 0;
+          border-top: 1px solid white;
+        }
+
+        #nav-links li:first-child {
+          border-top: none;
+        }
+      }
+
+      .user-greeting,
+      .dropdown {
+        width: 100%;
+        text-align: left;
+        margin-top: 1rem;
+      }
     </style>
   </head>
 
   <body>
     <header>
-      <nav style="background-color: var(--clr-GT-gold); display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <a href="{% url 'home' %}" class="navbar-brand" style="color: white; text-decoration: none; font-weight: bold; font-size: 1.5rem;">
+      <nav
+        style="
+          background-color: var(--clr-GT-gold);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1rem 2rem;
+        "
+      >
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <a
+            href="{% url 'home' %}"
+            class="navbar-brand"
+            style="
+              color: white;
+              text-decoration: none;
+              font-weight: bold;
+              font-size: 1.5rem;
+            "
+          >
             <!-- <img src="{% static 'images/gtwt_Logo.jpg' %}" alt="GT WalkThrough Logo" style="height: 40px; border-radius: 8px;" /> -->
             GT WalkThrough
           </a>
         </div>
-    
-        <button id="hamburger" style="background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">
+
+        <button
+          id="hamburger"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+          "
+        >
           &#9776;
         </button>
-    
-        <ul id="nav-links" style="list-style: none; margin: 0; align-items: center;">
-          <li><a href="{% url 'announcements' %}" style="color: white; text-decoration: none;">Announcements</a></li>
-          <li><a href="{% url 'my_reports' %}" style="color: white; text-decoration: none;">My Reports</a></li>
-          <li><a href="{% url 'my_routes' %}" style="color: white; text-decoration: none;">My Routes</a></li>
-    
+
+        <ul
+          id="nav-links"
+          style="list-style: none; margin: 0; align-items: center"
+        >
+          <!-- <li><a href="{% url 'announcements' %}" style="color: white; text-decoration: none;">Announcements</a></li> -->
+          <li>
+            <a
+              href="{% url 'my_reports' %}"
+              style="color: white; text-decoration: none"
+              >My Reports</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'my_routes' %}"
+              style="color: white; text-decoration: none"
+              >My Routes</a
+            >
+          </li>
+
           {% if user.is_authenticated %}
-          <li><a href="{% url 'profile' %}" style="color: white; text-decoration: none;">Profile</a></li>
-          <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
+          <li>
+            <a
+              href="{% url 'profile' %}"
+              style="color: white; text-decoration: none"
+              >Profile</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'logout' %}"
+              style="color: white; text-decoration: none"
+              >Logout</a
+            >
+          </li>
           {% else %}
-          <li><a href="{% url 'login' %}" style="color: white; text-decoration: none;">Login</a></li>
-          <li><a href="{% url 'register' %}" style="color: white; text-decoration: none;">Register</a></li>
+          <li>
+            <a
+              href="{% url 'login' %}"
+              style="color: white; text-decoration: none"
+              >Login</a
+            >
+          </li>
+          <li>
+            <a
+              href="{% url 'register' %}"
+              style="color: white; text-decoration: none"
+              >Register</a
+            >
+          </li>
           {% endif %}
         </ul>
       </nav>
     </header>
-    
-    
 
     <div class="content">{% block content %}{% endblock %}</div>
 
@@ -249,7 +310,6 @@
           navLinks.classList.toggle("show");
         });
       });
-
     </script>
 
     {% block extra_scripts %}{% endblock %}
