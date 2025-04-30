@@ -1,8 +1,21 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<h2 style="margin-bottom: 1rem">My Submitted Zones</h2>
-<div id="map" style="height: 600px; width: 100%; margin-bottom: 2rem"></div>
+<link rel="stylesheet" href="{% static 'css/style.refactored.css' %}" />
 
-<!-- Pass zone data into JavaScript -->
+<h2 class="text-center" style="margin: 2rem auto 1.5rem auto">
+  My Submitted Zones
+</h2>
+<div
+  id="map"
+  style="
+    height: 600px;
+    width: calc(100% - 4rem);
+    margin: 0 auto 2rem auto;
+    border: 2px solid var(--clr-GT-gold);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  "
+></div>
+
 <script id="zone-data" type="application/json">
   {{ zones|safe }}
 </script>
@@ -28,13 +41,13 @@
       });
 
       const infoWindow = new google.maps.InfoWindow({
-        content: `<div>
+        content: `<div style="font-family: Roboto, sans-serif; max-width: 250px;">
                     <strong>${zone.description}</strong><br>
-                    Start: ${zone.start_date}<br>
-                    End: ${zone.end_date}<br>
+                    <span>Start:</span> ${zone.start_date}<br>
+                    <span>End:</span> ${zone.end_date}<br>
                     <button onclick="deleteZone(${zone.id})"
-                      style="margin-top: 0.5rem; padding: 4px 8px; background-color: crimson; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                      Delete
+                      style="margin-top: 0.5rem; padding: 6px 10px; background-color: crimson; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+                      Delete Zone
                     </button>
                   </div>`,
       });
@@ -89,7 +102,6 @@
   }
 </script>
 
-<!-- Load Google Maps -->
 <script
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&callback=initMap"
