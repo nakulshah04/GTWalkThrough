@@ -6,9 +6,9 @@
 {% block title %}My Saved Routes{% endblock %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'css/style.refactored.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 {% endblock %} {% block content %}
-<h2>My Saved Routes</h2>
+<h2 class="page-heading">My Saved Routes</h2>
 
 <style>
   .route-btn {
@@ -20,11 +20,17 @@
   }
 
   .search-sort-container {
-    display: flex;
     gap: 10px;
+    width: 100%;
+    display: flex;
     margin-bottom: 1rem;
     align-items: center;
     justify-content: flex-start;
+  }
+
+  .search-sort-container input,
+  .search-sort-container select {
+    box-sizing: border-box;
   }
 
   #searchInput,
@@ -98,80 +104,86 @@
   table.route-table td:last-child {
     border-right: none;
   }
+
+  .table-wrapper {
+    width: 98%;
+    margin: 0 auto;
+  }
 </style>
 
 {% if routes %}
+<div class="table-wrapper">
+  <div class="search-sort-container">
+    <input type="text" id="searchInput" placeholder="Search routes..." />
+    <select id="sortSelect">
+      <option value="name">Sort by Name</option>
+      <option value="distance">Sort by Distance</option>
+      <option value="duration">Sort by Duration</option>
+    </select>
+  </div>
 
-<div class="search-sort-container">
-  <input type="text" id="searchInput" placeholder="Search routes..." />
-  <select id="sortSelect">
-    <option value="name">Sort by Name</option>
-    <option value="distance">Sort by Distance</option>
-    <option value="duration">Sort by Duration</option>
-  </select>
+  <table class="route-table" id="routesTable">
+    <thead>
+      <tr>
+        <th style="width: 17%">Name</th>
+        <th style="width: 25%">From</th>
+        <th style="width: 25%">To</th>
+        <th style="width: 7%">Distance</th>
+        <th style="width: 8%">Duration</th>
+        <th style="width: 18%">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in routes %}
+      <tr data-route-id="{{ r.id }}">
+        <td>
+          <span class="route-name">{{ r.name }}</span>
+          <input
+            class="edit-name-input"
+            type="text"
+            value="{{ r.name }}"
+            style="display: none; width: 100%"
+          />
+        </td>
+        <td>{{ r.origin }}</td>
+        <td>{{ r.destination }}</td>
+        <td class="distance">{{ r.distance_text }}</td>
+        <td class="duration">{{ r.duration_text }}</td>
+        <td>
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              gap: 5px;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <button
+              class="route-btn load-route-btn"
+              data-steps="{{ r.steps_json|safe }}"
+            >
+              Load
+            </button>
+            <button class="route-btn rename-btn">Rename</button>
+            <button class="route-btn save-name-btn" style="display: none">
+              Save
+            </button>
+            <button class="route-btn delete-route-btn">Delete</button>
+            <button
+              class="route-btn favorite-route-btn"
+              data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
+              style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
+            >
+              {% if r.is_favorite %}★{% else %}☆{% endif %}
+            </button>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
-
-<table class="route-table" id="routesTable">
-  <thead>
-    <tr>
-      <th style="width: 15%">Name</th>
-      <th style="width: 25%">From</th>
-      <th style="width: 25%">To</th>
-      <th style="width: 7%">Distance</th>
-      <th style="width: 8%">Duration</th>
-      <th style="width: 20%">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in routes %}
-    <tr data-route-id="{{ r.id }}">
-      <td>
-        <span class="route-name">{{ r.name }}</span>
-        <input
-          class="edit-name-input"
-          type="text"
-          value="{{ r.name }}"
-          style="display: none; width: 100%"
-        />
-      </td>
-      <td>{{ r.origin }}</td>
-      <td>{{ r.destination }}</td>
-      <td class="distance">{{ r.distance_text }}</td>
-      <td class="duration">{{ r.duration_text }}</td>
-      <td>
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            flex-wrap: wrap;
-            align-items: center;
-          "
-        >
-          <button
-            class="route-btn load-route-btn"
-            data-steps="{{ r.steps_json|safe }}"
-          >
-            Load
-          </button>
-          <button class="route-btn rename-btn">Rename</button>
-          <button class="route-btn save-name-btn" style="display: none">
-            Save
-          </button>
-          <button class="route-btn delete-route-btn">Delete</button>
-          <button
-            class="route-btn favorite-route-btn"
-            data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
-            style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
-          >
-            {% if r.is_favorite %}★{% else %}☆{% endif %}
-          </button>
-        </div>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 {% else %}
 <p>You haven’t saved any routes yet.</p>
 {% endif %} {% endblock %} {% block extra_scripts %}
