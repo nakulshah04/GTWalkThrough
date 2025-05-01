@@ -110,6 +110,49 @@
       width: 100%;
       margin: 0 auto;
     }
+
+    .dropdown-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .actions-dropdown-btn {
+      background-color: #b3a369;
+      color: white;
+      border: none;
+      padding: 8px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 100;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 150px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+    }
+
+    .dropdown-item {
+      background: none;
+      border: none;
+      padding: 10px;
+      text-align: left;
+      width: 100%;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f2f2f2;
+    }
   </style>
 
   {% if routes %}
@@ -179,34 +222,40 @@
           <td class="distance">{{ r.distance_text }}</td>
           <td class="duration">{{ r.duration_text }}</td>
           <td>
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                gap: 5px;
-                flex-wrap: wrap;
-                align-items: center;
-              "
-            >
-              <button
-                class="route-btn load-route-btn"
-                data-steps="{{ r.steps_json|safe }}"
+            <div class="dropdown-wrapper">
+              <button class="route-btn actions-dropdown-btn">Actions ▾</button>
+              <div
+                class="dropdown-menu"
+                style="display: none; flex-direction: column"
               >
-                Load
-              </button>
-              <button class="route-btn rename-btn">Rename</button>
-              <button class="route-btn save-name-btn" style="display: none">
-                Save
-              </button>
-              <button class="route-btn delete-route-btn">Delete</button>
-              <button
-                class="route-btn favorite-route-btn"
-                data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
-                style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
-              >
-                {% if r.is_favorite %}★{% else %}☆{% endif %}
-              </button>
-              <button class="route-btn download-route-btn">Download</button>
+                <button
+                  class="dropdown-item load-route-btn"
+                  data-steps="{{ r.steps_json|safe }}"
+                >
+                  📍 Load
+                </button>
+                <button class="dropdown-item rename-btn">✏️ Rename</button>
+                <button
+                  class="dropdown-item save-name-btn"
+                  style="display: none"
+                >
+                  💾 Save
+                </button>
+                <button class="dropdown-item delete-route-btn">
+                  🗑️ Delete
+                </button>
+                {% with r.is_favorite as favorite %}
+                <button
+                  class="dropdown-item favorite-route-btn"
+                  data-favorite="{{ favorite|yesno:'true,false' }}"
+                >
+                  {% if favorite %}★ Unfavorite{% else %}☆ Favorite{% endif %}
+                </button>
+                {% endwith %}
+                <button class="dropdown-item download-route-btn">
+                  ⬇️ Download
+                </button>
+              </div>
             </div>
           </td>
         </tr>
@@ -421,6 +470,26 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+      });
+    });
+
+    document.querySelectorAll(".actions-dropdown-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const dropdown = btn.nextElementSibling;
+        dropdown.style.display =
+          dropdown.style.display === "flex" ? "none" : "flex";
+
+        // Hide others
+        document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+          if (menu !== dropdown) menu.style.display = "none";
+        });
+      });
+    });
+
+    window.addEventListener("click", () => {
+      document.querySelectorAll(".dropdown-menu").forEach((menu) => {
+        menu.style.display = "none";
       });
     });
   </script>
