@@ -8,381 +8,383 @@
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 {% endblock %} {% block content %}
-<h2 class="page-heading">My Saved Routes</h2>
+<div style="max-width: 1200px; margin: 0 auto">
+  <h2 class="page-heading">My Saved Routes</h2>
 
-<style>
-  .route-btn {
-    background-color: #b3a369;
-    border: 0px solid;
-    color: white;
-    padding: 8px;
-    border-radius: 3px;
-  }
+  <style>
+    .route-btn {
+      background-color: #b3a369;
+      border: 0px solid;
+      color: white;
+      padding: 8px;
+      border-radius: 3px;
+    }
 
-  .search-sort-container {
-    gap: 10px;
-    width: 100%;
-    display: flex;
-    margin-bottom: 1rem;
-    align-items: center;
-    justify-content: flex-start;
-  }
+    .search-sort-container {
+      gap: 10px;
+      width: 100%;
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-  .search-sort-container input,
-  .search-sort-container select {
-    box-sizing: border-box;
-  }
+    .search-sort-container input,
+    .search-sort-container select {
+      box-sizing: border-box;
+    }
 
-  #searchInput,
-  #sortSelect {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #b3a369;
-    color: white;
-    font-size: 1rem;
-  }
+    #searchInput,
+    #sortSelect {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #b3a369;
+      color: white;
+      font-size: 1rem;
+    }
 
-  #searchInput {
-    flex: none;
-    min-width: 254px;
-  }
+    #searchInput {
+      flex: none;
+      min-width: 254px;
+    }
 
-  #sortSelect {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #b3a369;
-    color: white;
-    font-size: 1rem;
-    width: 163px;
-    appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'><polygon points='0,0 140,0 70,80'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 15px;
-    cursor: pointer;
-  }
+    #sortSelect {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #b3a369;
+      color: white;
+      font-size: 1rem;
+      width: 163px;
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'><polygon points='0,0 140,0 70,80'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 15px;
+      cursor: pointer;
+    }
 
-  #sortSelect:focus {
-    outline: none;
-    box-shadow: 0 0 5px #b3a369;
-  }
+    #sortSelect:focus {
+      outline: none;
+      box-shadow: 0 0 5px #b3a369;
+    }
 
-  #searchInput::placeholder {
-    color: white;
-    opacity: 0.8;
-  }
+    #searchInput::placeholder {
+      color: white;
+      opacity: 0.8;
+    }
 
-  #searchInput:focus,
-  #sortSelect:focus {
-    outline: none;
-    box-shadow: 0 0 5px #b3a369;
-  }
+    #searchInput:focus,
+    #sortSelect:focus {
+      outline: none;
+      box-shadow: 0 0 5px #b3a369;
+    }
 
-  table.route-table {
-    width: 98%;
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-  }
+    table.route-table {
+      width: 98%;
+      margin: auto;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
 
-  table.route-table th {
-    background-color: #162639;
-    color: white;
-    padding: 12px;
-    border-bottom: 1px solid #162639;
-  }
+    table.route-table th {
+      background-color: #162639;
+      color: white;
+      padding: 12px;
+      border-bottom: 1px solid #162639;
+    }
 
-  table.route-table td {
-    background-color: white;
-    padding: 14px 12px;
-    vertical-align: middle;
-    border-right: 1px solid #ddd;
-  }
+    table.route-table td {
+      background-color: white;
+      padding: 14px 12px;
+      vertical-align: middle;
+      border-right: 1px solid #ddd;
+    }
 
-  table.route-table td:last-child {
-    border-right: none;
-  }
+    table.route-table td:last-child {
+      border-right: none;
+    }
 
-  .table-wrapper {
-    width: 98%;
-    margin: 0 auto;
-  }
-</style>
+    .table-wrapper {
+      width: 98%;
+      margin: 0 auto;
+    }
+  </style>
 
-{% if routes %}
-<div class="table-wrapper">
-  <div class="search-sort-container">
-    <input type="text" id="searchInput" placeholder="Search routes..." />
-    <select id="sortSelect">
-      <option value="name">Sort by Name</option>
-      <option value="distance">Sort by Distance</option>
-      <option value="duration">Sort by Duration</option>
-    </select>
+  {% if routes %}
+  <div class="table-wrapper">
+    <div class="search-sort-container">
+      <input type="text" id="searchInput" placeholder="Search routes..." />
+      <select id="sortSelect">
+        <option value="name">Sort by Name</option>
+        <option value="distance">Sort by Distance</option>
+        <option value="duration">Sort by Duration</option>
+      </select>
+    </div>
+
+    <table class="route-table" id="routesTable">
+      <thead>
+        <tr>
+          <th style="width: 17%">Name</th>
+          <th style="width: 25%">From</th>
+          <th style="width: 25%">To</th>
+          <th style="width: 7%">Distance</th>
+          <th style="width: 8%">Duration</th>
+          <th style="width: 18%">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in routes %}
+        <tr data-route-id="{{ r.id }}">
+          <td>
+            <span class="route-name">{{ r.name }}</span>
+            <input
+              class="edit-name-input"
+              type="text"
+              value="{{ r.name }}"
+              style="display: none; width: 100%"
+            />
+          </td>
+          <td>{{ r.origin }}</td>
+          <td>{{ r.destination }}</td>
+          <td class="distance">{{ r.distance_text }}</td>
+          <td class="duration">{{ r.duration_text }}</td>
+          <td>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                flex-wrap: wrap;
+                align-items: center;
+              "
+            >
+              <button
+                class="route-btn load-route-btn"
+                data-steps="{{ r.steps_json|safe }}"
+              >
+                Load
+              </button>
+              <button class="route-btn rename-btn">Rename</button>
+              <button class="route-btn save-name-btn" style="display: none">
+                Save
+              </button>
+              <button class="route-btn delete-route-btn">Delete</button>
+              <button
+                class="route-btn favorite-route-btn"
+                data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
+                style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
+              >
+                {% if r.is_favorite %}★{% else %}☆{% endif %}
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+  {% else %}
+  <p>You haven’t saved any routes yet.</p>
+  {% endif %} {% endblock %} {% block extra_scripts %}
+  <script>
+    document.querySelectorAll(".load-route-btn").forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        const btnClicked = event.target.closest(".load-route-btn");
+        const tr = btnClicked.closest("tr");
+        const raw = btnClicked.getAttribute("data-steps");
 
-  <table class="route-table" id="routesTable">
-    <thead>
-      <tr>
-        <th style="width: 17%">Name</th>
-        <th style="width: 25%">From</th>
-        <th style="width: 25%">To</th>
-        <th style="width: 7%">Distance</th>
-        <th style="width: 8%">Duration</th>
-        <th style="width: 18%">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for r in routes %}
-      <tr data-route-id="{{ r.id }}">
-        <td>
-          <span class="route-name">{{ r.name }}</span>
-          <input
-            class="edit-name-input"
-            type="text"
-            value="{{ r.name }}"
-            style="display: none; width: 100%"
-          />
-        </td>
-        <td>{{ r.origin }}</td>
-        <td>{{ r.destination }}</td>
-        <td class="distance">{{ r.distance_text }}</td>
-        <td class="duration">{{ r.duration_text }}</td>
-        <td>
-          <div
-            style="
-              display: flex;
-              flex-direction: row;
-              gap: 5px;
-              flex-wrap: wrap;
-              align-items: center;
-            "
-          >
-            <button
-              class="route-btn load-route-btn"
-              data-steps="{{ r.steps_json|safe }}"
-            >
-              Load
-            </button>
-            <button class="route-btn rename-btn">Rename</button>
-            <button class="route-btn save-name-btn" style="display: none">
-              Save
-            </button>
-            <button class="route-btn delete-route-btn">Delete</button>
-            <button
-              class="route-btn favorite-route-btn"
-              data-favorite="{{ r.is_favorite|yesno:'true,false' }}"
-              style="background-color: {% if r.is_favorite %}#FFD700{% else %}#B3A369{% endif %};"
-            >
-              {% if r.is_favorite %}★{% else %}☆{% endif %}
-            </button>
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% else %}
-<p>You haven’t saved any routes yet.</p>
-{% endif %} {% endblock %} {% block extra_scripts %}
-<script>
-  document.querySelectorAll(".load-route-btn").forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      const btnClicked = event.target.closest(".load-route-btn");
-      const tr = btnClicked.closest("tr");
-      const raw = btnClicked.getAttribute("data-steps");
-
-      if (!raw) {
-        console.error("No data-steps attribute found for this route.");
-        return;
-      }
-
-      let steps;
-      try {
-        steps = JSON.parse(raw.replace(/&quot;/g, '"'));
-      } catch (err) {
-        console.error("JSON parsing failed:", err);
-        return;
-      }
-
-      const origin = tr.children[1].innerText;
-      const destination = tr.children[2].innerText;
-      const mode = (steps && steps.length > 0 && steps[0].mode) || "WALKING";
-
-      const payload = {
-        origin: origin,
-        destination: destination,
-        mode: mode,
-        name: tr.querySelector(".route-name").innerText,
-      };
-      localStorage.setItem("savedRoute", JSON.stringify(payload));
-
-      window.location.href = "/";
-    });
-  });
-
-  document.querySelectorAll(".rename-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const tr = btn.closest("tr");
-      tr.querySelector(".route-name").style.display = "none";
-      tr.querySelector(".edit-name-input").style.display = "inline";
-      btn.style.display = "none";
-      tr.querySelector(".save-name-btn").style.display = "inline";
-    });
-  });
-
-  document.querySelectorAll(".save-name-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const tr = btn.closest("tr");
-      const newName = tr.querySelector(".edit-name-input").value;
-      const routeId = tr.getAttribute("data-route-id");
-
-      tr.querySelector(".route-name").innerText = newName;
-      tr.querySelector(".route-name").style.display = "inline";
-      tr.querySelector(".edit-name-input").style.display = "none";
-      btn.style.display = "none";
-      tr.querySelector(".rename-btn").style.display = "inline";
-
-      fetch("/api/rename_route/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-        },
-        body: JSON.stringify({
-          id: routeId,
-          name: newName,
-        }),
-      }).then((res) => {
-        if (!res.ok) alert("Failed to rename route.");
-      });
-    });
-  });
-
-  document.querySelectorAll(".delete-route-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (!confirm("Are you sure you want to delete this route?")) return;
-
-      const tr = btn.closest("tr");
-      const routeId = tr.getAttribute("data-route-id");
-
-      fetch("/api/delete_route/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-        },
-        body: JSON.stringify({ id: routeId }),
-      }).then((res) => {
-        if (res.ok) {
-          tr.remove();
-        } else {
-          alert("Failed to delete route.");
+        if (!raw) {
+          console.error("No data-steps attribute found for this route.");
+          return;
         }
+
+        let steps;
+        try {
+          steps = JSON.parse(raw.replace(/&quot;/g, '"'));
+        } catch (err) {
+          console.error("JSON parsing failed:", err);
+          return;
+        }
+
+        const origin = tr.children[1].innerText;
+        const destination = tr.children[2].innerText;
+        const mode = (steps && steps.length > 0 && steps[0].mode) || "WALKING";
+
+        const payload = {
+          origin: origin,
+          destination: destination,
+          mode: mode,
+          name: tr.querySelector(".route-name").innerText,
+        };
+        localStorage.setItem("savedRoute", JSON.stringify(payload));
+
+        window.location.href = "/";
       });
     });
-  });
 
-  document.querySelectorAll(".favorite-route-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const tr = btn.closest("tr");
-      const routeId = tr.getAttribute("data-route-id");
+    document.querySelectorAll(".rename-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tr = btn.closest("tr");
+        tr.querySelector(".route-name").style.display = "none";
+        tr.querySelector(".edit-name-input").style.display = "inline";
+        btn.style.display = "none";
+        tr.querySelector(".save-name-btn").style.display = "inline";
+      });
+    });
 
-      fetch(`${window.location.origin}/routes/${routeId}/favorite/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-        },
-        body: JSON.stringify({ id: routeId }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            btn.innerText = data.is_favorite ? "★" : "☆";
-            btn.style.backgroundColor = data.is_favorite
-              ? "#FFD700"
-              : "#B3A369";
-            location.reload();
+    document.querySelectorAll(".save-name-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tr = btn.closest("tr");
+        const newName = tr.querySelector(".edit-name-input").value;
+        const routeId = tr.getAttribute("data-route-id");
+
+        tr.querySelector(".route-name").innerText = newName;
+        tr.querySelector(".route-name").style.display = "inline";
+        tr.querySelector(".edit-name-input").style.display = "none";
+        btn.style.display = "none";
+        tr.querySelector(".rename-btn").style.display = "inline";
+
+        fetch("/api/rename_route/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify({
+            id: routeId,
+            name: newName,
+          }),
+        }).then((res) => {
+          if (!res.ok) alert("Failed to rename route.");
+        });
+      });
+    });
+
+    document.querySelectorAll(".delete-route-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!confirm("Are you sure you want to delete this route?")) return;
+
+        const tr = btn.closest("tr");
+        const routeId = tr.getAttribute("data-route-id");
+
+        fetch("/api/delete_route/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify({ id: routeId }),
+        }).then((res) => {
+          if (res.ok) {
+            tr.remove();
           } else {
-            alert("Failed to update favorite status.");
+            alert("Failed to delete route.");
           }
         });
+      });
     });
-  });
 
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+    document.querySelectorAll(".favorite-route-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tr = btn.closest("tr");
+        const routeId = tr.getAttribute("data-route-id");
+
+        fetch(`${window.location.origin}/routes/${routeId}/favorite/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify({ id: routeId }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              btn.innerText = data.is_favorite ? "★" : "☆";
+              btn.style.backgroundColor = data.is_favorite
+                ? "#FFD700"
+                : "#B3A369";
+              location.reload();
+            } else {
+              alert("Failed to update favorite status.");
+            }
+          });
+      });
+    });
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
         }
       }
+      return cookieValue;
     }
-    return cookieValue;
-  }
-</script>
+  </script>
 
-<script>
-  function refreshFavoriteButtons() {
-    document.querySelectorAll(".favorite-route-btn").forEach((btn) => {
-      const isFavorite = btn.getAttribute("data-favorite") === "true";
-      btn.innerText = isFavorite ? "★" : "☆";
-      btn.style.backgroundColor = isFavorite ? "#FFD700" : "#B3A369";
-    });
-  }
-</script>
+  <script>
+    function refreshFavoriteButtons() {
+      document.querySelectorAll(".favorite-route-btn").forEach((btn) => {
+        const isFavorite = btn.getAttribute("data-favorite") === "true";
+        btn.innerText = isFavorite ? "★" : "☆";
+        btn.style.backgroundColor = isFavorite ? "#FFD700" : "#B3A369";
+      });
+    }
+  </script>
 
-<script>
-  const searchInput = document.getElementById("searchInput");
-  const sortSelect = document.getElementById("sortSelect");
-  const tableRows = document.querySelectorAll("#routesTable tbody tr");
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.getElementById("sortSelect");
+    const tableRows = document.querySelectorAll("#routesTable tbody tr");
 
-  searchInput.addEventListener("input", () => {
-    const term = searchInput.value.toLowerCase();
-    tableRows.forEach((row) => {
-      const name = row.querySelector(".route-name").innerText.toLowerCase();
-      const from = row.children[1].innerText.toLowerCase();
-      const to = row.children[2].innerText.toLowerCase();
-      row.style.display =
-        name.includes(term) || from.includes(term) || to.includes(term)
-          ? ""
-          : "none";
-    });
-  });
-
-  sortSelect.addEventListener("change", () => {
-    const rowsArray = Array.from(tableRows);
-    const sortBy = sortSelect.value;
-
-    rowsArray.sort((a, b) => {
-      const aVal =
-        sortBy === "name"
-          ? a.querySelector(".route-name").innerText
-          : sortBy === "distance"
-          ? a.querySelector(".distance").innerText
-          : a.querySelector(".duration").innerText;
-
-      const bVal =
-        sortBy === "name"
-          ? b.querySelector(".route-name").innerText
-          : sortBy === "distance"
-          ? b.querySelector(".distance").innerText
-          : b.querySelector(".duration").innerText;
-
-      return aVal.localeCompare(bVal, undefined, { numeric: true });
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
+      tableRows.forEach((row) => {
+        const name = row.querySelector(".route-name").innerText.toLowerCase();
+        const from = row.children[1].innerText.toLowerCase();
+        const to = row.children[2].innerText.toLowerCase();
+        row.style.display =
+          name.includes(term) || from.includes(term) || to.includes(term)
+            ? ""
+            : "none";
+      });
     });
 
-    const tbody = document.querySelector("#routesTable tbody");
-    rowsArray.forEach((row) => tbody.appendChild(row));
+    sortSelect.addEventListener("change", () => {
+      const rowsArray = Array.from(tableRows);
+      const sortBy = sortSelect.value;
 
-    refreshFavoriteButtons();
-  });
-</script>
-{% endblock %}
+      rowsArray.sort((a, b) => {
+        const aVal =
+          sortBy === "name"
+            ? a.querySelector(".route-name").innerText
+            : sortBy === "distance"
+            ? a.querySelector(".distance").innerText
+            : a.querySelector(".duration").innerText;
+
+        const bVal =
+          sortBy === "name"
+            ? b.querySelector(".route-name").innerText
+            : sortBy === "distance"
+            ? b.querySelector(".distance").innerText
+            : b.querySelector(".duration").innerText;
+
+        return aVal.localeCompare(bVal, undefined, { numeric: true });
+      });
+
+      const tbody = document.querySelector("#routesTable tbody");
+      rowsArray.forEach((row) => tbody.appendChild(row));
+
+      refreshFavoriteButtons();
+    });
+  </script>
+  {% endblock %}
+</div>

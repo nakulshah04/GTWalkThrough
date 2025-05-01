@@ -31,44 +31,64 @@ body {
 }
 
 /* Navbar */
+/* Navbar Consistency */
 header {
     background-color: var(--clr-GT-gold);
-    padding: var(--space-md) 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem 0;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 var(--space-lg);
+    padding: 0 2rem;
+    height: 60px;
 }
 
 .navbar-brand {
-    font-size: var(--fs-lg);
+    font-size: 1.5rem;
     font-weight: bold;
     color: white;
     text-decoration: none;
 }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: var(--space-md);
-}
-
 .nav-links a {
-    text-decoration: none;
     color: white;
-    font-size: var(--fs-base);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-right: 1rem;
     transition: background-color 0.3s ease;
 }
 
-.nav-links a:hover,
+.nav-links a:hover {
+    background-color: #333;
+    border-radius: 5px;
+}
+
 .nav-links a.active {
-    background-color: var(--clr-GT-blue);
+    background-color: #333;
+  }
+
+.user-greeting {
+    color: white;
+    font-size: 1.1rem;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-greeting a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.user-greeting a:hover {
+    background-color: #444;
+    border-radius: 5px;
 }
 
 /* Buttons */
