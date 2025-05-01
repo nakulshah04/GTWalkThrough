@@ -8,7 +8,7 @@
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 {% endblock %} {% block content %}
-<div style="max-width: 1200px; margin: 0 auto">
+<div style="padding: 0 1rem">
   <h2 class="page-heading">My Saved Routes</h2>
 
   <style>
@@ -107,7 +107,7 @@
     }
 
     .table-wrapper {
-      width: 98%;
+      width: 100%;
       margin: 0 auto;
     }
   </style>
@@ -121,6 +121,34 @@
         <option value="distance">Sort by Distance</option>
         <option value="duration">Sort by Duration</option>
       </select>
+
+      <label
+        for="favoritesOnlyToggle"
+        style="
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          border-radius: 6px;
+          background-color: var(--clr-GT-blue);
+          color: white;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: 0.95rem;
+          user-select: none;
+        "
+      >
+        <input
+          type="checkbox"
+          id="favoritesOnlyToggle"
+          style="
+            transform: scale(1.2);
+            accent-color: var(--clr-GT-gold);
+            cursor: pointer;
+          "
+        />
+        🌟 Show Favorites Only
+      </label>
     </div>
 
     <table class="route-table" id="routesTable">
@@ -328,6 +356,32 @@
       }
       return cookieValue;
     }
+
+    const favoritesOnlyToggle = document.getElementById("favoritesOnlyToggle");
+
+    function filterRoutes() {
+      const term = searchInput.value.toLowerCase();
+      const showFavoritesOnly = favoritesOnlyToggle.checked;
+
+      tableRows.forEach((row) => {
+        const name = row.querySelector(".route-name").innerText.toLowerCase();
+        const from = row.children[1].innerText.toLowerCase();
+        const to = row.children[2].innerText.toLowerCase();
+        const isFavorite =
+          row
+            .querySelector(".favorite-route-btn")
+            .getAttribute("data-favorite") === "true";
+
+        const matchesSearch =
+          name.includes(term) || from.includes(term) || to.includes(term);
+        const matchesFavorite = !showFavoritesOnly || isFavorite;
+
+        row.style.display = matchesSearch && matchesFavorite ? "" : "none";
+      });
+    }
+
+    searchInput.addEventListener("input", filterRoutes);
+    favoritesOnlyToggle.addEventListener("change", filterRoutes);
   </script>
 
   <script>
