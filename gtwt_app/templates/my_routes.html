@@ -206,6 +206,7 @@
               >
                 {% if r.is_favorite %}★{% else %}☆{% endif %}
               </button>
+              <button class="route-btn download-route-btn">Download</button>
             </div>
           </td>
         </tr>
@@ -382,6 +383,46 @@
 
     searchInput.addEventListener("input", filterRoutes);
     favoritesOnlyToggle.addEventListener("change", filterRoutes);
+
+    document.querySelectorAll(".download-route-btn").forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        const tr = btn.closest("tr");
+
+        const name = tr.querySelector(".route-name").innerText;
+        const origin = tr.children[1].innerText;
+        const destination = tr.children[2].innerText;
+        const stepsRaw = tr
+          .querySelector(".load-route-btn")
+          .getAttribute("data-steps");
+
+        let steps;
+        try {
+          steps = JSON.parse(stepsRaw.replace(/&quot;/g, '"'));
+        } catch (err) {
+          alert("Failed to parse steps.");
+          return;
+        }
+
+        const routeData = {
+          name: name,
+          origin: origin,
+          destination: destination,
+          steps: steps,
+        };
+
+        const blob = new Blob([JSON.stringify(routeData, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name.replace(/\s+/g, "_")}_route.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    });
   </script>
 
   <script>
