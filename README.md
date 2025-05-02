@@ -32,6 +32,10 @@
 - **Authentication and Authorization**: Django's built-in system with enhancements (password reset workflow).
 - **Deployment-Ready**: Modular and extensible project structure.
 
+## 🔐 Environment Variables
+
+To keep sensitive data secure, such as API keys, the project uses environment variables via a `.env` file. Before running the project locally, create a `.env` file in the root directory (same level as `manage.py`) and add the following: `GOOGLE_MAPS_API_KEY=your-google-maps-api-key-here`. The key will be automatically loaded using `python-dotenv`. Be sure **not to commit** your `.env` file — it is already included in `.gitignore`. 
+
 ## 🖌️ UI/UX Enhancements
 
 - Modern, consistent styling across login, register, and password reset pages.
