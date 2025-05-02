@@ -75,6 +75,21 @@
         color: #f9f6e5;
         font-weight: 500;
       }
+
+      .nav-link-spacious {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        border-radius: 5px;
+      }
+
+      .nav-link-spacious:hover {
+        background-color: var(--clr-GT-blue);
+        color: white;
+      }
+
       html,
       body {
         height: 100%;
@@ -199,16 +214,12 @@
           {% if user.is_authenticated %}
           <!-- <li><a href="{% url 'announcements' %}" style="color: white; text-decoration: none;">Announcements</a></li> -->
           <li>
-            <a
-              href="{% url 'my_reports' %}"
-              style="color: white; text-decoration: none"
+            <a href="{% url 'my_reports' %}" class="nav-link-spacious"
               >My Reports</a
             >
           </li>
           <li>
-            <a
-              href="{% url 'my_routes' %}"
-              style="color: white; text-decoration: none"
+            <a href="{% url 'my_routes' %}" class="nav-link-spacious"
               >My Routes</a
             >
           </li>
@@ -216,12 +227,18 @@
             <a
               href="#"
               id="dropdownButton"
-              style="color: white; text-decoration: none"
+              style="
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                display: inline-block;
+                border-radius: 5px;
+              "
             >
               Hi, {{ user.first_name }}
               <span style="font-size: 0.8rem">&#9662;</span>
-              <!-- small, clean arrow -->
             </a>
+
             <ul
               id="dropdownMenu"
               style="
