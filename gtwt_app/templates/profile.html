@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}My Profile{% endblock %}
 
-{% block title %}My Profile{% endblock %}
+<!-- adding comment to prevent refactoring on save -->
 
 {% block content %}
 <div
+  class="container"
   style="
     min-height: 80vh;
     display: flex;
@@ -18,40 +19,34 @@
       padding: 30px;
       border-radius: 10px;
       width: 100%;
-      max-width: 800px;  /* constrain the blue box */
-      min-height: 400px;
-    "
-  >
-  <div
-    style="
-      background-color: #162639;
+      max-width: 700px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      padding: 15px 100px 35px 100px;
-      gap: 1rem;
-
+      gap: 2rem;
     "
   >
     <h2
       style="
         color: white;
-        font-size: 35px;
-        border-bottom: 7px solid #B3A369;
+        font-size: 28px;
+        border-bottom: 5px solid #b3a369;
         font-family: 'Roboto Condensed', sans-serif;
         font-weight: 700;
-        margin-bottom: 2rem;
+        margin-bottom: 0.5rem;
       "
     >
       My Profile
     </h2>
 
-    <form method="POST" style="width: 100%; display: flex; flex-direction: column; gap: 1.5rem;">
+    <form
+      method="POST"
+      style="width: 100%; display: flex; flex-direction: column; gap: 1.5rem"
+    >
       {% csrf_token %}
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <label style="color: white; font-weight: 500; width: 120px;">First Name</label>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem">
+        <label style="color: white; font-weight: 500">First Name</label>
         <input
           type="text"
           name="first_name"
@@ -62,12 +57,12 @@
             border: none;
             padding: 10px;
             border-radius: 5px;
-            flex: 1;
           "
         />
       </div>
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <label style="color: white; font-weight: 500; width: 120px;">Last Name</label>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem">
+        <label style="color: white; font-weight: 500">Last Name</label>
         <input
           type="text"
           name="last_name"
@@ -78,12 +73,12 @@
             border: none;
             padding: 10px;
             border-radius: 5px;
-            flex: 1;
           "
         />
       </div>
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <label style="color: white; font-weight: 500; width: 120px;">Email</label>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem">
+        <label style="color: white; font-weight: 500">Email</label>
         <input
           type="email"
           name="email"
@@ -94,22 +89,21 @@
             border: none;
             padding: 10px;
             border-radius: 5px;
-            flex: 1;
           "
         />
       </div>
+
       <button
         type="submit"
         style="
-          background-color: #B3A369;
+          background-color: #b3a369;
           color: white;
           padding: 10px;
           border: none;
           border-radius: 5px;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 500;
           cursor: pointer;
-          width: 100%;
         "
       >
         Save Changes
