@@ -672,7 +672,8 @@
 
 <!-- Google Maps with Drawing & Places libraries -->
 <script
+  src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
   async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh85PgN2MrMRAVohVswxAJ3YSy_mwxmEA&libraries=places,drawing,geometry&callback=initMap"
+  defer
 ></script>
 {% endblock %}

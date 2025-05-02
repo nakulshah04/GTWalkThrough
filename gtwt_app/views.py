@@ -33,7 +33,7 @@ def home(request):
         )
         return render(request, 'home.html', {
           'upcoming_zones': upcoming_zones,
-          'ORS_API_KEY': settings.ORS_API_KEY
+          'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY
         })
     else:
         return render(request, 'about.html')  
