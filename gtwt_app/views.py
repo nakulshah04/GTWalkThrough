@@ -22,7 +22,6 @@ from django.views.decorators.http import require_POST
 from .models import SavedRoute
 import random
 
-
 def home(request):
     if request.user.is_authenticated:
         today = date.today()
@@ -31,12 +30,17 @@ def home(request):
             .filter(start_date__gt=today)
             .order_by('start_date')[:3]
         )
+
+        # Add zone descriptions for the search bar
+        zone_names = list(ConstructionZone.objects.values_list('description', flat=True))
+
         return render(request, 'home.html', {
-          'upcoming_zones': upcoming_zones,
-          'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY
+            'upcoming_zones': upcoming_zones,
+            'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
+            'zone_names_json': json.dumps(zone_names, cls=DjangoJSONEncoder)
         })
     else:
-        return render(request, 'about.html')  
+        return render(request, 'about.html')
 
 # About View
 def about(request):

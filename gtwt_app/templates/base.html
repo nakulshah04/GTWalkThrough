@@ -51,10 +51,6 @@
         gap: 0.5rem;
       }
 
-      .content {
-        padding: 2rem;
-      }
-
       footer {
         background-color: #fdf6e3;
         padding: 1rem 0;
@@ -354,14 +350,7 @@
     </script>
 
     <script>
-      const zones = [
-        "Klaus",
-        "Tech Green",
-        "Cherry Street",
-        "Coda",
-        "Skiles",
-        "Howey",
-      ]; // Replace with dynamic data
+      const zones = JSON.parse("{{ zone_names_json|escapejs }}");
       const input = document.getElementById("zone-search");
       const resultList = document.getElementById("search-results");
 
