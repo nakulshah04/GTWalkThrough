@@ -352,6 +352,45 @@
         });
       });
     </script>
+
+    <script>
+      const zones = [
+        "Klaus",
+        "Tech Green",
+        "Cherry Street",
+        "Coda",
+        "Skiles",
+        "Howey",
+      ]; // Replace with dynamic data
+      const input = document.getElementById("zone-search");
+      const resultList = document.getElementById("search-results");
+
+      input?.addEventListener("input", () => {
+        const query = input.value.toLowerCase();
+        resultList.innerHTML = "";
+
+        if (query.length > 0) {
+          const matches = zones.filter((z) => z.toLowerCase().includes(query));
+          matches.forEach((match) => {
+            const li = document.createElement("li");
+            li.textContent = match;
+            li.classList.add("dropdown-item");
+            li.onclick = () => {
+              input.value = match;
+              resultList.innerHTML = "";
+              highlightZoneOnMap(match); // Hook into your map logic
+            };
+            resultList.appendChild(li);
+          });
+        }
+      });
+
+      function highlightZoneOnMap(zoneName) {
+        alert(`Highlight or zoom to ${zoneName} on the map`);
+        // Use map API logic here (like map.setView or map.flyTo if using Leaflet)
+      }
+    </script>
+
     {% block extra_scripts %}{% endblock %}
   </body>
 </html>

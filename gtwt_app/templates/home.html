@@ -1,5 +1,15 @@
 <!-- prettier-ignore -->
 {% extends "base.html" %} {% load static %} {% block content %}
+
+<div class="search-container">
+  <input
+    type="text"
+    id="zone-search"
+    placeholder="Search construction zones..."
+  />
+  <ul id="search-results" class="dropdown-list"></ul>
+</div>
+
 {% if upcoming_zones %}
 
 <section
