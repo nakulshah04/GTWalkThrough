@@ -244,3 +244,40 @@ footer {
 .dropdown-item:hover {
     background-color: #eee;
 }
+
+/* Announcement Banners styline */
+
+.announcement-banner {
+    background-color: #fdf6e3;
+    border-left: 6px solid #B3A369;
+    padding: 0.75rem 1rem;
+    margin: 0 0 1rem 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+.announcement-banner h3 {
+    color: #162639;
+    font-size: 1.25rem;
+    margin: 0 0 0.4rem 0;
+}
+
+.alert-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.alert-desc {
+    font-weight: 500;
+    color: #222;
+}
+
+.alert-date {
+    font-style: italic;
+    color: #666;
+}
