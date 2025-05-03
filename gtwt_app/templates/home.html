@@ -298,6 +298,18 @@
 
 {% endblock %} {% block extra_scripts %}
 <script>
+  function showFlashMessage(text, type = "success") {
+    const msg = document.createElement("div");
+    msg.className = `alert ${type}`;
+    msg.textContent = text;
+    msg.style.margin = "1rem auto";
+    msg.style.width = "80%";
+    msg.style.textAlign = "center";
+
+    document.body.prepend(msg);
+
+    setTimeout(() => msg.remove(), 4000);
+  }
   let map, directionsService, directionsRenderer;
   let currentPolygonCoords = [];
   let tempPolygon = null;
@@ -579,12 +591,16 @@
       });
 
       if (response.ok) {
-        alert("Zone submitted!");
+        const data = await response.json();
+        showFlashMessage(
+          data.message || "Construction zone submitted!",
+          "success"
+        );
         form.reset();
         document.getElementById("constructionForm").style.display = "none";
         location.reload();
       } else {
-        alert("Error submitting zone.");
+        showFlashMessage("Error submitting zone.", "error");
       }
     });
 
@@ -636,9 +652,10 @@
         body: JSON.stringify(payload),
       });
       if (res.ok) {
-        alert("Route saved!");
+        const data = await res.json();
+        showFlashMessage(data.message || "Route saved!", "success");
       } else {
-        alert("Failed to save route.");
+        showFlashMessage("Failed to save route.", "error");
       }
     });
 </script>

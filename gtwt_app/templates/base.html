@@ -310,7 +310,15 @@
       </nav>
     </header>
 
-    <div class="content">{% block content %}{% endblock %}</div>
+    <div class="content">
+      {% block content %} {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endblock %}
+    </div>
 
     <footer>
       <p>&copy; GTWalkThrough 2025</p>
@@ -344,7 +352,6 @@
         });
       });
     </script>
-
     {% block extra_scripts %}{% endblock %}
   </body>
 </html>

@@ -176,3 +176,35 @@ footer {
         padding: var(--space-md);
     }
 }
+
+/* Styling messages */
+
+.messages {
+    width: 80%;
+    margin: 1rem auto;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.error {
+    background-color: #f44336;
+}
+
+.alert.info {
+    background-color: #2196F3;
+}
+
+.alert.warning {
+    background-color: #ff9800;
+}

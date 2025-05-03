@@ -53,9 +53,11 @@ def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Account created. Please log in.')
+            user = form.save()
+            messages.success(request, f"Account created for {user.first_name or user.username}. Please log in.")
             return redirect('login')
+        else:
+            messages.error(request, "There was an error with your registration. Please try again.")
     else:
         form = CustomUserCreationForm()
     return render(request, 'Auth/register.html', {'form': form})
@@ -67,7 +69,10 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, f"Welcome back, {user.first_name or user.username}!")
             return redirect('home')
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
     return render(request, 'Auth/login.html', {'form': form})
@@ -75,6 +80,7 @@ def login_view(request):
 # Logout View
 def logout_view(request):
     logout(request)
+    messages.info(request, "You have been logged out.")
     return redirect('login')
 
 # Profile View
@@ -145,7 +151,7 @@ def save_zone(request):
             coordinates=data['coordinates'],
             color = '#' + ''.join(random.choices('0123456789ABCDEF', k=6)),
         )
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'success', 'message': 'Construction zone submitted!'})
     return JsonResponse({'error': 'POST required'}, status=400)
 
 
@@ -211,7 +217,7 @@ def save_route(request):
         distance_text = data['distance'],
         duration_text = data['duration']
     )
-    return JsonResponse({'success': True, 'id': route.id})
+    return JsonResponse({'success': True, 'id': route.id, 'message': 'Route saved successfully!'})
 
 @login_required
 def my_routes(request):
