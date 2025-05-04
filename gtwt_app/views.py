@@ -190,6 +190,7 @@ def my_reports(request):
     ]
 
     return render(request, 'my_reports.html', {
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
         'zones': mark_safe(json.dumps(zone_data, cls=DjangoJSONEncoder))
     })
 
