@@ -218,16 +218,6 @@ footer {
         width: 100%;
     }
 
-    #hamburger {
-        display: flex;
-        margin-left: auto;
-        font-size: 2rem;
-        background: none;
-        border: none;
-        color: white;
-        cursor: pointer;
-    }
-
     #nav-links {
         display: none;
         flex-direction: column;
@@ -254,6 +244,24 @@ footer {
     .container {
         padding: var(--space-md);
     }
+}
+
+#nav-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+}
+
+#hamburger {
+    display: flex;
+    margin-left: auto;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
 }
 
 /* Styling messages */
@@ -396,9 +404,11 @@ body {
     flex: 1;
 }
 
-.user-greeting,
-.dropdown {
-    width: 100%;
-    text-align: left;
-    margin-top: 1rem;
+@media (max-width: 768px) {
+    .user-greeting,
+    .dropdown {
+        width: 100%;
+        text-align: left;
+        margin-top: 1rem;
+    }
 }
