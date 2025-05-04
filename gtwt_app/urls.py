@@ -30,7 +30,7 @@ urlpatterns = [
 
     # Construction Mapping
     path("map/", views.map_view, name="map_view"),
-    path("submit-zone/", views.submit_zone, name="submit_zone"),
+    path("submit_zone/", views.submit_zone, name="submit_zone"),
 
     # Admin Zone Review
     path("admin/zones/", views.admin_zones, name="admin_zones"),

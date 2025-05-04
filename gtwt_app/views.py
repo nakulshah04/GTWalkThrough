@@ -110,9 +110,14 @@ def map_view(request):
 @csrf_exempt
 @login_required
 def submit_zone(request):
+    raise Exception("This is the right submit_zone view!")
     if request.method == "POST":
         coords = request.POST.get("coordinates")
-        description = request.POST.get("description")
+        description = request.POST.get("description", "").strip()
+        print(f"Original: {request.POST.get('description')}")
+        if description:
+            description = description[0].upper() + description[1:]
+        print(f"Capitalized: {description}")
         start = request.POST.get("start_date")
         end = request.POST.get("end_date")
         ConstructionZone.objects.create(
