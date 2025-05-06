@@ -15,12 +15,19 @@
     --space-lg: 2rem;
 }
 
+[data-theme="dark"] {
+    --clr-bg: var(--clr-bg);
+    --clr-text: var(--clr-text);
+    --clr-primary: #B3A369;
+    --clr-nav: var(--clr-nav);
+  }
+
 body {
     font-family: "Roboto", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
     font-weight: 300;
 }
 
@@ -34,7 +41,7 @@ body {
 /* Navbar */
 /* Navbar Consistency */
 header {
-    background-color: var(--clr-GT-gold);
+    background-color: var(--clr-nav);
     padding: 0.5rem 0;
 }
 
@@ -44,17 +51,18 @@ nav {
     align-items: center;
     padding: 0 2rem;
     height: 20px;
+    background-color: var(--clr-nav);
 }
 
 .navbar-brand {
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
+    color: var(--clr-text);
     text-decoration: none;
 }
 
 .nav-links a {
-    color: white;
+    color: var(--clr-text);
     text-decoration: none;
     font-size: 1.1rem;
     margin-right: 1rem;
@@ -62,12 +70,12 @@ nav {
 }
 
 .nav-links a:hover {
-    background-color: #333;
+    background-color: var(--clr-text);
     border-radius: 5px;
 }
 
 .nav-links a.active {
-    background-color: #333;
+    background-color: var(--clr-text);
   }
 
   #hamburger {
@@ -76,12 +84,12 @@ nav {
 
 .nav-link {
     text-decoration: none;
-    color: #f9f6e5;
+    color: var(--clr-text);
     font-weight: 500;
 }
 
 .nav-link-spacious {
-    color: white;
+    color: var(--clr-text);
     text-decoration: none;
     padding: 0.5rem 1rem;
     display: inline-block;
@@ -91,12 +99,12 @@ nav {
 
 .nav-link-spacious:hover {
     background-color: var(--clr-GT-blue);
-    color: white;
+    color: var(--clr-text);
 }
 
 #dropdownMenu a:hover {
     background-color: var(--clr-GT-blue);
-    color: white;
+    color: var(--clr-text);
     border-radius: 5px;
 }
 
@@ -109,7 +117,7 @@ nav {
 }
 
 .user-greeting {
-    color: white;
+    color: var(--clr-text);
     font-size: 1.1rem;
     margin-left: 2rem;
     display: flex;
@@ -119,14 +127,14 @@ nav {
 
 .user-greeting a {
     text-decoration: none;
-    color: white;
+    color: var(--clr-text);
     font-size: 1.1rem;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s ease;
 }
 
 .user-greeting a:hover {
-    background-color: #444;
+    background-color: var(--clr-text);
     border-radius: 5px;
 }
 
@@ -139,7 +147,7 @@ nav {
     display: inline-block;
     padding: var(--space-sm) var(--space-md);
     font-size: var(--fs-base);
-    color: white;
+    color: var(--clr-text);
     background-color: var(--clr-GT-gold);
     border: none;
     border-radius: 4px;
@@ -197,12 +205,12 @@ form {
 
 /* Footer */
 footer {
-    background-color: #fdf6e3;
+    background-color: var(--clr-bg);
     padding: 1rem 0;
     margin-top: 2rem;
     text-align: center;
     font-size: 0.9rem;
-    color: #333;
+    color: var(--clr-text);
     border-top: 1px solid #ccc;
 }
 
@@ -260,7 +268,7 @@ footer {
     font-size: 2rem;
     background: none;
     border: none;
-    color: white;
+    color: var(--clr-text);
     cursor: pointer;
 }
 
@@ -277,7 +285,7 @@ footer {
     margin-bottom: 1rem;
     text-align: center;
     font-weight: bold;
-    color: white;
+    color: var(--clr-text);
 }
 
 .alert.success {
@@ -347,18 +355,18 @@ footer {
     padding: 0.6rem 0.75rem;
     cursor: pointer;
     font-size: 0.95rem;
-    color: #333;
+    color: var(--clr-text);
     transition: background-color 0.2s ease;
   }
   
   .dropdown-item:hover {
-    background-color: #f0f0f0;
+    background-color: var(--clr-text);
   }
 
 /* Announcement Banners styline */
 
 .announcement-banner {
-    background-color: #fdf6e3;
+    background-color: var(--clr-bg);
     border-left: 6px solid #B3A369;
     padding: 0.75rem 1rem;
     margin: 0 0 1rem 0;
@@ -379,17 +387,17 @@ footer {
     padding-left: 1.25rem;
     margin: 0;
     font-size: 1rem;
-    color: #333;
+    color: var(--clr-text);
 }
 
 .alert-desc {
     font-weight: 500;
-    color: #222;
+    color: var(--clr-text);
 }
 
 .alert-date {
     font-style: italic;
-    color: #666;
+    color: var(--clr-text);
 }
 
 html,

@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+
     {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -134,6 +141,17 @@
               </li>
             </ul>
           </li>
+          <button
+            id="theme-toggle"
+            style="
+              cursor: pointer;
+              background: none;
+              border: none;
+              color: white;
+            "
+          >
+            🌙
+          </button>
           {% else %}
           <li style="list-style: none">
             <a
@@ -228,6 +246,23 @@
         alert(`Highlight or zoom to ${zoneName} on the map`);
         // Use map API logic here (like map.setView or map.flyTo if using Leaflet)
       }
+    </script>
+
+    <script>
+      const toggle = document.getElementById("theme-toggle");
+      const currentTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", currentTheme);
+      toggle.textContent = currentTheme === "dark" ? "☀️" : "🌙";
+
+      toggle.addEventListener("click", () => {
+        const newTheme =
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "light"
+            : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        toggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
+      });
     </script>
 
     {% block extra_scripts %}{% endblock %}
