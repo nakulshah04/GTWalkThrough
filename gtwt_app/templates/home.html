@@ -295,13 +295,14 @@
       background: #ffffff;
       border: 2px solid var(--clr-GT-gold);
       border-radius: 12px;
-      padding: 1.5rem;
-      margin-top: 1rem;
+      padding: 1.5rem 2rem 2rem 2rem;
+      margin-top: 1.5rem;
       margin-left: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       font-size: 1rem;
       text-align: left;
-      max-width: 700px;
+      max-width: 600px;
+      font-family: 'Roboto', sans-serif;
     "
   >
     <!-- directions will populate here dynamically -->
@@ -538,15 +539,16 @@
           <strong>Duration:</strong> ${leg.duration.text}
         `;
         const stepsContainer = document.getElementById("step-list");
-        stepsContainer.innerHTML = `<h3 style="color: var(--clr-GT-gold); margin-bottom: 1rem;">Directions</h3>
-        <ol style="list-style-position: inside; padding-left: 0; margin-top: 1rem;">`;
+        stepsContainer.innerHTML = `<h3 style="color: var(--clr-GT-gold); margin: 0 0 0.5rem 0; font-size: 1.3rem;">Directions</h3>
+<ol style="padding-left: 2rem; margin: 0; list-style-type: disc;">`;
+
         leg.steps.forEach((step) => {
           const icon = getStepIcon(step.instructions || "");
           stepsContainer.innerHTML += `<li style="margin-bottom: 0.8rem;">
             ${icon} <span style="margin-left: 0.5rem;">${step.instructions}</span>
             </li>`;
         });
-        stepsContainer.innerHTML += `</ol>`;
+        stepsContainer.innerHTML += `</ol><div style="margin-top: 1.25rem;"></div>`;
       } else {
         alert("Could not calculate route: " + status);
       }
