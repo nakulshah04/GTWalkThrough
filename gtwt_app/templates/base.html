@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script>
-      (function () {
-        const theme = localStorage.getItem("theme") || "light";
-        document.documentElement.setAttribute("data-theme", theme);
-      })();
-    </script>
-
     {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,15 +14,7 @@
 
   <body>
     <header>
-      <nav
-        style="
-          background-color: var(--clr-GT-gold);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1rem 2rem;
-        "
-      >
+      <nav class="navbar">
         <div style="display: flex; align-items: center; gap: 0.5rem">
           <a
             href="{% url 'home' %}"
@@ -263,6 +248,13 @@
         localStorage.setItem("theme", newTheme);
         toggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
       });
+    </script>
+
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
     </script>
 
     {% block extra_scripts %}{% endblock %}

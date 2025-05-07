@@ -6,6 +6,8 @@
     --clr-GT-gold: #B3A369;
     --clr-GT-gold-dark: #8f7b43;
 
+    --clr-nav: var(--clr-GT-gold);
+
     --fs-base: 1rem;
     --fs-lg: 1.5rem;
     --fs-xl: 2rem;
@@ -38,8 +40,6 @@ body {
     padding: var(--space-lg);
 }
 
-/* Navbar */
-/* Navbar Consistency */
 header {
     background-color: var(--clr-nav);
     padding: 0.5rem 0;
@@ -52,6 +52,14 @@ nav {
     padding: 0 2rem;
     height: 20px;
     background-color: var(--clr-nav);
+}
+
+.navbar {
+    background-color: var(--clr-nav, #B3A369);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .navbar-brand {
