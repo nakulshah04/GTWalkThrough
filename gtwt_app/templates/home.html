@@ -291,15 +291,13 @@
   <div
     id="step-list"
     style="
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease-out;
+      display: none;
       background: #ffffff;
       border: 2px solid var(--clr-GT-gold);
       border-radius: 12px;
       padding: 1.5rem;
       margin-top: 1rem;
-      margin-left: 10px; /* match the button indent */
+      margin-left: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       font-size: 1rem;
       text-align: left;
@@ -558,14 +556,23 @@
   function toggleSteps() {
     const list = document.getElementById("step-list");
     const btn = event.target;
-    if (list.style.maxHeight === "0px" || list.style.maxHeight === "") {
-      list.style.maxHeight = list.scrollHeight + "px";
+
+    const start = document.getElementById("start").value.trim();
+    const end = document.getElementById("end").value.trim();
+    const mode = document.querySelector('input[name="mode"]:checked');
+
+    if (!start || !end || !mode) {
+      alert("Please enter both locations and select a mode of travel first.");
+      return;
+    }
+
+    // Show the box if everything is valid
+    if (list.style.display === "none" || list.style.display === "") {
+      list.style.display = "block";
       btn.innerText = "Hide Directions";
-      list.style.padding = "1rem";
     } else {
-      list.style.maxHeight = "0";
+      list.style.display = "none";
       btn.innerText = "Show Directions";
-      list.style.padding = "0 1rem";
     }
   }
 
