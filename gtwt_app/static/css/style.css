@@ -172,13 +172,18 @@ nav {
     font-size: 2rem;
     font-weight: 600;
     text-align: center;
-    color: var(--clr-GT-blue);
+    color: var(--clr-text);
     border-bottom: 3px solid var(--clr-GT-gold);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+[data-theme="dark"] .page-heading {
+    color: var(--clr-GT-gold);
+    border-bottom: 3px solid var(--clr-GT-gold-dark);
   }
 
 /* Forms */
