@@ -21,7 +21,7 @@
 
 [data-theme="dark"] {
     --clr-bg: #121212;
-    --clr-text: #f5f5f5;
+    --clr-text: #162639;   /* GT Blue */
     --clr-nav: #222;
 }
 
@@ -89,16 +89,16 @@ nav {
 
 .nav-link-spacious {
     color: white;
-    text-decoration-color: white;
+    text-decoration: none;
     padding: 0.5rem 1rem;
     display: inline-block;
     transition: background-color 0.3s ease;
-}
-  
-.nav-link-spacious:hover {
-    background-color: #333;
     border-radius: 5px;
-}  
+  }
+  
+  .nav-link-spacious:hover {
+    background-color: #333;
+  }  
 
   #hamburger {
     display: none; /* hidden by default on big screens */
@@ -428,3 +428,16 @@ body {
         margin-top: 1rem;
     }
 }
+
+/* Specific text color overrides for handling dark mode */
+.banner-light {
+    color: black;
+    background-color: #e0f2ff;
+    border-left: 6px solid var(--clr-GT-blue);
+  }
+  
+  .banner-dark {
+    color: white;
+    background-color: var(--clr-GT-blue);
+    border-left: 6px solid var(--clr-GT-gold);
+  }
