@@ -110,20 +110,6 @@ nav {
     font-weight: 500;
 }
 
-.nav-link-spacious {
-    color: var(--clr-text);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-}
-
-.nav-link-spacious:hover {
-    background-color: var(--clr-GT-blue);
-    color: var(--clr-text);
-}
-
 #dropdownMenu a:hover {
     background-color: var(--clr-GT-blue);
     color: var(--clr-text);
