@@ -71,7 +71,7 @@ nav {
 }
 
 .nav-links a {
-    color: var(--clr-text);
+    color: white;
     text-decoration: none;
     font-size: 1.1rem;
     margin-right: 1rem;
@@ -85,7 +85,20 @@ nav {
 
 .nav-links a.active {
     background-color: var(--clr-text);
-  }
+}
+
+.nav-link-spacious {
+    color: white;
+    text-decoration-color: white;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+  
+.nav-link-spacious:hover {
+    background-color: #333;
+    border-radius: 5px;
+}  
 
   #hamburger {
     display: none; /* hidden by default on big screens */
