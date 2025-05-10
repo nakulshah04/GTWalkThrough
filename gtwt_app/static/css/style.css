@@ -216,17 +216,6 @@ form {
     font-weight: 700;
 }
 
-/* Footer */
-footer {
-    background-color: var(--clr-bg);
-    padding: 1rem 0;
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--clr-text);
-    border-top: 1px solid #ccc;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     nav {
@@ -446,3 +435,20 @@ body {
     background-color: var(--clr-GT-blue);
     border-left: 6px solid var(--clr-GT-gold);
   }
+
+/* Footer */
+footer {
+    padding: 1rem 0;
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+    background-color: var(--clr-GT-gold);
+}
+
+/* Dark mode override */
+[data-theme="dark"] footer {
+    background-color: #e0f2ff;
+    color: black;
+    border-top: 1px solid #999;
+}
