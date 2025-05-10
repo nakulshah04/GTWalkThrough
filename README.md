@@ -61,7 +61,6 @@ To keep sensitive data secure, such as API keys, the project uses environment va
 
 - Notifications for users when saved routes are impacted by new construction.
 - Heatmaps to visualize areas with the highest construction activity.
-- User profiles for managing saved routes and settings.
 - Fully functional search bar for map and construction reports.
 - Mobile app companion with real-time alerts and route rerouting.
 
